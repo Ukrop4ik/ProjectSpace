@@ -1,0 +1,181 @@
+﻿using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.EventSystems;
+using System.Collections;
+using System;
+
+public class Item : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler {
+
+    public GameObject itemoriginal;
+    public string ItemId;
+    public Sprite itemsprite;
+    [SerializeField]
+    bool inShip = false;
+    public bool isCreate = false;
+    public bool isClone = false;
+    Transform originparent;
+    Item item;
+    public GameObject createditem;
+    public string Type = "";
+    ComponentSlot itemslot;
+
+    public ItemSpaceEnum space;
+
+    public enum ItemType
+    {
+        ShipComponent,
+        Ammo
+    }
+    public enum slotType
+    {
+        Engineer,
+        Scince,
+        Crew,
+        Weapon
+    }
+    public ItemType type;
+    public slotType SlotType;
+    public string itemclass;
+
+    void Start()
+    {
+        item = GetComponent<Item>();
+        GetComponent<Image>().sprite = itemsprite;
+
+        switch (SlotType)
+        {
+            case slotType.Engineer:
+                Type = "Engineer";
+                break;
+            case slotType.Weapon:
+                Type = "Weapon";
+                break;
+            default:
+                Type = "None";
+                break;
+        }
+    }
+
+    void Update()
+    {
+        inShip = CheckInShip();
+    }
+
+    public void OnBeginDrag(PointerEventData eventData)
+    {
+        item.GetComponent<CanvasGroup>().blocksRaycasts = false;
+        originparent = transform.parent;
+        transform.SetParent(transform.parent.parent.parent);
+        DropItem();
+        
+    }
+
+    public void OnDrag(PointerEventData eventData)
+    {
+        this.transform.position = eventData.position;
+        if (itemoriginal != null)
+        {
+            itemoriginal.transform.parent.GetComponent<ComponentSlot>().itemCreated = false;
+            itemoriginal.transform.parent.GetComponent<ComponentSlot>().containitem = false;
+            itemoriginal.transform.parent.GetComponent<ComponentSlot>().ship.GetComponent<ComponentController>().DeleteFromItem(itemoriginal.GetComponent<Item>());
+            Destroy(itemoriginal);
+            isClone = false;
+        }
+    }
+
+    public void OnEndDrag(PointerEventData eventData)
+    {
+        item.GetComponent<CanvasGroup>().blocksRaycasts = true;
+
+        if (!eventData.pointerEnter)
+        {
+            transform.SetParent(originparent);
+            transform.localScale = Vector3.one;
+            return;
+        }
+
+        if (eventData.pointerEnter.name != "DropZone" && eventData.pointerEnter.gameObject.tag != "Inventory")
+        {
+            transform.SetParent(originparent);
+            transform.localScale = Vector3.one;
+            return;
+        }
+
+
+        if (eventData.pointerEnter.gameObject.tag == "Inventory")
+        {
+            Debug.Log("To inventory");
+            if (eventData.pointerEnter.gameObject.GetComponent<InventoryPanel>().isCanDropped == false)
+            {
+                transform.SetParent(originparent);
+                transform.localScale = Vector3.one;
+                return;
+            }
+            transform.SetParent(eventData.pointerEnter.gameObject.transform.GetChild(0).transform);
+            transform.localScale = Vector3.one;
+            return;
+        }
+
+        if (isCreate) return;
+        if (isClone) return;
+        if (eventData.pointerEnter.gameObject.tag == "Inventory" && item.space != ItemSpaceEnum.Inventory) return;
+               
+    }
+
+    public void TakeItem()
+    {
+        if (ContextManagerGamePro.Instance().playership.cargo.curVolume < ContextManagerGamePro.Instance().playership.cargo.Volume)
+        {
+            ContextManagerGamePro.Instance().playership.cargo.itemsincargo.Add(this);
+            transform.SetParent(ContextManagerGamePro.Instance().playership.cargo.cargoobj.transform);
+            transform.position = Vector3.zero;
+        }
+        else
+        {
+            transform.SetParent(originparent);
+        }
+    }
+
+    public void EqipItem(ComponentSlot slot)
+    {
+        isCreate = true;
+        this.transform.SetParent(slot.transform);
+        slot.containitem = true;
+        slot.ship.ComponentController.CreateFromItem(this);
+        itemslot = slot;
+        
+    }
+
+    public void DropItem()
+    {
+        if (itemslot != null)
+        {
+            isCreate = false;
+            itemslot.containitem = false;
+            itemslot = null;
+        }
+       
+    }
+
+    public void CreateItem()
+    {
+        Instantiate(createditem);
+
+    }
+
+    bool CheckInShip()
+    {
+        if (transform.parent.parent)
+        {
+            if (transform.parent.parent.gameObject.tag == "Ship" && transform.parent.name != "Cargo")
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        return false;
+    }
+}
