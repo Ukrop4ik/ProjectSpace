@@ -11,7 +11,11 @@ public class Cargo : MonoBehaviour {
     void Start()
     {
         cargoobj = transform.FindChild("Cargo").gameObject;
-        InvokeRepeating("UpdateCargo", 0, 0.2f);     
+        InvokeRepeating("UpdateCargo", 0, 0.2f);
+    }
+    void Update()
+    {
+        curVolume = cargoobj.transform.childCount;
     }
 
     void UpdateCargo()

@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using System.Collections.Generic;
 
@@ -97,11 +98,13 @@ public class SpaceUI : MonoBehaviour {
                 switch (ContextManagerGamePro.Instance().SelectedType)
                 {
                     case Select.selecttype.Ship:
-                        ObjectSelector(new GameObject[] { selectshippanel }, selectshippanel);
-                        SelectedShipNameText.text = "Name: " + ContextManagerGamePro.Instance().selectedship.shipname;
-                        SelectedShipTypeText.text = "Type:  Ship";
                         if (ContextManagerGamePro.Instance().selectedship)
-                        SelectedDist.text = "Dist: " + Vector3.Distance(ContextManagerGamePro.Instance().selectedship.gameObject.transform.position, playership.gameObject.transform.position).ToString("0.00");
+                        {
+                            ObjectSelector(new GameObject[] { selectshippanel }, selectshippanel);
+                            SelectedShipNameText.text = "Name: " + ContextManagerGamePro.Instance().selectedship.shipname;
+                            SelectedShipTypeText.text = "Type:  Ship";
+                            SelectedDist.text = "Dist: " + Vector3.Distance(ContextManagerGamePro.Instance().selectedship.gameObject.transform.position, playership.gameObject.transform.position).ToString("0.00");
+                        }                      
                         break;
                     default:
                         break;
@@ -191,6 +194,7 @@ public class SpaceUI : MonoBehaviour {
         foreach (Weapon weapon in ContextManagerGamePro.Instance().playership.ComponentController.ShipWeapons)
         {
 
+            if (weapon == null) continue;
             Debug.Log(weaponbuttonkeynumber);
             Transform tr = Instantiate(WeaponButtonPrefab).transform;
             tr.localPosition = SpellPanelWeapon.transform.position;
@@ -265,6 +269,14 @@ public class SpaceUI : MonoBehaviour {
                 Destroy(lootpanel.conteiner.gameObject);
             }
         }
+    }
+
+    public void BackToStation()
+    {
+        GameObject obj = GameObject.Find("GameContext");
+
+        ContextManagerGamePro.Instance().playership.transform.SetParent(obj.transform.GetChild(0).transform);
+        SceneManager.LoadScene("Station");
     }
 
 

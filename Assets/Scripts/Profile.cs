@@ -7,9 +7,13 @@ public class Profile : MonoBehaviour {
     public string profilename = "";
     public int credits = 0;
     public int fame = 0;
+    public GameObject defaultship { get; private set; }
 
 	// Use this for initialization
 	void Start () {
+
+        defaultship = Resources.Load("small_miner_ship") as GameObject;
+
         const bool test = false;
         if (test)
         {

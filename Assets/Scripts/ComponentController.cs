@@ -83,6 +83,7 @@ public class ComponentController : MonoBehaviour
             string itemID = item.ItemId;
             GameObject createditem = Instantiate<GameObject>(Resources.Load(itemID) as GameObject);
             createditem.transform.SetParent(item.transform);
+            item.transform.SetSiblingIndex(0);
             createditem.transform.localScale = Vector3.one;
             createditem.transform.position = Vector3.zero;
             createditem.transform.rotation = Quaternion.Euler(0, 0, 0);

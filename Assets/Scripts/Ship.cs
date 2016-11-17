@@ -75,10 +75,12 @@ public class Ship : MonoBehaviour {
 
     void Update()
     {
+        if (gameObject.transform.parent != null) return;
+
         if (transform.parent != null)
         {
             inStorage = true;
-            GetComponent<Renderer>().enabled = false;
+            //GetComponent<Renderer>().enabled = false;
         }
         else
         {
@@ -121,6 +123,7 @@ public class Ship : MonoBehaviour {
 
     public void DebugUpdate()
     {
+        if (gameObject.transform.parent != null) return;
         if (inStorage) return;
 
         if (!ContextManagerGamePro.Instance().shiplist.Contains(this))

@@ -27,8 +27,6 @@ public class StationUI : MonoBehaviour {
         EngineerSlotPanel = gameObject.transform.Find("ShipEqipPanel/EngineerSlotPanel").gameObject;
         PlayerShipStorage = gameObject.transform.Find("PlayerShipStorage").gameObject;
         PlayerActualShip = gameObject.transform.Find("PlayerActualShip").gameObject;
-
-        CreateSlotFromShip();
         AddShip();
     }
 
@@ -54,6 +52,19 @@ public class StationUI : MonoBehaviour {
                 slotp.transform.localScale = Vector2.one;
                 slotp.GetComponent<PanelEqipSlot>().slot = slot;
                 slotp.GetComponent<PanelEqipSlot>().SlotType = SlotTypeEnum.Engineer;
+
+                if (slot.component != null)
+                {
+                    GameObject itemclone = Instantiate(Resources.Load("ShipComponent/" + slot.component.transform.parent.gameObject.GetComponent<Item>().ItemId)) as GameObject;
+                    itemclone.name = slot.component.gameObject.name;
+                    itemclone.GetComponent<Item>().isClone = true;
+                    itemclone.GetComponent<Item>().itemoriginal = slot.component.transform.parent.gameObject;
+                   // Destroy(slot.component.gameObject);
+                    itemclone.transform.SetParent(slotp.transform);
+                    itemclone.transform.localScale = Vector3.one;
+                    itemclone.GetComponent<CanvasGroup>().blocksRaycasts = true;
+                    itemclone.GetComponent<Item>().space = ItemSpaceEnum.EquipSlot;
+                }
             }
             if (slot.SlotType == ComponentSlot.slotType.Weapon)
             {          
@@ -87,12 +98,32 @@ public class StationUI : MonoBehaviour {
 
     public void AddShip()
     {
-        ship = PlayerActualShip.transform.GetChild(0).gameObject.GetComponent<Ship>();
+        GameObject shipcontextobj = GameObject.Find("GameContext").transform.GetChild(0).gameObject;
+
+        if (PlayerActualShip.transform.childCount > 0)
+        {
+            ship = PlayerActualShip.transform.GetChild(0).gameObject.GetComponent<Ship>();
+        }
+        else if (shipcontextobj.transform.childCount > 0)
+        {
+            ship = shipcontextobj.transform.GetChild(0).gameObject.GetComponent<Ship>();
+            ship.gameObject.transform.SetParent(PlayerActualShip.transform);
+        }
+        else
+        {
+            GameObject newship = Instantiate(ContextManagerGamePro.Instance().Profile.defaultship);
+            ship = newship.GetComponent<Ship>();
+            newship.transform.SetParent(PlayerActualShip.transform);
+
+        }
+
     }
     public void TestBattle()
     {
-        PlayerActualShip.transform.GetChild(0).gameObject.GetComponent<Renderer>().enabled = true;
-        PlayerActualShip.transform.GetChild(0).transform.SetParent(ContextManagerGamePro.Instance().playershipobj.transform);
+        GameObject shipcontextobj = GameObject.Find("GameContext").transform.GetChild(0).gameObject;
+        Debug.Log(shipcontextobj.name);
+        PlayerActualShip.transform.GetChild(0).transform.SetParent(shipcontextobj.transform);
+
         SceneManager.LoadScene("EDIT");
     }
 
