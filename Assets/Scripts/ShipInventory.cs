@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class ShipInventory : MonoBehaviour {
+public class ShipInventory : MonoBehaviour
+{
 
     public GameObject content;
     public StationUI stationUI;
@@ -41,9 +42,9 @@ public class ShipInventory : MonoBehaviour {
             GameObject item = stationUI.ship.cargo.cargoobj.transform.GetChild(0).gameObject;
             item.transform.SetParent(content.transform);
             item.transform.localScale = Vector3.one;
-            item.transform.rotation = Quaternion.Euler(0, 0, 0);          
+            item.transform.rotation = Quaternion.Euler(0, 0, 0);
         }
-        
+
     }
     public void Close()
     {
@@ -69,4 +70,5 @@ public class ShipInventory : MonoBehaviour {
         }
 
     }
+
 }

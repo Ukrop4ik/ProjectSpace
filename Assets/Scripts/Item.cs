@@ -17,7 +17,7 @@ public class Item : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     Item item;
     public GameObject createditem;
     public string Type = "";
-    ComponentSlot itemslot;
+    public ComponentSlot itemslot;
 
     public ItemSpaceEnum space;
 
@@ -26,15 +26,8 @@ public class Item : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
         ShipComponent,
         Ammo
     }
-    public enum slotType
-    {
-        Engineer,
-        Scince,
-        Crew,
-        Weapon
-    }
     public ItemType type;
-    public slotType SlotType;
+    public SlotTypeEnum SlotType;
     public string itemclass;
 
     void Start()
@@ -44,10 +37,10 @@ public class Item : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
 
         switch (SlotType)
         {
-            case slotType.Engineer:
+            case SlotTypeEnum.Engineer:
                 Type = "Engineer";
                 break;
-            case slotType.Weapon:
+            case SlotTypeEnum.Weapon:
                 Type = "Weapon";
                 break;
             default:
@@ -89,15 +82,13 @@ public class Item : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
 
         if (!eventData.pointerEnter)
         {
-            transform.SetParent(originparent);
-            transform.localScale = Vector3.one;
+            BackItem();
             return;
         }
 
         if (eventData.pointerEnter.name != "DropZone" && eventData.pointerEnter.gameObject.tag != "Inventory")
         {
-            transform.SetParent(originparent);
-            transform.localScale = Vector3.one;
+            BackItem();
             return;
         }
 
@@ -107,8 +98,7 @@ public class Item : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
             Debug.Log("To inventory");
             if (eventData.pointerEnter.gameObject.GetComponent<InventoryPanel>().isCanDropped == false)
             {
-                transform.SetParent(originparent);
-                transform.localScale = Vector3.one;
+                BackItem();
                 return;
             }
             transform.SetParent(eventData.pointerEnter.gameObject.transform.GetChild(0).transform);
@@ -141,7 +131,11 @@ public class Item : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
         isCreate = true;
         this.transform.SetParent(slot.transform);
         slot.containitem = true;
+        transform.localScale = Vector3.one;
+        transform.localPosition = Vector3.zero;
         slot.ship.ComponentController.CreateFromItem(this);
+        item.GetComponent<Image>().enabled = false;
+       
         itemslot = slot;
         
     }
@@ -155,12 +149,6 @@ public class Item : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
             itemslot = null;
         }
        
-    }
-
-    public void CreateItem()
-    {
-        Instantiate(createditem);
-
     }
 
     bool CheckInShip()
@@ -177,5 +165,11 @@ public class Item : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
             }
         }
         return false;
+    }
+    public void BackItem()
+    {
+        transform.SetParent(originparent);
+        transform.localScale = Vector3.one;
+        return;
     }
 }

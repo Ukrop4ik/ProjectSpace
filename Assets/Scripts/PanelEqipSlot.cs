@@ -8,14 +8,7 @@ public class PanelEqipSlot : MonoBehaviour, IDropHandler {
     StationUI stationUI;
     public ComponentSlot slot;
     public string Type = "";
-    public enum slotType
-    {
-        Engineer,
-        Scince,
-        Crew,
-        Weapon
-    }
-    public slotType SlotType;
+    public SlotTypeEnum SlotType;
 
     // Use this for initialization
     void Start () {
@@ -24,10 +17,10 @@ public class PanelEqipSlot : MonoBehaviour, IDropHandler {
 
         switch (SlotType)
         {
-            case slotType.Engineer:
+            case SlotTypeEnum.Engineer:
                 Type = "Engineer";
                 break;
-            case slotType.Weapon:
+            case SlotTypeEnum.Weapon:
                 Type = "Weapon";
                 break;
             default:
@@ -46,6 +39,12 @@ public class PanelEqipSlot : MonoBehaviour, IDropHandler {
 
         if (eventData.pointerDrag.tag == "item" && gameObject.name == "DropZone")
         {
+            if (eventData.pointerDrag.gameObject.GetComponent<Item>().SlotType != SlotType)
+            {
+                Item _item = eventData.pointerDrag.gameObject.GetComponent<Item>();
+                _item.BackItem();
+                return;
+            }
             eventData.pointerDrag.transform.SetParent(gameObject.transform);
             eventData.pointerDrag.transform.localScale = Vector3.one;
 

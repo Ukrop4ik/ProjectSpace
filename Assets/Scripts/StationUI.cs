@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 public class StationUI : MonoBehaviour {
 
@@ -52,7 +53,7 @@ public class StationUI : MonoBehaviour {
                 slotp.transform.position = Vector2.zero;
                 slotp.transform.localScale = Vector2.one;
                 slotp.GetComponent<PanelEqipSlot>().slot = slot;
-                slotp.GetComponent<PanelEqipSlot>().SlotType = PanelEqipSlot.slotType.Engineer;
+                slotp.GetComponent<PanelEqipSlot>().SlotType = SlotTypeEnum.Engineer;
             }
             if (slot.SlotType == ComponentSlot.slotType.Weapon)
             {          
@@ -63,7 +64,7 @@ public class StationUI : MonoBehaviour {
                 slotp.transform.position = Vector2.zero;
                 slotp.transform.localScale = Vector2.one;
                 slotp.GetComponent<PanelEqipSlot>().slot = slot;
-                slotp.GetComponent<PanelEqipSlot>().SlotType = PanelEqipSlot.slotType.Weapon;
+                slotp.GetComponent<PanelEqipSlot>().SlotType = SlotTypeEnum.Weapon;
             }
         }      
     }
@@ -87,6 +88,12 @@ public class StationUI : MonoBehaviour {
     public void AddShip()
     {
         ship = PlayerActualShip.transform.GetChild(0).gameObject.GetComponent<Ship>();
+    }
+    public void TestBattle()
+    {
+        PlayerActualShip.transform.GetChild(0).gameObject.GetComponent<Renderer>().enabled = true;
+        PlayerActualShip.transform.GetChild(0).transform.SetParent(ContextManagerGamePro.Instance().playershipobj.transform);
+        SceneManager.LoadScene("EDIT");
     }
 
 }

@@ -12,6 +12,7 @@ public class ContextManagerGamePro : MonoBehaviour {
     public Ship playership;
     public Ship selectedship;
     public SpaceUI SpaceUi;
+    public GameObject playershipobj;
 
     public Select.selecttype SelectedType;    
 

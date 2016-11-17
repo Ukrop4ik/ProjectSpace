@@ -42,8 +42,8 @@ public class Weapon : MonoBehaviour {
     {
         barrel = gameObject.transform.GetChild(0).gameObject;
         reload_timer = Reload;
-        ship = transform.root.gameObject.GetComponent<Ship>();
-
+        ship = transform.parent.parent.GetComponent<ComponentSlot>().ship;
+        transform.localPosition = Vector3.zero;
         reloadtime = 0;
         reloadtime = Reload;
     }

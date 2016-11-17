@@ -7,7 +7,8 @@ public class ShipComponent : MonoBehaviour {
     {
         Shield_Generator,
         Engine,
-        Reactor
+        Reactor,
+        Weapon
     }
     public enum size
     {
@@ -15,18 +16,11 @@ public class ShipComponent : MonoBehaviour {
         Medium,
         Large
     }
-    public enum slotType
-    {
-        Engineer,
-        Scince,
-        Crew,
-        Weapon
-    }
 
 
     public component_type Type;
     public size Size;
-    public slotType SlotType;
+    public SlotTypeEnum SlotType;
 
     public string component_name;
     public bool isInstall = false;
@@ -45,7 +39,7 @@ public class ShipComponent : MonoBehaviour {
        
         slot = transform.GetComponentInParent<ComponentSlot>();
 
-        if (SlotType != slotType.Weapon)
+        if (SlotType != SlotTypeEnum.Weapon)
         {
             slot.component = transform.gameObject.GetComponent<ShipComponent>();
         }
