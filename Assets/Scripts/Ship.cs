@@ -6,7 +6,7 @@ public class Ship : MonoBehaviour {
 
     // Корабль обновляет состояние раз в 1 сек
 
-
+    public string itemID;
     public float brakeAcc;
     public Vector3 navtarget;
     public float navtargetdist;
@@ -238,6 +238,11 @@ public class Ship : MonoBehaviour {
     {
         conteiner.SetActive(true);
         conteiner.transform.SetParent(null);
+    }
+
+    public void Save()
+    {
+        
     }
 
 }

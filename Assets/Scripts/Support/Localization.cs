@@ -2,7 +2,8 @@
 using UnityEngine.UI;
 using System.Collections;
 
-public class Localization : MonoBehaviour {
+public class Localization : MonoBehaviour
+{
 
     int langType;
 
@@ -13,7 +14,15 @@ public class Localization : MonoBehaviour {
 
     void Start()
     {
+
+        ContextManagerGamePro.Instance().loca.Add(this);
         textfield = GetComponent<Text>();
+        CreateText();
+
+    }
+
+    public void CreateText()
+    {
         langType = PlayerPrefs.GetInt("Lang");
 
         switch (langType)
@@ -29,5 +38,11 @@ public class Localization : MonoBehaviour {
             default:
                 break;
         }
+    }
+
+    // This function is called when the MonoBehaviour will be destroyed
+    public void OnDestroy()
+    {
+        ContextManagerGamePro.Instance().loca.Remove(this);
     }
 }

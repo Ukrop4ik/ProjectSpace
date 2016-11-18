@@ -14,12 +14,16 @@ public class ContextManagerGamePro : MonoBehaviour {
     public SpaceUI SpaceUi;
     public GameObject playershipobj;
 
+    public List<Localization> loca;
+
     public Select.selecttype SelectedType;    
 
     void Start () {
         _context = this;
         DontDestroyOnLoad(this.gameObject);
-	}
+
+       loca = new List<Localization>();
+    }
 
     void Update()
     {

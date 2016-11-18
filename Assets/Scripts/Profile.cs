@@ -4,7 +4,7 @@ using System.Collections.Generic;
 public class Profile : MonoBehaviour {
 
     public bool created = false;
-    public string profilename = "";
+    public string profilename;
     public int credits = 0;
     public int fame = 0;
     public GameObject defaultship { get; private set; }
@@ -12,8 +12,8 @@ public class Profile : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 
-        defaultship = Resources.Load("small_miner_ship") as GameObject;
-
+        defaultship = Resources.Load("starttership") as GameObject;
+        profilename = "default";
         const bool test = false;
         if (test)
         {
@@ -21,6 +21,9 @@ public class Profile : MonoBehaviour {
             profilename = "test";
         }
         DontDestroyOnLoad(this.gameObject);
+
+        SaveManager.SaveProfile(profilename);
+
 	}
 	
 	// Update is called once per frame

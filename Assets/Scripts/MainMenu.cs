@@ -18,7 +18,6 @@ public class MainMenu : MonoBehaviour {
         lang.onValueChanged.AddListener(delegate { LangDropdownValueChangeHandler(lang); });
         lang.value = PlayerPrefs.GetInt("Lang");
 
-
     }
 	
 	// Update is called once per frame
@@ -75,6 +74,10 @@ public class MainMenu : MonoBehaviour {
         PlayerPrefs.SetInt("Lang", target.value);
         PlayerPrefs.Save();
         Debug.Log( "Lang set in: " + PlayerPrefs.GetInt("Lang"));
+        for (int i = 0; i < ContextManagerGamePro.Instance().loca.Count; i++)
+        {
+            ContextManagerGamePro.Instance().loca[i].CreateText();
+        }
     }
     void Destroy()
     {
