@@ -8,17 +8,23 @@ public class MainMenu : MonoBehaviour {
     public Button startgamebutton;
     public Button exitbutton;
     public Button creditsbutton;
+    public Dropdown lang;
 
     
 
 
     // Use this for initialization
     void Start () {
-	
-	}
+        lang.onValueChanged.AddListener(delegate { LangDropdownValueChangeHandler(lang); });
+        lang.value = PlayerPrefs.GetInt("Lang");
+
+
+    }
 	
 	// Update is called once per frame
-	void Update () {
+	void Update ()
+    {
+        
 	
 	}
 
@@ -62,5 +68,16 @@ public class MainMenu : MonoBehaviour {
         // если игрок уже играет, то его текущее состояние потеряется созданием новой игры
         // и нужно сделать типа окошко "Вы уверены, что хотите создать новую игру?"
         return true;
+    }
+
+    private void LangDropdownValueChangeHandler(Dropdown target)
+    {
+        PlayerPrefs.SetInt("Lang", target.value);
+        PlayerPrefs.Save();
+        Debug.Log( "Lang set in: " + PlayerPrefs.GetInt("Lang"));
+    }
+    void Destroy()
+    {
+        lang.onValueChanged.RemoveAllListeners();
     }
 }
