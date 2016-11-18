@@ -59,7 +59,6 @@ public class StationUI : MonoBehaviour {
                     itemclone.name = slot.component.gameObject.name;
                     itemclone.GetComponent<Item>().isClone = true;
                     itemclone.GetComponent<Item>().itemoriginal = slot.component.transform.parent.gameObject;
-                   // Destroy(slot.component.gameObject);
                     itemclone.transform.SetParent(slotp.transform);
                     itemclone.transform.localScale = Vector3.one;
                     itemclone.GetComponent<CanvasGroup>().blocksRaycasts = true;
@@ -76,6 +75,18 @@ public class StationUI : MonoBehaviour {
                 slotp.transform.localScale = Vector2.one;
                 slotp.GetComponent<PanelEqipSlot>().slot = slot;
                 slotp.GetComponent<PanelEqipSlot>().SlotType = SlotTypeEnum.Weapon;
+
+                if (slot.weapon != null)
+                {
+                    GameObject itemclone = Instantiate(Resources.Load("ShipComponent/" + slot.weapon.transform.parent.gameObject.GetComponent<Item>().ItemId)) as GameObject;
+                    itemclone.name = slot.weapon.gameObject.name;
+                    itemclone.GetComponent<Item>().isClone = true;
+                    itemclone.GetComponent<Item>().itemoriginal = slot.weapon.transform.parent.gameObject;
+                    itemclone.transform.SetParent(slotp.transform);
+                    itemclone.transform.localScale = Vector3.one;
+                    itemclone.GetComponent<CanvasGroup>().blocksRaycasts = true;
+                    itemclone.GetComponent<Item>().space = ItemSpaceEnum.EquipSlot;
+                }
             }
         }      
     }
