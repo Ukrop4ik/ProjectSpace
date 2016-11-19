@@ -13,6 +13,7 @@ public class ContextManagerGamePro : MonoBehaviour {
     public Ship selectedship;
     public SpaceUI SpaceUi;
     public GameObject playershipobj;
+    public ResourceManager ResourceManager;
 
     public List<Localization> loca;
 
@@ -22,6 +23,7 @@ public class ContextManagerGamePro : MonoBehaviour {
         _context = this;
         DontDestroyOnLoad(this.gameObject);
 
+        ResourceManager = GetComponent<ResourceManager>();
        loca = new List<Localization>();
     }
 

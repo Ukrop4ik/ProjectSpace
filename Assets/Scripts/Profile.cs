@@ -22,8 +22,6 @@ public class Profile : MonoBehaviour {
         }
         DontDestroyOnLoad(this.gameObject);
 
-        SaveManager.SaveProfile(profilename);
-
 	}
 	
 	// Update is called once per frame

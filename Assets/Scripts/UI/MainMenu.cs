@@ -16,7 +16,20 @@ public class MainMenu : MonoBehaviour {
     // Use this for initialization
     void Start () {
         lang.onValueChanged.AddListener(delegate { LangDropdownValueChangeHandler(lang); });
-        lang.value = PlayerPrefs.GetInt("Lang");
+
+        switch (PlayerPrefs.GetString("Lang"))
+        {
+            case "English":
+                lang.value = 0;
+                break;
+            case "Russian":
+                lang.value = 1;
+                break;
+            default:
+                lang.value = 0;
+                break;
+        }
+        
 
     }
 	
@@ -30,15 +43,6 @@ public class MainMenu : MonoBehaviour {
     public void ExitGame()
     {
         Application.Quit();
-    }
-    public void StartCredits()
-    {
-        ContextManagerGamePro.Instance().PreviousScene = "MainMenu";
-        SceneManager.LoadScene("Credits");
-    }
-    public void Back()
-    {
-        SceneManager.LoadScene(ContextManagerGamePro.Instance().PreviousScene);
     }
     public void StartGame()
     {
@@ -71,9 +75,22 @@ public class MainMenu : MonoBehaviour {
 
     private void LangDropdownValueChangeHandler(Dropdown target)
     {
-        PlayerPrefs.SetInt("Lang", target.value);
+        PlayerPrefs.SetInt("LangInt", target.value);
+        switch (target.value)
+        {
+            case 0:
+                PlayerPrefs.SetString("Lang", "English");
+                break;
+            case 1:
+                PlayerPrefs.SetString("Lang", "Russian");
+                break;
+            default:
+                PlayerPrefs.SetString("Lang", "English");
+                break;
+        }
         PlayerPrefs.Save();
         Debug.Log( "Lang set in: " + PlayerPrefs.GetInt("Lang"));
+        if (!ContextManagerGamePro.Instance()) return;
         for (int i = 0; i < ContextManagerGamePro.Instance().loca.Count; i++)
         {
             ContextManagerGamePro.Instance().loca[i].CreateText();
@@ -82,5 +99,12 @@ public class MainMenu : MonoBehaviour {
     void Destroy()
     {
         lang.onValueChanged.RemoveAllListeners();
+    }
+
+
+    [ContextMenu("SaveProfile")]
+    public void TestSave()
+    {
+        SaveManager.SaveProfile("Test");
     }
 }

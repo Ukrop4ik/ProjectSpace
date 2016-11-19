@@ -1,20 +1,17 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using LitJson;
 using System.Collections;
 
 public class Localization : MonoBehaviour
 {
 
-    int langType;
-
+    string langType;
+    public string Id;
     Text textfield;
-
-    [SerializeField]
-    string[] localization = new string[2];
 
     void Start()
     {
-
         ContextManagerGamePro.Instance().loca.Add(this);
         textfield = GetComponent<Text>();
         CreateText();
@@ -23,16 +20,16 @@ public class Localization : MonoBehaviour
 
     public void CreateText()
     {
-        langType = PlayerPrefs.GetInt("Lang");
+        langType = PlayerPrefs.GetString("Lang");
 
         switch (langType)
         {
-            case 0:
-                textfield.text = localization[0];
+            case "English":
+                textfield.text = ContextManagerGamePro.Instance().ResourceManager.LocalizationData["Localization"][Id][langType].ToString();
                 break;
 
-            case 1:
-                textfield.text = localization[1];
+            case "Russian":
+                textfield.text = ContextManagerGamePro.Instance().ResourceManager.LocalizationData["Localization"][Id][langType].ToString();
                 break;
 
             default:

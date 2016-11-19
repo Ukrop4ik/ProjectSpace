@@ -1,0 +1,16 @@
+{
+   "Localization":{
+      "start_game":{
+         "English":"Start Game",
+         "Russian":"Начать Игру"
+      },
+      "credits":{
+         "English":"Credits",
+         "Russian":"Авторы"
+      },
+      "exit":{
+         "English":"Exit",
+         "Russian":"Выход"
+      }
+   }
+}

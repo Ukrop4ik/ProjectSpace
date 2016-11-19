@@ -2,37 +2,72 @@
 using System.Collections;
 using LitJson;
 using System.IO;
+using System.Collections.Generic;
 
 public class ResourceManager : MonoBehaviour
 
 {
     private string jsonString;
-    private JsonData itemData;
-
-    
+    public JsonData LocalizationData;
 
     void Start()
     {
-        Item item = new Item(10, "test", new string[] {"dwd", "ddd", "d22" });
-
-        itemData = JsonMapper.ToJson(item);
-
-        File.WriteAllText(Application.dataPath + "/Test.json", itemData.ToString());
-
+        CreateLocalizationFile();
+        LoadLocalization();
     }
 
-    public class Item
+    [ContextMenu("LoadLocal")]
+    public void LoadLocalization()
     {
-        public int id { get; set; }
-        public string name { get; set; }
-        public string[] strings { get; set; }
+        string jsonstring = File.ReadAllText(Application.persistentDataPath + "/Localization.json");
+        LocalizationData = JsonMapper.ToObject(jsonstring);
 
-        public Item(int id, string name, string[] strings)
+   
+    }
+
+    public class LocalizationComplex
+    {
+        public List<LocalizationId> Localization;
+
+        public LocalizationComplex()
+        { }
+        public LocalizationComplex(List<LocalizationId> idlist)
         {
-            this.id = id;
-            this.name = name;
-            this.strings = strings;
+            this.Localization = idlist;
         }
+    }
+
+    public class LocalizationId
+    {
+        public Dictionary<string, Trans> Translate;
+
+        public LocalizationId(Dictionary<string, Trans> Translate)
+        {
+            this.Translate = Translate;
+        }
+    }
+
+    public class Trans
+    {
+        public string English;
+        public string Russian;
+
+        public Trans()
+        { }
+        public Trans(string eng, string rus)
+        {
+            this.English = eng;
+            this.Russian = rus;
+        }
+    }
+
+    [ContextMenu("CreateLocalizationFile")]
+   public void CreateLocalizationFile()
+    {
+        Debug.Log("persistentDataPath: " + Application.persistentDataPath);
+        if (File.Exists(Application.persistentDataPath + "/Localization.json")) return;
+        File.WriteAllText(Application.persistentDataPath + "/Localization.json", File.ReadAllText(Application.dataPath + "/Resources/Localization.json"));
+        Debug.Log(Application.persistentDataPath + "/Localization.json" + " file create");
     }
 }
 
