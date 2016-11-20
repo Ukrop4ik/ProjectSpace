@@ -11,6 +11,14 @@
       "exit":{
          "English":"Exit",
          "Russian":"Выход"
+      },
+	  "close":{
+         "English":"Close",
+         "Russian":"Закрыть"
+      }
+	  "new_profile":{
+         "English":"New Profile",
+         "Russian":"Новый Профиль"
       }
    }
 }

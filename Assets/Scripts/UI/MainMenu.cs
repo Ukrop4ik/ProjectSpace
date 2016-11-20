@@ -2,6 +2,7 @@
 using System.Collections;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System.IO;
 
 public class MainMenu : MonoBehaviour {
 
@@ -29,7 +30,7 @@ public class MainMenu : MonoBehaviour {
                 lang.value = 0;
                 break;
         }
-        
+
 
     }
 	

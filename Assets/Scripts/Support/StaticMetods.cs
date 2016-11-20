@@ -12,4 +12,15 @@ public class StaticMetods : MonoBehaviour {
     {
         SceneManager.LoadScene(ContextManagerGamePro.Instance().PreviousScene);
     }
+
+    [ContextMenu("SaveGame")]
+    public void SaveGame()
+    {
+        SaveManager.SaveProfile(ContextManagerGamePro.Instance().Profile.profilename);
+    }
+    [ContextMenu("LoadProfileData")]
+    public void LoadProfileData()
+    {
+        SaveManager.LoadProfile();
+    }
 }

@@ -13,7 +13,6 @@ public class Profile : MonoBehaviour {
 	void Start () {
 
         defaultship = Resources.Load("starttership") as GameObject;
-        profilename = "default";
         const bool test = false;
         if (test)
         {

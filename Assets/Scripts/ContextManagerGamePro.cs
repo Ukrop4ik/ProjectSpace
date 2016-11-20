@@ -14,6 +14,7 @@ public class ContextManagerGamePro : MonoBehaviour {
     public SpaceUI SpaceUi;
     public GameObject playershipobj;
     public ResourceManager ResourceManager;
+    public SaveManager SaveManager;
 
     public List<Localization> loca;
 
@@ -25,10 +26,6 @@ public class ContextManagerGamePro : MonoBehaviour {
 
         ResourceManager = GetComponent<ResourceManager>();
        loca = new List<Localization>();
-    }
-
-    void Update()
-    {
     }
 
     private static ContextManagerGamePro _context;
