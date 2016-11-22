@@ -11,12 +11,10 @@ public class Weapon : MonoBehaviour {
     GameObject bullet;
     public Transform target;
     public Transform LookPoint;
-
+    public string Id;
     public Ship ship;
-
     public string weaponname = "";
     float dist;
-
     public int damagetype = 1;
     public int damage = 0;
     public float reloadtime;
@@ -28,7 +26,6 @@ public class Weapon : MonoBehaviour {
     public float ReloadMod = 1;
     public int energycost = 1;
     public int firecount = 1;
-
     [HideInInspector]
     public float reload_timer;
     [HideInInspector]
@@ -37,7 +34,6 @@ public class Weapon : MonoBehaviour {
     public bool isReload = false;
     public bool TargetInLine = false;
     public bool lowenergy = false;
-
     void Start()
     {
         barrel = gameObject.transform.GetChild(0).gameObject;
@@ -47,7 +43,6 @@ public class Weapon : MonoBehaviour {
         reloadtime = 0;
         reloadtime = Reload;
     }
-
     [ContextMenu("Shoot")]
     public void Shoot()
     {
@@ -61,7 +56,6 @@ public class Weapon : MonoBehaviour {
 
 
     }
-
     void Update()
     {
 
@@ -99,14 +93,10 @@ public class Weapon : MonoBehaviour {
             target = null;
         }
     }
-
     void LateUpdate()
     {
         transform.rotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y, 0);
     }
-
-
-
     bool TurretMotion(float dist, float range, float rangemod, float rotationmod)
     {               
         if (dist < range * rangemod)
@@ -142,7 +132,6 @@ public class Weapon : MonoBehaviour {
         return false;
 
     }
-
     void ReturnPos()
     {
         if (LookPoint)
@@ -153,7 +142,6 @@ public class Weapon : MonoBehaviour {
         }
 
     }
-
     float ReloadTimer(float timer, float time, float reloadmod)
     {
         if (timer <=0)
@@ -167,7 +155,6 @@ public class Weapon : MonoBehaviour {
             return time * reloadmod;
         }
     }
-
     void CreateBullet()
     {
         GameObject _bullet = Instantiate(bullet);

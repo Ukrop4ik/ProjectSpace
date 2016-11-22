@@ -33,14 +33,6 @@ public class MainMenu : MonoBehaviour {
 
 
     }
-	
-	// Update is called once per frame
-	void Update ()
-    {
-        
-	
-	}
-
     public void ExitGame()
     {
         Application.Quit();
@@ -73,7 +65,6 @@ public class MainMenu : MonoBehaviour {
         // и нужно сделать типа окошко "Вы уверены, что хотите создать новую игру?"
         return true;
     }
-
     private void LangDropdownValueChangeHandler(Dropdown target)
     {
         PlayerPrefs.SetInt("LangInt", target.value);
@@ -101,11 +92,9 @@ public class MainMenu : MonoBehaviour {
     {
         lang.onValueChanged.RemoveAllListeners();
     }
-
-
     [ContextMenu("SaveProfile")]
     public void TestSave()
     {
-        SaveManager.SaveProfile("Test");
+        SaveManager.SaveProfile("Test", new Ship());
     }
 }

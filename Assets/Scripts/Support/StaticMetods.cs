@@ -12,15 +12,18 @@ public class StaticMetods : MonoBehaviour {
     {
         SceneManager.LoadScene(ContextManagerGamePro.Instance().PreviousScene);
     }
-
     [ContextMenu("SaveGame")]
     public void SaveGame()
     {
-        SaveManager.SaveProfile(ContextManagerGamePro.Instance().Profile.profilename);
+        SaveManager.SaveProfile(ContextManagerGamePro.Instance().Profile.profilename, ContextManagerGamePro.Instance().playership);
     }
     [ContextMenu("LoadProfileData")]
     public void LoadProfileData()
     {
         SaveManager.LoadProfile();
+    }
+    public string GetShipId(Ship ship)
+    {
+        return ship.itemID;
     }
 }

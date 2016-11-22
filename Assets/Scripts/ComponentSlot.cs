@@ -10,7 +10,7 @@ public class ComponentSlot : MonoBehaviour {
     public Item item;
     public bool itemCreated = false;
     public bool containitem;
-
+    public int slotnumber;
     public enum size
     {
         Small,
@@ -26,21 +26,12 @@ public class ComponentSlot : MonoBehaviour {
     }
     public size Size;
     public slotType SlotType;
-
-    // Use this for initialization
     void Start ()
     {
 
         ship = transform.GetComponentInParent<Ship>();
 
     }
-	
-	// Update is called once per frame
-	void Update ()
-    {
-	
-	}
-
     [ContextMenu("RemoveSlot")]
     public void RemoveSlot()
     {

@@ -41,6 +41,7 @@ public class ShipInventory : MonoBehaviour
         {
             GameObject item = stationUI.ship.cargo.cargoobj.transform.GetChild(0).gameObject;
             item.transform.SetParent(content.transform);
+            stationUI.ship.cargo.itemsincargo.Remove(item.GetComponent<Item>());
             item.transform.localScale = Vector3.one;
             item.transform.rotation = Quaternion.Euler(0, 0, 0);
         }
@@ -53,6 +54,7 @@ public class ShipInventory : MonoBehaviour
         {
             GameObject item = content.transform.GetChild(0).gameObject;
             item.transform.SetParent(stationUI.ship.cargo.cargoobj.transform);
+            stationUI.ship.cargo.itemsincargo.Add(item.GetComponent<Item>());
             item.transform.localScale = Vector3.zero;
             item.transform.rotation = Quaternion.Euler(0, 0, 0);
         }
@@ -65,6 +67,7 @@ public class ShipInventory : MonoBehaviour
         {
             GameObject item = content.transform.GetChild(0).gameObject;
             item.transform.SetParent(stationUI.stationinventory.transform.GetChild(0).GetComponent<InventoryPanel>().contentpanel.transform);
+            stationUI.ship.cargo.itemsincargo.Remove(item.GetComponent<Item>());
             item.transform.localScale = Vector3.one;
             item.transform.rotation = Quaternion.Euler(0, 0, 0);
         }

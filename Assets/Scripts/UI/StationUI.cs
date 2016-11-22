@@ -15,9 +15,7 @@ public class StationUI : MonoBehaviour {
     public GameObject stationinventory;
     public Ship ship;
     bool CargoOpen;
-
     List<GameObject> listtodel = new List<GameObject>();
-
     void Start()
     {
         CargoOpen = false;
@@ -29,7 +27,6 @@ public class StationUI : MonoBehaviour {
         PlayerActualShip = gameObject.transform.Find("PlayerActualShip").gameObject;
         AddShip();
     }
-
     [ContextMenu("CreateSlot")]
     public void CreateSlotFromShip()
     {
@@ -90,7 +87,6 @@ public class StationUI : MonoBehaviour {
             }
         }      
     }
-
     public void PressCargoButton()
     {       
         if (!CargoOpen)
@@ -106,7 +102,6 @@ public class StationUI : MonoBehaviour {
         }
         CargoOpen = !CargoOpen;
     }
-
     public void AddShip()
     {
         GameObject shipcontextobj = GameObject.Find("GameContext").transform.GetChild(0).gameObject;
@@ -114,17 +109,20 @@ public class StationUI : MonoBehaviour {
         if (PlayerActualShip.transform.childCount > 0)
         {
             ship = PlayerActualShip.transform.GetChild(0).gameObject.GetComponent<Ship>();
+            ContextManagerGamePro.Instance().playership = ship;
         }
         else if (shipcontextobj.transform.childCount > 0)
         {
             ship = shipcontextobj.transform.GetChild(0).gameObject.GetComponent<Ship>();
             ship.gameObject.transform.SetParent(PlayerActualShip.transform);
+            ContextManagerGamePro.Instance().playership = ship;
         }
         else
         {
             GameObject newship = Instantiate(ContextManagerGamePro.Instance().Profile.defaultship);
             ship = newship.GetComponent<Ship>();
             newship.transform.SetParent(PlayerActualShip.transform);
+            ContextManagerGamePro.Instance().playership = ship;
 
         }
 
