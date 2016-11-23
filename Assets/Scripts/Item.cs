@@ -4,7 +4,8 @@ using UnityEngine.EventSystems;
 using System.Collections;
 using System;
 
-public class Item : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler {
+public class Item : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerEnterHandler, IPointerExitHandler
+{
 
     public GameObject itemoriginal;
     public string ItemId;
@@ -60,7 +61,7 @@ public class Item : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
         originparent = transform.parent;
         transform.SetParent(transform.parent.parent.parent);
         DropItem();
-        
+
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -109,7 +110,7 @@ public class Item : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
         if (isCreate) return;
         if (isClone) return;
         if (eventData.pointerEnter.gameObject.tag == "Inventory" && item.space != ItemSpaceEnum.Inventory) return;
-               
+
     }
 
     public void TakeItem()
@@ -135,9 +136,9 @@ public class Item : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
         transform.localPosition = Vector3.zero;
         slot.ship.ComponentController.CreateFromItem(this);
         item.GetComponent<Image>().enabled = false;
-       
+
         itemslot = slot;
-        
+
     }
 
     public void DropItem()
@@ -148,7 +149,7 @@ public class Item : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
             itemslot.containitem = false;
             itemslot = null;
         }
-       
+
     }
 
     bool CheckInShip()
@@ -171,5 +172,33 @@ public class Item : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
         transform.SetParent(originparent);
         transform.localScale = Vector3.one;
         return;
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        Debug.Log("Enter");
+        GameObject tooltip = transform.root.transform.Find("ToolTip").gameObject;
+        tooltip.transform.position = this.transform.position;
+        Debug.Log(tooltip.GetComponent<RectTransform>().offsetMin.y);
+        Debug.Log(tooltip.GetComponent<RectTransform>().offsetMax.y);
+        if (tooltip.GetComponent<RectTransform>().offsetMax.y > 0)
+        {
+            tooltip.GetComponent<RectTransform>().pivot = new Vector2(0, 1);
+
+        }
+        else if (tooltip.GetComponent<RectTransform>().offsetMin.y < 0)
+        {
+            tooltip.GetComponent<RectTransform>().pivot = new Vector2(0, 0);
+
+        }
+        tooltip.transform.position = this.transform.position;
+        tooltip.SetActive(true);
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        GameObject tooltip = transform.root.transform.Find("ToolTip").gameObject;
+        tooltip.GetComponent<RectTransform>().pivot = new Vector2(0, 1);
+        tooltip.SetActive(false);
     }
 }
