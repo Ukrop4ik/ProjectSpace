@@ -21,7 +21,6 @@ public class InventoryPanel : MonoBehaviour, IDropHandler
             {
                 if (eventData.pointerDrag.GetComponent<Item>().isClone)
                 {
-                    Item item = eventData.pointerDrag.GetComponent<Item>();
                     eventData.pointerDrag.transform.SetParent(contentpanel.transform);
                     eventData.pointerDrag.GetComponent<Item>().space = ItemSpaceEnum.Inventory;
                     eventData.pointerDrag.GetComponent<Item>().isClone = false;

@@ -13,11 +13,10 @@ public class ProfilesManager : MonoBehaviour {
     public Button NewProfileButton;
     public Button profilebuttonPrefab;
     public InputField inputNewProfileName;
-    MainMenu mainmenu;
+
 
     void Start()
     {
-        mainmenu = GetComponent<MainMenu>();
 
         if (File.Exists(Application.persistentDataPath + "/profilelist.json"))
         {

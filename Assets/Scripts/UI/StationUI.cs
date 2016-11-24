@@ -9,7 +9,6 @@ public class StationUI : MonoBehaviour {
     public Image shipeqipimage;
     GameObject WeaponSlotPanel;
     GameObject EngineerSlotPanel;
-    GameObject PlayerShipStorage;
     GameObject PlayerActualShip;
     ShipInventory shipinventory;
     public GameObject stationinventory;
@@ -23,7 +22,6 @@ public class StationUI : MonoBehaviour {
         shipinventory = gameObject.transform.Find("ShipInventory").gameObject.GetComponent<ShipInventory>();
         WeaponSlotPanel = gameObject.transform.Find("ShipEqipPanel/WeaponSlotPanel").gameObject;
         EngineerSlotPanel = gameObject.transform.Find("ShipEqipPanel/EngineerSlotPanel").gameObject;
-        PlayerShipStorage = gameObject.transform.Find("PlayerShipStorage").gameObject;
         PlayerActualShip = gameObject.transform.Find("PlayerActualShip").gameObject;
         AddShip();
     }

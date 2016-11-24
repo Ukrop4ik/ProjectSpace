@@ -4,8 +4,6 @@ using System.Collections;
 public class Weapon : MonoBehaviour {
 
     [SerializeField]
-    GameObject barrel;
-    [SerializeField]
     GameObject fire_point;
     [SerializeField]
     GameObject bullet;
@@ -36,7 +34,6 @@ public class Weapon : MonoBehaviour {
     public bool lowenergy = false;
     void Start()
     {
-        barrel = gameObject.transform.GetChild(0).gameObject;
         reload_timer = Reload;
         ship = transform.parent.parent.GetComponent<ComponentSlot>().ship;
         transform.localPosition = Vector3.zero;

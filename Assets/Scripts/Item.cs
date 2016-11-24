@@ -10,8 +10,6 @@ public class Item : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     public GameObject itemoriginal;
     public string ItemId;
     public Sprite itemsprite;
-    [SerializeField]
-    bool inShip = false;
     public bool isCreate = false;
     public bool isClone = false;
     Transform originparent;
@@ -52,7 +50,7 @@ public class Item : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
 
     void Update()
     {
-        inShip = CheckInShip();
+ 
     }
 
     public void OnBeginDrag(PointerEventData eventData)
@@ -176,11 +174,11 @@ public class Item : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        Debug.Log("Enter");
+        //Debug.Log("Enter");
         GameObject tooltip = transform.root.transform.Find("ToolTip").gameObject;
         tooltip.transform.position = this.transform.position;
-        Debug.Log(tooltip.GetComponent<RectTransform>().offsetMin.y);
-        Debug.Log(tooltip.GetComponent<RectTransform>().offsetMax.y);
+        //Debug.Log(tooltip.GetComponent<RectTransform>().offsetMin.y);
+        //Debug.Log(tooltip.GetComponent<RectTransform>().offsetMax.y);
         if (tooltip.GetComponent<RectTransform>().offsetMax.y > 0)
         {
             tooltip.GetComponent<RectTransform>().pivot = new Vector2(0, 1);

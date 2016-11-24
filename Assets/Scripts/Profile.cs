@@ -7,7 +7,7 @@ public class Profile : MonoBehaviour {
     public bool isNew = true;
     public bool isTutorial = true;
     public bool isCheat = false;
-    public string profilename;
+    public string profilename = "";
     public int credits = 0;
     public int fame = 0;
     public GameObject defaultship { get; private set; }
@@ -17,12 +17,6 @@ public class Profile : MonoBehaviour {
 
         playershipsIdlist = new List<string>();
         defaultship = Resources.Load("starttership") as GameObject;
-        const bool test = false;
-        if (test)
-        {
-            created = true;
-            profilename = "test";
-        }
         DontDestroyOnLoad(this.gameObject);
 
 	}

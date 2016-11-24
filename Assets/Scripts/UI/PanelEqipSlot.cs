@@ -4,8 +4,7 @@ using System.Collections;
 using System;
 
 public class PanelEqipSlot : MonoBehaviour, IDropHandler {
- 
-    StationUI stationUI;
+
     public ComponentSlot slot;
     public string Type = "";
     public SlotTypeEnum SlotType;
@@ -13,7 +12,6 @@ public class PanelEqipSlot : MonoBehaviour, IDropHandler {
     // Use this for initialization
     void Start () {
 
-        stationUI = transform.parent.parent.parent.gameObject.GetComponent<StationUI>();
 
         switch (SlotType)
         {

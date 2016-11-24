@@ -5,10 +5,6 @@ using System.Collections.Generic;
 
 public class SpaceUI : MonoBehaviour {
 
-
-    Camera maincamera;
-    Canvas canvas;
-
     public Camera minimapcamera;
     public GameObject selectshippanel;
     public GameObject contentNavPAnel;
@@ -48,9 +44,7 @@ public class SpaceUI : MonoBehaviour {
 
     void Start()
     {
-        maincamera = Camera.main;
         minimapcamera = Instantiate(minimapcamera);
-        canvas = this.gameObject.GetComponent<Canvas>();
         ContextManagerGamePro.Instance().SpaceUi = this;
        // canvas.worldCamera = maincamera;
        // canvas.planeDistance = 1;
