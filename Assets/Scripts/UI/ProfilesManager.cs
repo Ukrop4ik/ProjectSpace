@@ -74,6 +74,7 @@ public class ProfilesManager : MonoBehaviour {
     public void ProfileButtonClick(Text buttontext)
     {
         CreateProfileObj(buttontext.text);
+        ContextManagerGamePro.Instance().PreviousScene = "MainMenu";
         SceneManager.LoadScene("Station");
     }
 

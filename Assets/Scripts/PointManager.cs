@@ -57,7 +57,6 @@ public class PointManager : MonoBehaviour {
             case Select.selecttype.Ship:
                 ContextManagerGamePro.Instance().selectedship = select.ship;
                 ContextManagerGamePro.Instance().SelectedType = Select.selecttype.Ship;
-                Debug.Log(select.ship.shipname);
                 break;
 
             case Select.selecttype.Conteiner:

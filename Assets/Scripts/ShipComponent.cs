@@ -23,6 +23,7 @@ public class ShipComponent : MonoBehaviour {
     public SlotTypeEnum SlotType;
 
     public string component_name;
+    public string DataPath;
     public bool isInstall = false;
     public bool isActive = false;
 

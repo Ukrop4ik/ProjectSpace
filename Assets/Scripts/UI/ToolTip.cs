@@ -1,15 +1,25 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
-public class ToolTip : MonoBehaviour {
+public class ToolTip : MonoBehaviour
+{
 
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+    public GameObject _name;
+    public GameObject _info;
+
+
+    public Localization nametext;
+ 
+    public Localization infotext;
+
+    public Text costtext;
+
+
+    public void OnEnable()
+    {
+        Debug.Log("ToolTypeCreate");
+        nametext = _name.GetComponent<Localization>();
+        infotext = _info.GetComponent<Localization>();
+    }
 }

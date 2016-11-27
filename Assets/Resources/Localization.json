@@ -19,6 +19,22 @@
 	  "new_profile":{
          "English":"New Profile",
          "Russian":"Новый Профиль"
+      },
+	  "SmallKinetikTurretMK1":{
+         "English":"Small Kinetik Turret MK1",
+         "Russian":"Малая Кинетическая Турель МК1"
+      },
+	  "SmallKinetikTurretMK1_info":{
+         "English":"EnglishText",
+         "Russian":"Один из самых распространенных видов кинетического оружия. Гражданская модель."
+      },
+	  "ShieldGeneratorSmallMk1":{
+         "English":"Shield Generator Small Mk1",
+         "Russian":"Малый Генератор Щита МК1"
+      },
+	  "ShieldGeneratorSmallMk1_info":{
+         "English":"EnglishText",
+         "Russian":"Гражданская модель генератора защитного поля. Предназначен для защиты корпуса от незначительных повреждений"
       }
    }
 }

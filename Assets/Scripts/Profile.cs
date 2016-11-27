@@ -10,6 +10,7 @@ public class Profile : MonoBehaviour {
     public string profilename = "";
     public int credits = 0;
     public int fame = 0;
+    public int Day = 0;
     public GameObject defaultship { get; private set; }
     public List<string> playershipsIdlist { get; private set; }
 	// Use this for initialization

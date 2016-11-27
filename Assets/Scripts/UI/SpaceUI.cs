@@ -5,6 +5,7 @@ using System.Collections.Generic;
 
 public class SpaceUI : MonoBehaviour {
 
+    public GameObject bar;
     public Camera minimapcamera;
     public GameObject selectshippanel;
     public GameObject contentNavPAnel;
@@ -95,7 +96,7 @@ public class SpaceUI : MonoBehaviour {
                         if (ContextManagerGamePro.Instance().selectedship)
                         {
                             ObjectSelector(new GameObject[] { selectshippanel }, selectshippanel);
-                            SelectedShipNameText.text = "Name: " + ContextManagerGamePro.Instance().selectedship.shipname;
+                           // SelectedShipNameText.text = "Name: " + ContextManagerGamePro.Instance().selectedship.shipname;
                             SelectedShipTypeText.text = "Type:  Ship";
                             SelectedDist.text = "Dist: " + Vector3.Distance(ContextManagerGamePro.Instance().selectedship.gameObject.transform.position, playership.gameObject.transform.position).ToString("0.00");
                         }                      
@@ -141,7 +142,7 @@ public class SpaceUI : MonoBehaviour {
             shipsobj.AddRange(GameObject.FindGameObjectsWithTag("Ship"));
             foreach (GameObject ship in shipsobj)
             {
-                if (ship.GetComponent<Ship>().isPlayerShip)
+                if (!ship.name.Contains("AI"))
                 {
                     playership = ship.GetComponent<Ship>();
                     ready = true;
@@ -268,8 +269,8 @@ public class SpaceUI : MonoBehaviour {
     public void BackToStation()
     {
         GameObject obj = GameObject.Find("GameContext");
-
         ContextManagerGamePro.Instance().playership.transform.SetParent(obj.transform.GetChild(0).transform);
+        ContextManagerGamePro.Instance().navpoint = Vector3.zero;
         SceneManager.LoadScene("Station");
     }
 

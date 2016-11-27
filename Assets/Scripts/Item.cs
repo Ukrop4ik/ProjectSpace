@@ -7,6 +7,11 @@ using System;
 public class Item : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerEnterHandler, IPointerExitHandler
 {
 
+    public string ItemName;
+    public string ItemInfo;
+    public int ItemCost;
+    public string DataPath;
+
     public GameObject itemoriginal;
     public string ItemId;
     public Sprite itemsprite;
@@ -28,6 +33,8 @@ public class Item : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     public ItemType type;
     public SlotTypeEnum SlotType;
     public string itemclass;
+
+
 
     void Start()
     {
@@ -174,29 +181,31 @@ public class Item : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        //Debug.Log("Enter");
         GameObject tooltip = transform.root.transform.Find("ToolTip").gameObject;
+        ToolTip tooltipclass = tooltip.GetComponent<ToolTip>();
+
         tooltip.transform.position = this.transform.position;
-        //Debug.Log(tooltip.GetComponent<RectTransform>().offsetMin.y);
-        //Debug.Log(tooltip.GetComponent<RectTransform>().offsetMax.y);
         if (tooltip.GetComponent<RectTransform>().offsetMax.y > 0)
         {
-            tooltip.GetComponent<RectTransform>().pivot = new Vector2(0, 1);
-
+            tooltip.GetComponent<RectTransform>().pivot = new Vector2(0.5f, 1);
         }
         else if (tooltip.GetComponent<RectTransform>().offsetMin.y < 0)
         {
-            tooltip.GetComponent<RectTransform>().pivot = new Vector2(0, 0);
-
+            tooltip.GetComponent<RectTransform>().pivot = new Vector2(0.5f, 0f);
         }
         tooltip.transform.position = this.transform.position;
+
+        tooltipclass.nametext.Id = ItemName;
+        tooltipclass.infotext.Id = ItemInfo;
+        tooltipclass.costtext.text = ItemCost.ToString();
+
         tooltip.SetActive(true);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
         GameObject tooltip = transform.root.transform.Find("ToolTip").gameObject;
-        tooltip.GetComponent<RectTransform>().pivot = new Vector2(0, 1);
+        tooltip.GetComponent<RectTransform>().pivot = new Vector2(0f, 1f);
         tooltip.SetActive(false);
     }
 }

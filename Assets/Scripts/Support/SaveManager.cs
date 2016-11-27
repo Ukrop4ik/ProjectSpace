@@ -30,6 +30,8 @@ public class SaveManager : MonoBehaviour {
         {
             PlayerShipsList.AddRange(ContextManagerGamePro.Instance().Profile.playershipsIdlist);
         }
+        int _day = ContextManagerGamePro.Instance().Profile.Day;
+
         //заполнение данных корабля
         List<ItemInSlot> itemsinship = new List<ItemInSlot>();
         List<string> itemsincargo = new List<string>();
@@ -39,11 +41,11 @@ public class SaveManager : MonoBehaviour {
 
             if (slot.SlotType == ComponentSlot.slotType.Weapon)
             {
-                itemsinship.Add(new ItemInSlot(slot.weapon.Id, slot.slotnumber));
+                itemsinship.Add(new ItemInSlot(slot.weapon.Id, slot.slotnumber, slot.weapon.gameObject.GetComponent<ShipComponent>().DataPath));
             }
             else
             {
-                itemsinship.Add(new ItemInSlot(slot.component.component_name, slot.slotnumber));
+                itemsinship.Add(new ItemInSlot(slot.component.component_name, slot.slotnumber, slot.component.DataPath));
             }
             
         }
@@ -54,7 +56,7 @@ public class SaveManager : MonoBehaviour {
         }
         PlayerShipObj shiptosave = new PlayerShipObj(ship.itemID, itemsinship, itemsincargo);
 
-        ObjToSave obj = new ObjToSave(name, stats, items, ammos, PlayerShipsList, shiptosave, DateTime.Now, false, isTutorial, isCheat);
+        ObjToSave obj = new ObjToSave(name, _day, stats, items, ammos, PlayerShipsList, shiptosave, DateTime.Now, false, isTutorial, isCheat);
 
         jsonData = JsonMapper.ToJson(obj);
 
@@ -68,8 +70,46 @@ public class SaveManager : MonoBehaviour {
         Profile profile = ContextManagerGamePro.Instance().Profile;
         string jsonstring = File.ReadAllText(Application.persistentDataPath + "/" + profile.profilename + ".json");
         JsonData data = JsonMapper.ToObject(jsonstring);
+        profile.Day = (int)data["Day"];
         profile.credits = (int)data["ProfileStats"][0];
         profile.fame = (int)data["ProfileStats"][1];
+
+        if (data["PlayerShip"]["ShipId"].ToString() != "emptyID")
+        {
+            GameObject ship = Instantiate(Resources.Load(data["PlayerShip"]["ShipId"].ToString()) as GameObject);
+            ship.name = data["PlayerShip"]["ShipId"].ToString();
+            Ship shipscript = ship.GetComponent<Ship>();
+            ContextManagerGamePro.Instance().playership = shipscript;
+
+            List<ComponentSlot> Slots = new List<ComponentSlot>();
+            List<ItemInSlot> itemsIds = new List<ItemInSlot>();
+            Slots.AddRange(ship.GetComponentsInChildren<ComponentSlot>());
+
+            for (int i = 0; i < data["PlayerShip"]["Items"].Count; i++)
+            {
+                itemsIds.Add(new ItemInSlot(data["PlayerShip"]["Items"][i]["Id"].ToString(), (int)data["PlayerShip"]["Items"][i]["slotnumber"], data["PlayerShip"]["Items"][i]["DataPath"].ToString()));
+                Debug.Log(data["PlayerShip"]["Items"][i]["Id"].ToString());
+            }
+
+            foreach (ComponentSlot slot in Slots)
+            {
+                foreach (ItemInSlot item in itemsIds)
+                {
+                    if (slot.slotnumber == item.slotnumber)
+                    {
+                        GameObject _item = Instantiate(Resources.Load(item.DataPath + item.Id) as GameObject);
+                        _item.transform.SetParent(slot.transform);
+                        _item.transform.SetSiblingIndex(0);
+                       // _item.GetComponent<Item>().EqipItem(slot);
+                    }
+                }
+            }
+
+            StationUI UI = GameObject.Find("StationUI").GetComponent<StationUI>();
+            UI.ship = shipscript;
+            ship.transform.SetParent(UI.PlayerActualShip.transform);
+        }
+ 
     }
 
     public static void CreateEmptyProfile(string name)
@@ -81,7 +121,7 @@ public class SaveManager : MonoBehaviour {
         List<ItemInSlot> itemsinship = new List<ItemInSlot>();
         List<string> cargoitems = new List<string>();
         PlayerShipObj shipempty = new PlayerShipObj("emptyID", itemsinship, cargoitems);
-        ObjToSave obj = new ObjToSave(name, stats, items, ammos, PlayerShipsList, shipempty, DateTime.Now, true, true, false);
+        ObjToSave obj = new ObjToSave(name, 0, stats, items, ammos, PlayerShipsList, shipempty, DateTime.Now, true, true, false);
         JsonData jsonData = JsonMapper.ToJson(obj);
         File.WriteAllText(Application.persistentDataPath + "/" + name + ".json", jsonData.ToString());
         Debug.Log("Profile Save - " + "Name: " + obj.ProfileName + " path: " + Application.persistentDataPath + "/" + name + ".json");
@@ -96,6 +136,7 @@ public class SaveManager : MonoBehaviour {
         public bool isNewProfile;
         public bool isTutorial;
         public bool isCheat;
+        public int Day;
         public List<int> ProfileStats;
         public List<ItemObj> Items;
         public Dictionary<string, int> Ammos;
@@ -107,7 +148,7 @@ public class SaveManager : MonoBehaviour {
 
         }
 
-        public ObjToSave(string profilename, List<int> stats, List<ItemObj> items, Dictionary<string, int> ammos, List<string> PlayerShipsList, PlayerShipObj playership, DateTime savetime, bool isNew, bool isTutorial, bool isCheat)
+        public ObjToSave(string profilename, int Day, List<int> stats, List<ItemObj> items, Dictionary<string, int> ammos, List<string> PlayerShipsList, PlayerShipObj playership, DateTime savetime, bool isNew, bool isTutorial, bool isCheat)
         {
             this.ProfileName = profilename;
             this.isNewProfile = isNew;
@@ -119,6 +160,7 @@ public class SaveManager : MonoBehaviour {
             this.PlayerShipsList = PlayerShipsList;
             this.PlayerShip = playership;
             this.SaveDate = savetime;
+            this.Day = Day;
  
         }       
     }
@@ -162,11 +204,13 @@ public class SaveManager : MonoBehaviour {
     {
         public string Id;
         public int slotnumber;
+        public string DataPath;
 
-        public ItemInSlot(string id, int number)
+        public ItemInSlot(string id, int number, string path)
         {
             this.Id = id;
             this.slotnumber = number;
+            this.DataPath = path;
         }
     }
     #endregion

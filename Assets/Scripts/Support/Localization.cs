@@ -5,6 +5,7 @@ using System.Collections;
 
 public class Localization : MonoBehaviour
 {
+    public bool isRuntime;
 
     string langType;
     public string Id;
@@ -12,9 +13,13 @@ public class Localization : MonoBehaviour
 
     void Start()
     {
-        ContextManagerGamePro.Instance().loca.Add(this);
         textfield = GetComponent<Text>();
-        CreateText();
+
+        if (!isRuntime)
+        {
+            ContextManagerGamePro.Instance().loca.Add(this);
+            CreateText();
+        }
 
     }
 
@@ -35,6 +40,14 @@ public class Localization : MonoBehaviour
             default:
                 break;
         }
+    }
+
+    // This function is called when the object becomes enabled and active
+    public void OnEnable()
+    {
+        if (!isRuntime) return;
+
+        CreateText();
     }
 
     // This function is called when the MonoBehaviour will be destroyed

@@ -3,14 +3,14 @@ using System.Collections.Generic;
 
 public class ContextManagerGamePro : MonoBehaviour {
 
-	public string PreviousScene { get; set; }
+    public string PreviousScene;
     public Profile Profile;
     public Map Map { get; set; }
     public List<Unit> unitslist = new List<Unit>();
     public List<Ship> shiplist = new List<Ship>();
     public Vector3 navpoint;
     public Ship playership;
-    public Ship selectedship;
+    public AIship selectedship;
     public SpaceUI SpaceUi;
     public GameObject playershipobj;
     public ResourceManager ResourceManager;

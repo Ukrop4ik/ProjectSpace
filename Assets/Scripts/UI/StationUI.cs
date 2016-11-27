@@ -5,18 +5,22 @@ using UnityEngine.SceneManagement;
 
 public class StationUI : MonoBehaviour {
 
+    public Text day;
+    public Text crd;
     public GameObject panelslot;
     public Image shipeqipimage;
     GameObject WeaponSlotPanel;
     GameObject EngineerSlotPanel;
-    GameObject PlayerActualShip;
+    public GameObject PlayerActualShip;
     ShipInventory shipinventory;
     public GameObject stationinventory;
     public Ship ship;
     bool CargoOpen;
+    Profile profile;
     List<GameObject> listtodel = new List<GameObject>();
     void Start()
     {
+        profile = ContextManagerGamePro.Instance().Profile;
         CargoOpen = false;
         stationinventory = gameObject.transform.Find("StationInventory").gameObject;
         shipinventory = gameObject.transform.Find("ShipInventory").gameObject.GetComponent<ShipInventory>();
@@ -24,6 +28,11 @@ public class StationUI : MonoBehaviour {
         EngineerSlotPanel = gameObject.transform.Find("ShipEqipPanel/EngineerSlotPanel").gameObject;
         PlayerActualShip = gameObject.transform.Find("PlayerActualShip").gameObject;
         AddShip();
+    }
+    void Update()
+    {
+        day.text = profile.Day.ToString();
+        crd.text = profile.credits.ToString();
     }
     [ContextMenu("CreateSlot")]
     public void CreateSlotFromShip()
@@ -117,11 +126,11 @@ public class StationUI : MonoBehaviour {
         }
         else
         {
-            GameObject newship = Instantiate(ContextManagerGamePro.Instance().Profile.defaultship);
-            ship = newship.GetComponent<Ship>();
-            newship.transform.SetParent(PlayerActualShip.transform);
-            ContextManagerGamePro.Instance().playership = ship;
-
+            //Debug.Log("Default Ship Create");
+            //GameObject newship = Instantiate(ContextManagerGamePro.Instance().Profile.defaultship);
+            //ship = newship.GetComponent<Ship>();
+            //newship.transform.SetParent(PlayerActualShip.transform);
+            //ContextManagerGamePro.Instance().playership = ship;
         }
 
     }
@@ -131,7 +140,7 @@ public class StationUI : MonoBehaviour {
         Debug.Log(shipcontextobj.name);
         PlayerActualShip.transform.GetChild(0).transform.SetParent(shipcontextobj.transform);
 
-        SceneManager.LoadScene("EDIT");
+        SceneManager.LoadScene("SmallStrike");
     }
 
 }

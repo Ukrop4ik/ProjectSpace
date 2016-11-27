@@ -39,8 +39,17 @@ public class Bullet : MonoBehaviour
 
             if (hit.collider.gameObject.tag == "Ship")
             {
-                Ship ship = hit.collider.gameObject.GetComponent<Ship>();
-                ship.Damage(Damage, DamageType);
+                if (hit.collider.gameObject.name.Contains("AI"))
+                {
+                    AIship aiship = hit.collider.gameObject.GetComponent<AIship>();
+                    aiship.Damage(Damage, DamageType);
+                }
+                else
+                {
+                    Ship ship = hit.collider.gameObject.GetComponent<Ship>();
+                    ship.Damage(Damage, DamageType);
+                }
+
             }
 
             Destroy(this.gameObject);
