@@ -56,7 +56,6 @@ public class Ship : MonoBehaviour {
 
         agent = GetComponent<NavMeshAgent>();
         cargo = GetComponent<Cargo>();
-        ComponentController = GetComponent<ComponentController>();
 
         armor.Add(1, 1f);
         armor.Add(2, 1f);

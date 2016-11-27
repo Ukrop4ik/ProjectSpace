@@ -18,7 +18,6 @@ public class Item : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     public bool isCreate = false;
     public bool isClone = false;
     Transform originparent;
-    Item item;
     public GameObject createditem;
     public string Type = "";
     public ComponentSlot itemslot;
@@ -38,7 +37,6 @@ public class Item : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
 
     void Start()
     {
-        item = GetComponent<Item>();
         GetComponent<Image>().sprite = itemsprite;
 
         switch (SlotType)
@@ -62,7 +60,7 @@ public class Item : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        item.GetComponent<CanvasGroup>().blocksRaycasts = false;
+        GetComponent<CanvasGroup>().blocksRaycasts = false;
         originparent = transform.parent;
         transform.SetParent(transform.parent.parent.parent);
         DropItem();
@@ -84,7 +82,7 @@ public class Item : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        item.GetComponent<CanvasGroup>().blocksRaycasts = true;
+        GetComponent<CanvasGroup>().blocksRaycasts = true;
 
         if (!eventData.pointerEnter)
         {
@@ -114,7 +112,7 @@ public class Item : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
 
         if (isCreate) return;
         if (isClone) return;
-        if (eventData.pointerEnter.gameObject.tag == "Inventory" && item.space != ItemSpaceEnum.Inventory) return;
+        if (eventData.pointerEnter.gameObject.tag == "Inventory" && space != ItemSpaceEnum.Inventory) return;
 
     }
 
@@ -140,7 +138,7 @@ public class Item : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
         transform.localScale = Vector3.one;
         transform.localPosition = Vector3.zero;
         slot.ship.ComponentController.CreateFromItem(this);
-        item.GetComponent<Image>().enabled = false;
+        GetComponent<Image>().enabled = false;
 
         itemslot = slot;
 

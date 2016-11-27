@@ -8,16 +8,11 @@ public class ComponentController : MonoBehaviour
     public List<ComponentSlot> Slots = new List<ComponentSlot>();
     public List<ShipComponent> ShipComponents = new List<ShipComponent>();
     public List<Weapon> ShipWeapons = new List<Weapon>();
-    Ship ship;
+    public Ship ship;
 
     void Start()
     {
         Slots.AddRange(gameObject.GetComponentsInChildren<ComponentSlot>());
-
-        if (gameObject.GetComponent<Ship>())
-        {
-            ship = gameObject.GetComponent<Ship>();
-        }
 
         InvokeRepeating("UpdateComponents", 0.2f, 0.1f);
 
