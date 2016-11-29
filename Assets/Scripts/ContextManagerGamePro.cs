@@ -10,7 +10,7 @@ public class ContextManagerGamePro : MonoBehaviour {
     public List<Ship> shiplist = new List<Ship>();
     public Vector3 navpoint;
     public Ship playership;
-    public AIship selectedship;
+    public Ship selectedship;
     public SpaceUI SpaceUi;
     public GameObject playershipobj;
     public ResourceManager ResourceManager;

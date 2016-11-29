@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Select : MonoBehaviour {
 
-    public AIship ship;
+    public Ship ship;
 
     public enum selecttype
     {
@@ -28,7 +28,7 @@ public class Select : MonoBehaviour {
             if (selectedobj.tag == "Ship")
             {
                 SelectType = selecttype.Ship;
-                ship = transform.parent.GetComponent<AIship>();
+                ship = transform.parent.GetComponent<Ship>();
             }
         }    
 

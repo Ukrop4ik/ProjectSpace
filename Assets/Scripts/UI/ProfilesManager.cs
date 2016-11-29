@@ -77,7 +77,7 @@ public class ProfilesManager : MonoBehaviour {
         SceneManager.LoadScene("Station");
     }
 
-    void CreateProfileObj(string name)
+   private void CreateProfileObj(string name)
     {
         GameObject profileobj = new GameObject();
         profileobj.name = "Profile";
@@ -88,7 +88,7 @@ public class ProfilesManager : MonoBehaviour {
  
     }
 
-    public class ProfileList
+    private class ProfileList
     {
         public List<string> profilesnames;
 

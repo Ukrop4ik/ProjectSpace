@@ -7,6 +7,7 @@ public class Weapon : MonoBehaviour {
     GameObject fire_point;
     [SerializeField]
     GameObject bullet;
+    public bool AiWeapon;
     public Transform target;
     public Transform LookPoint;
     public string Id;
@@ -55,6 +56,11 @@ public class Weapon : MonoBehaviour {
     }
     void Update()
     {
+
+        if (!ship)
+        {
+            ship = transform.parent.parent.GetComponent<ComponentSlot>().ship;
+        }
 
         reloadtime -= ReloadTimer(reloadtime, Time.deltaTime, ReloadMod);
 
@@ -113,8 +119,11 @@ public class Weapon : MonoBehaviour {
 
             if (Physics.Raycast(fire_point.transform.position, fwd, out hit, 1000, NpcMask))
             {
+
+
                 if (hit.collider.gameObject == target.gameObject)
                 {
+                    
                     test = true;
                     Shoot();
                 }

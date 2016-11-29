@@ -8,7 +8,9 @@ public class SaveManager : MonoBehaviour {
 
     public static void SaveProfile(string name, Ship ship)
     {
+        bool needcreatedefaulship = false;
         JsonData jsonData;
+        PlayerShipObj shiptosave;
         // заполнение профиля данными
         bool isTutorial = ContextManagerGamePro.Instance().Profile.isTutorial;
         bool isCheat = ContextManagerGamePro.Instance().Profile.isCheat;
@@ -35,32 +37,49 @@ public class SaveManager : MonoBehaviour {
         //заполнение данных корабля
         List<ItemInSlot> itemsinship = new List<ItemInSlot>();
         List<string> itemsincargo = new List<string>();
-        foreach (ComponentSlot slot in ship.ComponentController.Slots)
-        {
-            if (!slot.containitem) continue;
 
-            if (slot.SlotType == ComponentSlot.slotType.Weapon)
-            {
-                itemsinship.Add(new ItemInSlot(slot.weapon.Id, slot.slotnumber, slot.weapon.gameObject.GetComponent<ShipComponent>().DataPath));
-            }
-            else
-            {
-                itemsinship.Add(new ItemInSlot(slot.component.component_name, slot.slotnumber, slot.component.DataPath));
-            }
-            
-        }
-        foreach (Item item in ship.cargo.itemsincargo)
+        if (ContextManagerGamePro.Instance().playership != null)
         {
-            if (!item) continue;
-            itemsincargo.Add(item.ItemId);
+            foreach (ComponentSlot slot in ship.ComponentController.Slots)
+            {
+                if (!slot.containitem) continue;
+
+                if (slot.SlotType == ComponentSlot.slotType.Weapon)
+                {
+                    itemsinship.Add(new ItemInSlot(slot.weapon.Id, slot.slotnumber, slot.weapon.gameObject.GetComponent<ShipComponent>().DataPath));
+                }
+                else
+                {
+                    itemsinship.Add(new ItemInSlot(slot.component.component_name, slot.slotnumber, slot.component.DataPath));
+                }
+
+            }
+            foreach (Item item in ship.cargo.itemsincargo)
+            {
+                if (!item) continue;
+                itemsincargo.Add(item.ItemId);
+            }
+            shiptosave = new PlayerShipObj(ship.itemID, itemsinship, itemsincargo);
         }
-        PlayerShipObj shiptosave = new PlayerShipObj(ship.itemID, itemsinship, itemsincargo);
+        else
+        {
+            needcreatedefaulship = true;
+            shiptosave = DefaultShip();
+        }
 
         ObjToSave obj = new ObjToSave(name, _day, stats, items, ammos, PlayerShipsList, shiptosave, DateTime.Now, false, isTutorial, isCheat);
 
         jsonData = JsonMapper.ToJson(obj);
 
         File.WriteAllText(Application.persistentDataPath + "/" + name + ".json", jsonData.ToString());
+
+        if (needcreatedefaulship)
+        {
+            Profile profile = ContextManagerGamePro.Instance().Profile;
+            JsonData data = DataLoad(profile);
+
+            CreateShipFromFile(data);
+        }
 
         Debug.Log("Profile Save - " + "Name: " + obj.ProfileName + " path: " + Application.persistentDataPath + "/" + name + ".json");
     }
@@ -70,13 +89,21 @@ public class SaveManager : MonoBehaviour {
 
         //загрузка данных профиля
         Profile profile = ContextManagerGamePro.Instance().Profile;
-        string jsonstring = File.ReadAllText(Application.persistentDataPath + "/" + profile.profilename + ".json");
-        JsonData data = JsonMapper.ToObject(jsonstring);
+        JsonData data = DataLoad(profile);
         profile.Day = (int)data["Day"];
         profile.credits = (int)data["ProfileStats"][0];
         profile.fame = (int)data["ProfileStats"][1];
+        CreateShipFromFile(data);
+    }
 
+    private static JsonData DataLoad(Profile profile)
+    {
+        string jsonstring = File.ReadAllText(Application.persistentDataPath + "/" + profile.profilename + ".json");
+        return JsonMapper.ToObject(jsonstring);
+    }
 
+    private static void CreateShipFromFile(JsonData data)
+    {
         //загрузка текущего корабля
         if (data["PlayerShip"]["ShipId"].ToString() != "emptyID")
         {
@@ -101,8 +128,8 @@ public class SaveManager : MonoBehaviour {
                 {
                     if (slot.slotnumber == item.slotnumber)
                     {
-                         slot.ship = shipscript;
-                         GameObject _item = Instantiate(Resources.Load(item.DataPath + item.Id) as GameObject);
+                        slot.ship = shipscript;
+                        GameObject _item = Instantiate(Resources.Load(item.DataPath + item.Id) as GameObject);
                         _item.transform.SetParent(slot.transform);
                         _item.transform.SetSiblingIndex(0);
                         _item.GetComponent<Item>().EqipItem(slot);
@@ -114,7 +141,6 @@ public class SaveManager : MonoBehaviour {
             UI.ship = shipscript;
             ship.transform.SetParent(UI.PlayerActualShip.transform);
         }
- 
     }
 
     public static void CreateEmptyProfile(string name)
@@ -125,20 +151,24 @@ public class SaveManager : MonoBehaviour {
         List<ItemObj> items = new List<ItemObj>();
         Dictionary<string, int> ammos = new Dictionary<string, int>();
         List<string> PlayerShipsList = new List<string>();
-        List<ItemInSlot> itemsinship = new List<ItemInSlot>();
-        itemsinship.Add(new ItemInSlot("SmallKinetikTurretMK1", 3, "ShipComponent/"));
-        itemsinship.Add(new ItemInSlot("SmallKinetikTurretMK1", 4, "ShipComponent/"));
-        List<string> cargoitems = new List<string>();
-        PlayerShipObj shipempty = new PlayerShipObj("starttership", itemsinship, cargoitems);
-        ObjToSave obj = new ObjToSave(name, 0, stats, items, ammos, PlayerShipsList, shipempty, DateTime.Now, true, true, false);
+        ObjToSave obj = new ObjToSave(name, 0, stats, items, ammos, PlayerShipsList, DefaultShip(), DateTime.Now, true, true, false);
         JsonData jsonData = JsonMapper.ToJson(obj);
         File.WriteAllText(Application.persistentDataPath + "/" + name + ".json", jsonData.ToString());
         Debug.Log("Profile Save - " + "Name: " + obj.ProfileName + " path: " + Application.persistentDataPath + "/" + name + ".json");
     }
 
+    private static PlayerShipObj DefaultShip()
+    {
+        List<ItemInSlot> itemsinship = new List<ItemInSlot>();
+        List<string> cargoitems = new List<string>();
+        itemsinship.Add(new ItemInSlot("SmallKinetikTurretMK1", 3, "ShipComponent/"));
+        itemsinship.Add(new ItemInSlot("SmallKinetikTurretMK1", 4, "ShipComponent/"));
+        return new PlayerShipObj("starttership", itemsinship, cargoitems);
+    }
+
     //конструкторы данных профиля
     #region "конструкторы данных профиля"
-    public class ObjToSave
+    private class ObjToSave
     {
 
         public string ProfileName = "";
@@ -174,7 +204,7 @@ public class SaveManager : MonoBehaviour {
         }       
     }
 
-    public class ItemObj
+    private class ItemObj
     {
         public string itemID;
 
@@ -190,7 +220,7 @@ public class SaveManager : MonoBehaviour {
 
     //конструкторы данных корабля
     #region "конструкторы данных корабля"
-    public class PlayerShipObj
+    private class PlayerShipObj
     {
         public string ShipId;
         public List<ItemInSlot> Items;
@@ -209,7 +239,7 @@ public class SaveManager : MonoBehaviour {
         }
     }
 
-    public class ItemInSlot
+    private class ItemInSlot
     {
         public string Id;
         public int slotnumber;
