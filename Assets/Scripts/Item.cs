@@ -33,7 +33,9 @@ public class Item : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     public SlotTypeEnum SlotType;
     public string itemclass;
 
-
+    public bool isStackable = false;
+    public int stackmax = 0;
+    public int stackvalue = 1;
 
     void Start()
     {
@@ -62,7 +64,14 @@ public class Item : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     {
         GetComponent<CanvasGroup>().blocksRaycasts = false;
         originparent = transform.parent;
-        transform.SetParent(transform.parent.parent.parent);
+        if (isStackable && stackvalue > 1)
+        {
+            TakeFromStack(eventData.pointerDrag.GetComponent<Item>(), eventData.pointerEnter);
+        }
+        else
+        {
+            transform.SetParent(transform.parent.parent.parent);
+        }
         DropItem();
 
     }
@@ -205,5 +214,20 @@ public class Item : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
         GameObject tooltip = transform.root.transform.Find("ToolTip").gameObject;
         tooltip.GetComponent<RectTransform>().pivot = new Vector2(0f, 1f);
         tooltip.SetActive(false);
+    }
+
+    public void TakeFromStack(Item item, GameObject slot)
+    {
+        Debug.Log(item.ItemId + " " + slot);
+        GameObject g = Instantiate(Resources.Load(item.DataPath + item.ItemId) as GameObject);
+        g.name = item.ItemId;
+        Item i = g.GetComponent<Item>();
+        i.stackvalue = item.stackvalue;
+        item.stackvalue = 1;
+        g.transform.SetParent(slot.transform.parent);
+        g.transform.localScale = Vector3.one;
+        i.stackvalue--;
+        transform.SetParent(transform.parent.parent.parent);
+
     }
 }
