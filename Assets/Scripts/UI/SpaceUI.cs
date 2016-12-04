@@ -5,6 +5,7 @@ using System.Collections.Generic;
 
 public class SpaceUI : MonoBehaviour {
 
+    public RadioMessage RadioMessage;
     public GameObject bar;
     public Camera minimapcamera;
     public GameObject selectshippanel;
@@ -12,7 +13,7 @@ public class SpaceUI : MonoBehaviour {
     public GameObject WeaponButtonPrefab;
     public GameObject SpellPanelWeapon;
     public Text navText;
-    public LootPanel lootpanel;
+    public GameObject WinPanel;
     public Button lootpanelbutton;
 
     public List<Ship> navlistships = new List<Ship>();
@@ -246,24 +247,7 @@ public class SpaceUI : MonoBehaviour {
     public void ClosePanel(GameObject panel)
     {
         panel.SetActive(false);
-
-        if (lootpanel.conteiner)
-        {
-            if (lootpanel.lootlistpanel.transform.childCount > 0)
-            {
-                int count = lootpanel.lootlistpanel.transform.childCount;
-
-                for (int i = 0; i < count; i++)
-                {
-                    Debug.Log(lootpanel.lootlistpanel.transform.childCount);
-                    lootpanel.lootlistpanel.transform.GetChild(0).SetParent(lootpanel.conteiner.transform);
-                }
-            }
-            else
-            {
-                Destroy(lootpanel.conteiner.gameObject);
-            }
-        }
+        
     }
 
     public void BackToStation()

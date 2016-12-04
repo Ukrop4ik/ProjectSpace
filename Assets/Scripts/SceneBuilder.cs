@@ -7,4 +7,6 @@ public class SceneBuilder : MonoBehaviour {
     public int SceneLevel;
     public int SceneFame;
     public WinConditionEnum condition;
+
+
 }

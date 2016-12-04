@@ -3,8 +3,9 @@ using System.Collections;
 
 public enum WinConditionEnum  {
 
-    KillAll,
+    KillAll = 1,
     KillOne,
-    MoveToPoint
+    MoveToPoint,
+    Custom
 
 }

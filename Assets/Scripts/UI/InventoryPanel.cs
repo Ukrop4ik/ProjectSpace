@@ -54,33 +54,26 @@ public class InventoryPanel : MonoBehaviour, IDropHandler
         foreach (Item i in items)
         {
             if (!i.isStackable || i.stackvalue == i.stackmax) result.Add(i);
-
-            if (bucket.ContainsKey(i.ItemId) && !result.Contains(i))
+            Item value;
+            if (bucket.TryGetValue(i.ItemId, out value))
             {
-                foreach (KeyValuePair<string, Item> kvp in bucket)
+                value.stackvalue += i.stackvalue;
+
+                int endvalue;
+
+                if (value.stackvalue - value.stackmax >= 0)
                 {
-                    if (kvp.Key == i.ItemId)
-                    {
-                        kvp.Value.stackvalue += i.stackvalue;
-
-                        int endvalue;
-
-                        if (kvp.Value.stackvalue - kvp.Value.stackmax >= 0)
-                        {
-                            endvalue = kvp.Value.stackvalue - kvp.Value.stackmax;
-                            i.stackvalue = i.stackmax;
-                            result.Add(i);
-                            kvp.Value.stackvalue = endvalue;
-                        }
-                        else
-                        {
-                            i.stackvalue = 0;
-                            result.Add(i);
-                        }
-
-                    }
+                    endvalue = value.stackvalue - value.stackmax;
+                    i.stackvalue = i.stackmax;
+                    result.Add(i);
+                    value.stackvalue = endvalue;
                 }
-            } 
+                else
+                {
+                    i.stackvalue = 0;
+                    result.Add(i);
+                }
+            }
             else
             {
                 bucket.Add(i.ItemId, i);

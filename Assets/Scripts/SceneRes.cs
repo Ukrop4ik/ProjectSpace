@@ -6,19 +6,20 @@ public class SceneRes : MonoBehaviour {
 
     public List<GameObject> enemis = new List<GameObject>();
     SceneBuilder scene;
-    WinConditionEnum condition;
+    public List<Item> dropitems = new List<Item>();
+    public SpaceUI spaceUI;
 
     void Start ()
     {
         scene = gameObject.GetComponent<SceneBuilder>();
-        condition = scene.condition;
         LoadBattleUI();
         InvokeRepeating("WinCondition", 0, 1f);
         InvokeRepeating("Defeat", 0, 1f);
     }
     void LoadBattleUI()
     {
-        Instantiate(Resources.Load("SpaceUI") as GameObject);
+        GameObject o = Instantiate(Resources.Load("SpaceUI") as GameObject);
+        spaceUI = o.GetComponent<SpaceUI>();
         CreatePlayership();
     }
     void CreatePlayership()
@@ -30,10 +31,14 @@ public class SceneRes : MonoBehaviour {
     }
     public void WinCondition()
     {
-        switch (condition)
+
+        switch (scene.condition)
         {
             case WinConditionEnum.KillAll:
                 KillAllCondition();
+                break;
+
+            case WinConditionEnum.Custom:
                 break;
             default:
                 break;
@@ -45,14 +50,9 @@ public class SceneRes : MonoBehaviour {
         ContextManagerGamePro.Instance().PreviousScene = scene.SceneName;
         SceneManager.LoadScene("Station");
     }
-    void Win()
+    public void Win()
     {
-        GameObject obj = GameObject.Find("GameContext");
-        ContextManagerGamePro.Instance().playership.transform.SetParent(obj.transform.GetChild(0).transform);
-        ContextManagerGamePro.Instance().navpoint = Vector3.zero;
-        ContextManagerGamePro.Instance().PreviousScene = scene.SceneName;
-        ContextManagerGamePro.Instance().Profile.fame += scene.SceneFame;
-        SceneManager.LoadScene("Station");
+        spaceUI.WinPanel.SetActive(true);
     }
     void KillAllCondition()
     {
@@ -60,5 +60,9 @@ public class SceneRes : MonoBehaviour {
         {
             Win();
         }
+    }
+    void CustomCondition()
+    {
+
     }
 }

@@ -6,6 +6,7 @@ using System.Collections;
 public class Localization : MonoBehaviour
 {
     public bool isRuntime;
+    public bool isReverse;
 
     string langType;
     public string Id;
@@ -23,6 +24,7 @@ public class Localization : MonoBehaviour
 
     }
 
+    [ContextMenu("Create")]
     public void CreateText()
     {
         langType = PlayerPrefs.GetString("Lang");
@@ -30,11 +32,27 @@ public class Localization : MonoBehaviour
         switch (langType)
         {
             case "English":
-                textfield.text = ContextManagerGamePro.Instance().ResourceManager.LocalizationData["Localization"][Id][langType].ToString();
+                if (isReverse)
+                {
+        
+                    textfield.text = ContextManagerGamePro.Instance().ResourceManager.LocalizationData["Localization"][textfield.text][langType].ToString();
+                }
+                else
+                {
+                    textfield.text = ContextManagerGamePro.Instance().ResourceManager.LocalizationData["Localization"][Id][langType].ToString();
+                }
+                
                 break;
 
             case "Russian":
-                textfield.text = ContextManagerGamePro.Instance().ResourceManager.LocalizationData["Localization"][Id][langType].ToString();
+                if (isReverse)
+                {
+                    textfield.text = ContextManagerGamePro.Instance().ResourceManager.LocalizationData["Localization"][textfield.text][langType].ToString();
+                }
+                else
+                {
+                    textfield.text = ContextManagerGamePro.Instance().ResourceManager.LocalizationData["Localization"][Id][langType].ToString();
+                }        
                 break;
 
             default:
@@ -46,7 +64,11 @@ public class Localization : MonoBehaviour
     public void OnEnable()
     {
         if (!isRuntime) return;
-
+        if (!ContextManagerGamePro.Instance().loca.Contains(this))
+        {
+            ContextManagerGamePro.Instance().loca.Add(this);
+        }
+       
         CreateText();
     }
 

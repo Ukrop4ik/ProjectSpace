@@ -53,6 +53,8 @@ public class Ship : MonoBehaviour {
     public Ship playership;
     private bool isPlayer;
     private SceneRes sceneres;
+
+    public string actiongroup;
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();

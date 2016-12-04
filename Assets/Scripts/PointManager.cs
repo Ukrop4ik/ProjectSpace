@@ -58,10 +58,6 @@ public class PointManager : MonoBehaviour {
                 ContextManagerGamePro.Instance().selectedship = select.ship;
                 ContextManagerGamePro.Instance().SelectedType = Select.selecttype.Ship;
                 break;
-
-            case Select.selecttype.Conteiner:
-                select.gameObject.GetComponent<CargoContainer>().Open();
-                break;
              default:
                 break;
         }
