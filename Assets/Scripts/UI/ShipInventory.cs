@@ -70,6 +70,7 @@ public class ShipInventory : MonoBehaviour
             stationUI.ship.cargo.itemsincargo.Remove(item.GetComponent<Item>());
             item.transform.localScale = Vector3.one;
             item.transform.rotation = Quaternion.Euler(0, 0, 0);
+            stationUI.stationinventory.transform.GetChild(0).GetComponent<InventoryPanel>().CreateStack();
         }
 
     }

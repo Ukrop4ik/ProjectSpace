@@ -140,7 +140,7 @@ public class StationUI : MonoBehaviour {
         Debug.Log(shipcontextobj.name);
         PlayerActualShip.transform.GetChild(0).transform.SetParent(shipcontextobj.transform);
 
-        SceneManager.LoadScene("SmallStrike");
+        SceneManager.LoadScene("Tutorial");
     }
 
 }

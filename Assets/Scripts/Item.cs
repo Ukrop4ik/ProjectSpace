@@ -116,7 +116,11 @@ public class Item : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
             }
             transform.SetParent(eventData.pointerEnter.gameObject.transform.GetChild(0).transform);
             transform.localScale = Vector3.one;
-            return;
+            if (eventData.pointerEnter.gameObject.GetComponent<InventoryPanel>().stack == true)
+            {
+                eventData.pointerEnter.gameObject.GetComponent<InventoryPanel>().CreateStack();
+            }
+                return;
         }
 
         if (isCreate) return;

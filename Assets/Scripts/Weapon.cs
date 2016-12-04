@@ -7,7 +7,6 @@ public class Weapon : MonoBehaviour {
     GameObject fire_point;
     [SerializeField]
     GameObject bullet;
-    public bool AiWeapon;
     public Transform target;
     public Transform LookPoint;
     public string Id;

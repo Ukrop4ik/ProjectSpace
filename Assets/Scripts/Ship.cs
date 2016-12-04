@@ -67,47 +67,9 @@ public class Ship : MonoBehaviour {
 
         HP = maxHP;
 
-        if (transform.FindChild("CargoContainer"))
-        {
-            conteiner = transform.FindChild("CargoContainer").gameObject;
-        }
-
-
-        if (!isPlayerShip)
-        {
-
-            sceneres = GameObject.Find("Scene").GetComponent<SceneRes>();
-            sceneres.enemis.Add(this.gameObject);
-            InvokeRepeating("SlowUpdate", 0, 0.2f);
-        }
-
     }
 
-    void SlowUpdate()
-    {
-        if (ContextManagerGamePro.Instance().playership != null && !playership)
-        {
-            playership = ContextManagerGamePro.Instance().playership;
-            isPlayer = true;
-        }
-        else if (playership == null)
-        {
-            isPlayer = false;
-        }
-
-        if (isPlayer)
-        {
-            agent.destination = playership.transform.position;
-
-            foreach (Weapon weapon in ComponentController.ShipWeapons)
-            {
-                Debug.Log(weapon.Id);
-                weapon.AiWeapon = true;
-                weapon.target = playership.transform;
-            }
-
-        }
-    }
+    
 
     void Update()
     {
@@ -184,12 +146,11 @@ public class Ship : MonoBehaviour {
                 {
                     navtarget = ContextManagerGamePro.Instance().navpoint;
                 }
-                if (navtarget != null)
-                {
-                    agent.destination = navtarget;
-                }
             }
-
+            if (navtarget != null)
+            {
+                agent.destination = navtarget;
+            }
 
             if (inRange(BrakingDistance(agent.remainingDistance, brakeAcc)))
             {
@@ -273,11 +234,6 @@ public class Ship : MonoBehaviour {
     void OnDestroy()
     {
 
-        if (!isPlayerShip)
-        {
-            sceneres.enemis.Remove(this.gameObject);
-            return;
-        }
         ContextManagerGamePro.Instance().playership = null;
        // conteiner.SetActive(true);
        // conteiner.transform.SetParent(null);

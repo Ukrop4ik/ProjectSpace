@@ -259,5 +259,9 @@ public class SpaceUI : MonoBehaviour {
     }
 
 
+    public void RegenShieldButton()
+    {
+        ContextManagerGamePro.Instance().playership.shieldregenbool = !ContextManagerGamePro.Instance().playership.shieldregenbool;
+    }
 
 }

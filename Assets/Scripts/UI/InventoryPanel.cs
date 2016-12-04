@@ -9,6 +9,7 @@ public class InventoryPanel : MonoBehaviour, IDropHandler
     public GameObject contentpanel;
     public InventoryTypeEnum Type;
     public bool isCanDropped = true;
+    public bool stack = false;
     void Start()
     {
 
@@ -25,6 +26,7 @@ public class InventoryPanel : MonoBehaviour, IDropHandler
                     eventData.pointerDrag.transform.SetParent(contentpanel.transform);
                     eventData.pointerDrag.GetComponent<Item>().space = ItemSpaceEnum.Inventory;
                     eventData.pointerDrag.GetComponent<Item>().isClone = false;
+                    CreateStack();
 
                 }
             }
@@ -85,5 +87,10 @@ public class InventoryPanel : MonoBehaviour, IDropHandler
             if (i.stackvalue == 0) Destroy(i.gameObject);
         }
 
+    }
+
+    public void OnEnable()
+    {
+        CreateStack();
     }
 }
