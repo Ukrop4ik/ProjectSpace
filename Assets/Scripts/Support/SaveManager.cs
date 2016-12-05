@@ -12,7 +12,9 @@ public class SaveManager : MonoBehaviour {
         JsonData jsonData;
         PlayerShipObj shiptosave;
         // заполнение профиля данными
-        bool isTutorial = ContextManagerGamePro.Instance().Profile.isTutorial;
+        bool isTutorialPart1 = ContextManagerGamePro.Instance().Profile.isTutorialPart1;
+        bool isTutorialPart2 = ContextManagerGamePro.Instance().Profile.isTutorialPart2;
+        bool isTutorialPart3 = ContextManagerGamePro.Instance().Profile.isTutorialPart3;
         bool isCheat = ContextManagerGamePro.Instance().Profile.isCheat;
         List <int> stats = new List<int>();
         stats.Add(ContextManagerGamePro.Instance().Profile.credits);
@@ -67,7 +69,7 @@ public class SaveManager : MonoBehaviour {
             shiptosave = DefaultShip();
         }
 
-        ObjToSave obj = new ObjToSave(name, _day, stats, items, ammos, PlayerShipsList, shiptosave, DateTime.Now, false, isTutorial, isCheat);
+        ObjToSave obj = new ObjToSave(name, _day, stats, items, ammos, PlayerShipsList, shiptosave, DateTime.Now, false, isTutorialPart1, isTutorialPart2, isTutorialPart3, isCheat);
 
         jsonData = JsonMapper.ToJson(obj);
 
@@ -93,6 +95,9 @@ public class SaveManager : MonoBehaviour {
         profile.Day = (int)data["Day"];
         profile.credits = (int)data["ProfileStats"][0];
         profile.fame = (int)data["ProfileStats"][1];
+        profile.isTutorialPart1 = (bool)data["isTutorialPart1"];
+        profile.isTutorialPart2 = (bool)data["isTutorialPart2"];
+        profile.isTutorialPart3 = (bool)data["isTutorialPart3"];
         CreateShipFromFile(data);
     }
 
@@ -151,7 +156,7 @@ public class SaveManager : MonoBehaviour {
         List<ItemObj> items = new List<ItemObj>();
         Dictionary<string, int> ammos = new Dictionary<string, int>();
         List<string> PlayerShipsList = new List<string>();
-        ObjToSave obj = new ObjToSave(name, 0, stats, items, ammos, PlayerShipsList, DefaultShip(), DateTime.Now, true, true, false);
+        ObjToSave obj = new ObjToSave(name, 0, stats, items, ammos, PlayerShipsList, DefaultShip(), DateTime.Now, true, true, true, true, false);
         JsonData jsonData = JsonMapper.ToJson(obj);
         File.WriteAllText(Application.persistentDataPath + "/" + name + ".json", jsonData.ToString());
         Debug.Log("Profile Save - " + "Name: " + obj.ProfileName + " path: " + Application.persistentDataPath + "/" + name + ".json");
@@ -173,7 +178,9 @@ public class SaveManager : MonoBehaviour {
 
         public string ProfileName = "";
         public bool isNewProfile;
-        public bool isTutorial;
+        public bool isTutorialPart1;
+        public bool isTutorialPart2;
+        public bool isTutorialPart3;
         public bool isCheat;
         public int Day;
         public List<int> ProfileStats;
@@ -187,11 +194,13 @@ public class SaveManager : MonoBehaviour {
 
         }
 
-        public ObjToSave(string profilename, int Day, List<int> stats, List<ItemObj> items, Dictionary<string, int> ammos, List<string> PlayerShipsList, PlayerShipObj playership, DateTime savetime, bool isNew, bool isTutorial, bool isCheat)
+        public ObjToSave(string profilename, int Day, List<int> stats, List<ItemObj> items, Dictionary<string, int> ammos, List<string> PlayerShipsList, PlayerShipObj playership, DateTime savetime, bool isNew, bool isTutorialPart1, bool isTutorialPart2, bool isTutorialPart3, bool isCheat)
         {
             this.ProfileName = profilename;
             this.isNewProfile = isNew;
-            this.isTutorial = isTutorial;
+            this.isTutorialPart1 = isTutorialPart1;
+            this.isTutorialPart2 = isTutorialPart2;
+            this.isTutorialPart3 = isTutorialPart3;
             this.isCheat = isCheat; 
             this.ProfileStats = stats;
             this.Items = items;

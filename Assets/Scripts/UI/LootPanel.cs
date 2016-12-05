@@ -14,7 +14,7 @@ public class LootPanel : MonoBehaviour
     void OnEnable()
     {
 
-        Time.timeScale = 0;
+
 
         sceneres = GameObject.Find("Scene").GetComponent<SceneRes>();
 
@@ -24,9 +24,15 @@ public class LootPanel : MonoBehaviour
             i.transform.SetParent(lootlistpanel.transform);
             i.transform.localScale = Vector3.one;
         }
+
+        Time.timeScale = 0;
     }
 
     public void OnDisable()
+    {
+
+    }
+    public void OnFinal()
     {
         Time.timeScale = 1;
 

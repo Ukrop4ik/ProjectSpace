@@ -35,6 +35,47 @@
 	  "ShieldGeneratorSmallMk1_info":{
          "English":"EnglishText",
          "Russian":"Гражданская модель генератора защитного поля. Предназначен для защиты корпуса от незначительных повреждений"
+      },
+	  "Aurora_Station_name":{
+         "English":"\"Aurora\" Station",
+         "Russian":"Станция \"Аврора\""
+      },
+	  "aurora_dialog_part1":{
+         "English":"EnglishText",
+         "Russian":"Пробуждение, приветствие станции"
+      },
+	  "aurora_dialog_part1_pilotanswer1":{
+         "English":"EnglishText",
+         "Russian":"Ответ героя на aurora_dialog_part1"
+      },
+	  "aurora_dialog_part2":{
+         "English":"EnglishText",
+         "Russian":"Ответ на реплику героя часть 1"
+      },
+	  "aurora_dialog_part1_pilotanswer2":{
+         "English":"EnglishText",
+         "Russian":"Ответ героя на aurora_dialog_part2"
+      },
+	  "aurora_dialog_part3":{
+         "English":"EnglishText",
+         "Russian":"Ответ на реплику героя часть 2"
+      },
+	  "aurora_dialog_part1_pilotanswer3":{
+         "English":"EnglishText",
+         "Russian":"Ответ героя на aurora_dialog_part3"
+      },
+	  "aurora_dialog_part_end":{
+         "English":"EnglishText",
+         "Russian":"Завершающая реплика, начинаем бой"
+      },
+	  "aurora_dialog_part1_pilotanswer_end":{
+         "English":"EnglishText",
+         "Russian":"Ответ героя на aurora_dialog_end"
+      },
+	  "aurora_dialog_part1_pilotanswer_forceEnd":{
+         "English":"EnglishText",
+         "Russian":"Завершение диалога, преход в бой"
       }
+	  
    }
 }

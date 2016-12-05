@@ -26,4 +26,17 @@ public class StaticMetods : MonoBehaviour {
     {
         return ship.itemID;
     }
+
+    public void SetProfileTutorial1(bool b)
+    {
+        ContextManagerGamePro.Instance().Profile.isTutorialPart1 = b;
+    }
+    public void SetProfileTutorial2(bool b)
+    {
+        ContextManagerGamePro.Instance().Profile.isTutorialPart2 = b;
+    }
+    public void SetProfileTutorial3(bool b)
+    {
+        ContextManagerGamePro.Instance().Profile.isTutorialPart3 = b;
+    }
 }

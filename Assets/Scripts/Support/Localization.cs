@@ -34,14 +34,14 @@ public class Localization : MonoBehaviour
             case "English":
                 if (isReverse)
                 {
-        
+
                     textfield.text = ContextManagerGamePro.Instance().ResourceManager.LocalizationData["Localization"][textfield.text][langType].ToString();
                 }
                 else
                 {
                     textfield.text = ContextManagerGamePro.Instance().ResourceManager.LocalizationData["Localization"][Id][langType].ToString();
                 }
-                
+
                 break;
 
             case "Russian":
@@ -52,13 +52,19 @@ public class Localization : MonoBehaviour
                 else
                 {
                     textfield.text = ContextManagerGamePro.Instance().ResourceManager.LocalizationData["Localization"][Id][langType].ToString();
-                }        
+                }
                 break;
 
             default:
                 break;
         }
     }
+    [ContextMenu("Create")]
+    public void CreateText(string ID)
+    {
+        langType = PlayerPrefs.GetString("Lang");
+        textfield.text = ContextManagerGamePro.Instance().ResourceManager.LocalizationData["Localization"][ID][langType].ToString();
+    } 
 
     // This function is called when the object becomes enabled and active
     public void OnEnable()

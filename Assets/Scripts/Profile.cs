@@ -5,7 +5,9 @@ public class Profile : MonoBehaviour {
 
     public bool created = false;
     public bool isNew = true;
-    public bool isTutorial = true;
+    public bool isTutorialPart1 = true;
+    public bool isTutorialPart2 = true;
+    public bool isTutorialPart3 = true;
     public bool isCheat = false;
     public string profilename = "";
     public int credits = 0;
