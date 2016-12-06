@@ -44,7 +44,7 @@ public class ProfilesManager : MonoBehaviour {
         // добавление в список профилей, либо создание нового списка, если такой отсутствует
         if (!File.Exists(Application.persistentDataPath + "/profilelist.json"))
         {
-            ProfileList _profiles = new ProfileList(new List<string>() { text.text });
+            ProfileList _profiles = new ProfileList(new List<string>() {  });
             JsonData _jsonDataProfiles = JsonMapper.ToJson(_profiles);
             File.WriteAllText(Application.persistentDataPath + "/profilelist.json", _jsonDataProfiles.ToString());
         }
@@ -68,6 +68,27 @@ public class ProfilesManager : MonoBehaviour {
             SaveManager.CreateEmptyProfile(text.text);
         
 
+    }
+
+    public void DeleteProfile(Text text)
+    {
+
+        string jsonstring = File.ReadAllText(Application.persistentDataPath + "/profilelist.json");
+        JsonData jsonDataProfiles = JsonMapper.ToObject(jsonstring);
+
+        List<string> newlist = new List<string>();
+
+        for (int i = 0; i < jsonDataProfiles["profilesnames"].Count; i++)
+        {
+            newlist.Add(jsonDataProfiles["profilesnames"][i].ToString());
+        }
+
+        newlist.Remove(text.text);
+
+        ProfileList profiles = new ProfileList(newlist);
+        jsonDataProfiles = JsonMapper.ToJson(profiles);
+        File.WriteAllText(Application.persistentDataPath + "/profilelist.json", jsonDataProfiles.ToString());
+        File.Delete(Application.persistentDataPath + "/" + text.text + ".json");
     }
 
     public void ProfileButtonClick(Text buttontext)

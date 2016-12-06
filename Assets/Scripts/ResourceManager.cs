@@ -12,14 +12,14 @@ public class ResourceManager : MonoBehaviour
 
     void Start()
     {
-        CreateLocalizationFile();
+       // CreateLocalizationFile();
         LoadLocalization();
     }
 
     [ContextMenu("LoadLocal")]
     public void LoadLocalization()
     {
-        string jsonstring = File.ReadAllText(Application.persistentDataPath + "/Localization.json");
+        string jsonstring = File.ReadAllText(Application.dataPath + "/StreamingAssets" + "/Localization.json");
         LocalizationData = JsonMapper.ToObject(jsonstring);
 
    

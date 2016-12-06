@@ -10,11 +10,10 @@ public class Localization : MonoBehaviour
 
     string langType;
     public string Id;
-    Text textfield;
 
     void Start()
     {
-        textfield = GetComponent<Text>();
+        
 
         if (!isRuntime)
         {
@@ -28,7 +27,7 @@ public class Localization : MonoBehaviour
     public void CreateText()
     {
         langType = PlayerPrefs.GetString("Lang");
-
+        Text textfield = GetComponent<Text>();
         switch (langType)
         {
             case "English":
@@ -62,6 +61,7 @@ public class Localization : MonoBehaviour
     [ContextMenu("Create")]
     public void CreateText(string ID)
     {
+        Text textfield = GetComponent<Text>();
         langType = PlayerPrefs.GetString("Lang");
         textfield.text = ContextManagerGamePro.Instance().ResourceManager.LocalizationData["Localization"][ID][langType].ToString();
     } 

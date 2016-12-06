@@ -1,8 +1,20 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections;
+using System.Diagnostics;
 
 public class StaticMetods : MonoBehaviour {
+
+    public void DestroyObj(GameObject obj)
+    {
+        Destroy(obj);
+    }
+
+    [ContextMenu("OpenProfileFolder")]
+    public void OpenProfileFolder()
+    {
+        Process.Start(Application.persistentDataPath);
+    }
 
     public void UseButtonSwither(GameObject obj)
     {
