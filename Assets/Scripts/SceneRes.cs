@@ -8,6 +8,8 @@ public class SceneRes : MonoBehaviour {
     SceneBuilder scene;
     public List<Item> dropitems = new List<Item>();
     public SpaceUI spaceUI;
+    Transform playershiptransform;
+    bool win = false;
 
     void Start ()
     {
@@ -25,13 +27,13 @@ public class SceneRes : MonoBehaviour {
     void CreatePlayership()
     {
         GameObject shipcontextobj = GameObject.Find("GameContext").transform.GetChild(0).gameObject;
-        Transform shipT = shipcontextobj.transform.GetChild(0);
-        shipcontextobj.transform.GetChild(0).transform.SetParent(null);    
-        shipT.position = Vector3.zero;
+        playershiptransform = shipcontextobj.transform.GetChild(0);
+        shipcontextobj.transform.GetChild(0).transform.SetParent(null);
+        playershiptransform.position = Vector3.zero;
     }
     public void WinCondition()
     {
-
+        if (win) return;
         switch (scene.condition)
         {
             case WinConditionEnum.KillAll:
@@ -52,7 +54,10 @@ public class SceneRes : MonoBehaviour {
     }
     public void Win()
     {
+        win = true;
+        Debug.Log("Win");
         spaceUI.WinPanel.SetActive(true);
+        spaceUI.WinPanel.GetComponent<LootPanel>().Drop();
     }
     void KillAllCondition()
     {
@@ -64,5 +69,10 @@ public class SceneRes : MonoBehaviour {
     void CustomCondition()
     {
 
+    }
+
+    public void CreateUiArrow(GameObject ship)
+    {
+        spaceUI.CreateArrow(playershiptransform.gameObject, ship);
     }
 }

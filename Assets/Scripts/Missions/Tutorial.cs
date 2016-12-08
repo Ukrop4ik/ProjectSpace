@@ -35,6 +35,7 @@ public class Tutorial : Mission {
 
     void Win()
     {
+        CancelInvoke();
         MissionRes.Win();
     }
 

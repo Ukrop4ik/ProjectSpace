@@ -233,7 +233,7 @@ public class Ship : MonoBehaviour {
 
     void OnDestroy()
     {
-
+        if (isPlayerShip)
         ContextManagerGamePro.Instance().playership = null;
        // conteiner.SetActive(true);
        // conteiner.transform.SetParent(null);

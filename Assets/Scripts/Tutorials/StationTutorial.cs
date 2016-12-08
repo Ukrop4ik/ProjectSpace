@@ -21,12 +21,12 @@ public class StationTutorial : MonoBehaviour {
         }
         else if (ContextManagerGamePro.Instance().Profile.isTutorialPart2)
         {
-            tutorialdialog2.SetActive(true);
+           // tutorialdialog2.SetActive(true);
             return;
         }
         else if (ContextManagerGamePro.Instance().Profile.isTutorialPart3)
         {
-            tutorialdialog3.SetActive(true);
+           // tutorialdialog3.SetActive(true);
             return;
         }
     }

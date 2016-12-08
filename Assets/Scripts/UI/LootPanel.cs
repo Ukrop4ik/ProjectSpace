@@ -10,22 +10,15 @@ public class LootPanel : MonoBehaviour
     public CargoContainer conteiner;
     public SceneRes sceneres;
 
+    void Start()
+    {
+        
+    }
+
 
     void OnEnable()
     {
-
-
-
-        sceneres = GameObject.Find("Scene").GetComponent<SceneRes>();
-
-        foreach (Item item in sceneres.dropitems)
-        {
-            GameObject i = Instantiate(Resources.Load(item.DataPath + item.ItemId)) as GameObject;
-            i.transform.SetParent(lootlistpanel.transform);
-            i.transform.localScale = Vector3.one;
-        }
-
-        Time.timeScale = 0;
+       
     }
 
     public void OnDisable()
@@ -34,7 +27,6 @@ public class LootPanel : MonoBehaviour
     }
     public void OnFinal()
     {
-        Time.timeScale = 1;
 
         GameObject obj = GameObject.Find("GameContext");
 
@@ -47,5 +39,17 @@ public class LootPanel : MonoBehaviour
         SceneManager.LoadScene("Station");
 
         Debug.Log("MISSION END ...... LOAD STATION!");
+    }
+
+    public void Drop()
+    {
+        sceneres = GameObject.Find("Scene").GetComponent<SceneRes>();
+        if (sceneres.dropitems.Count > 0)
+            foreach (Item item in sceneres.dropitems)
+            {
+                GameObject i = Instantiate(Resources.Load(item.DataPath + item.ItemId)) as GameObject;
+                i.transform.SetParent(lootlistpanel.transform);
+                i.transform.localScale = Vector3.one;
+            }
     }
 }

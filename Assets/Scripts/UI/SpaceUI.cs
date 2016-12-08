@@ -5,6 +5,7 @@ using System.Collections.Generic;
 
 public class SpaceUI : MonoBehaviour {
 
+    public GameObject arrow;
     public RadioMessage RadioMessage;
     public GameObject bar;
     public Camera minimapcamera;
@@ -264,4 +265,13 @@ public class SpaceUI : MonoBehaviour {
         ContextManagerGamePro.Instance().playership.shieldregenbool = !ContextManagerGamePro.Instance().playership.shieldregenbool;
     }
 
+    public void CreateArrow(GameObject player, GameObject ship)
+    {
+         GameObject _arrow = Instantiate(arrow).gameObject;
+        _arrow.GetComponent<NavigationArrow>().player = playership.transform;
+        _arrow.GetComponent<NavigationArrow>().target = ship.transform;
+        _arrow.transform.SetParent(this.transform);
+        _arrow.transform.localPosition = Vector3.zero;
+        _arrow.transform.localScale = Vector3.one;
+    }
 }

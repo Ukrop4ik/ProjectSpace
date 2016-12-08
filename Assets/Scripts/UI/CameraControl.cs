@@ -20,6 +20,7 @@ public class CameraControl : MonoBehaviour
     // Update is called once per frame
     void LateUpdate()
     {
+        if (ContextManagerGamePro.Instance().playership == null) return;
         if (!player) player = ContextManagerGamePro.Instance().playership.gameObject;
         gameObject.transform.position = new Vector3(player.transform.position.x, gameObject.transform.position.y, player.transform.position.z);
         

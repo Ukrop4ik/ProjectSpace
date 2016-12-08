@@ -23,7 +23,7 @@ public class Item : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     public ComponentSlot itemslot;
 
     public ItemSpaceEnum space;
-
+    Text counttext;
     public enum ItemType
     {
         ShipComponent,
@@ -39,6 +39,7 @@ public class Item : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
 
     void Start()
     {
+        counttext = gameObject.transform.GetChild(0).GetComponent<Text>();
         GetComponent<Image>().sprite = itemsprite;
 
         switch (SlotType)
@@ -57,7 +58,8 @@ public class Item : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
 
     void Update()
     {
- 
+        if (!isCreate)
+        counttext.text = stackvalue.ToString();
     }
 
     public void OnBeginDrag(PointerEventData eventData)

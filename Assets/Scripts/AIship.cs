@@ -36,7 +36,7 @@ public class AIship : MonoBehaviour
         sceneres = GameObject.Find("Scene").GetComponent<SceneRes>();
         sceneres.enemis.Add(this.gameObject);
         InvokeRepeating("SlowUpdate", 0, 0.2f);
-
+        Invoke("CreateArrow", 2f);
     }
 
     void SlowUpdate()
@@ -79,4 +79,8 @@ public class AIship : MonoBehaviour
         return;
     }
 
+    void CreateArrow()
+    {
+        sceneres.CreateUiArrow(this.gameObject);
+    }
 }
