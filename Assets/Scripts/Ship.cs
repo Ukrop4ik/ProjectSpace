@@ -55,6 +55,7 @@ public class Ship : MonoBehaviour {
     private SceneRes sceneres;
 
     public string actiongroup;
+
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
@@ -73,16 +74,18 @@ public class Ship : MonoBehaviour {
 
     void Update()
     {
-        if (gameObject.transform.parent != null) return;
 
         if (transform.parent != null)
         {
             inStorage = true;
-            //GetComponent<Renderer>().enabled = false;
+            agent.enabled = false;
+
+            return;
         }
         else
         {
             inStorage = false;
+            agent.enabled = true;
         }
 
         if (shield < 0) shield = 0;
@@ -97,9 +100,11 @@ public class Ship : MonoBehaviour {
 
         if (shield == maxshield) shieldregenbool = false;
 
-        if (navtarget != null)
+        if (!agent.enabled) return;
+        if (navtarget != null )
         {
             navtargetdist = agent.remainingDistance;
+            agent.destination = navtarget;
         }
         
 
@@ -112,7 +117,6 @@ public class Ship : MonoBehaviour {
             ismove = true;
             agent.destination = navtarget;
         }
-
 
 
         agent.speed = speed;
@@ -147,12 +151,8 @@ public class Ship : MonoBehaviour {
                     navtarget = ContextManagerGamePro.Instance().navpoint;
                 }
             }
-            if (navtarget != null)
-            {
-                agent.destination = navtarget;
-            }
 
-            if (inRange(BrakingDistance(agent.remainingDistance, brakeAcc)))
+            if (agent.enabled && inRange(BrakingDistance(agent.remainingDistance, brakeAcc)))
             {
                 speed -= Mathf.Min(speed, brakeAcc);
             }

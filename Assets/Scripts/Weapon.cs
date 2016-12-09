@@ -66,6 +66,7 @@ public class Weapon : MonoBehaviour {
         if (ship.energy < energycost)
         {
             lowenergy = true;
+            
         }
         else
         {

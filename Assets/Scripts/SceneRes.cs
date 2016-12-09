@@ -8,7 +8,7 @@ public class SceneRes : MonoBehaviour {
     SceneBuilder scene;
     public List<Item> dropitems = new List<Item>();
     public SpaceUI spaceUI;
-    Transform playershiptransform;
+    public Transform playershiptransform;
     bool win = false;
 
     void Start ()
