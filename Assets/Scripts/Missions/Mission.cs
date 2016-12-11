@@ -179,6 +179,42 @@ public class Mission : MonoBehaviour {
         }
     }
 
+    public static void FactionVsFaction(FactionEnum factionA, FactionEnum factionB)
+    {
+        List<GameObject> factionAships = new List<GameObject>();
+        List<GameObject> factionBships = new List<GameObject>();
+
+        switch (factionA)
+        {
+            case FactionEnum.Pirate:
+                factionAships.AddRange(MissionRes.pirateships);
+                break;
+            case FactionEnum.Guard:
+                factionAships.AddRange(MissionRes.guardships);
+                break;
+            case FactionEnum.Prisoner:
+                factionAships.AddRange(MissionRes.prisonerships);
+                break;
+            default:
+                break;
+        }
+
+        switch (factionB)
+        {
+            case FactionEnum.Pirate:
+                factionBships.AddRange(MissionRes.pirateships);
+                break;
+            case FactionEnum.Guard:
+                factionBships.AddRange(MissionRes.guardships);
+                break;
+            case FactionEnum.Prisoner:
+                factionBships.AddRange(MissionRes.prisonerships);
+                break;
+            default:
+                break;
+        }
+    }
+
     class RadioData
     {
         public string headerID;
@@ -198,4 +234,6 @@ public class Mission : MonoBehaviour {
             this.sprite = sprite;
         }
     }
+
+
 }

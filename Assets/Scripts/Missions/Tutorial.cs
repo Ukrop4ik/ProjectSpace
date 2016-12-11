@@ -24,6 +24,7 @@ public class Tutorial : Mission {
         CreateUiMarker("TriggerArea", MarkerTypeEnum.MoveTo);
         HideShip("Trigger");
         HideShip("Raptor");
+        HideShip("Prisoner");
 
     }
 
@@ -82,7 +83,11 @@ public class Tutorial : Mission {
             Debug.Log("Shild regen task end");
             CancelInvoke("CheckShild");
             ShowShip("Raptor");
+            CreateNavigationArrow("Raptor", ArrowTypeEnum.Enemy);
             ShipCommand("Raptor", ShipLogicEnum.MoveAndAttack);
+            ShowShip("Prisoner");
+            ShipCommand("Prisoner", ShipLogicEnum.MoveToPlayer);
+            CreateNavigationArrow("Prisoner", ArrowTypeEnum.Ally);
         }
     }
 

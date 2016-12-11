@@ -10,6 +10,7 @@ public class AIship : MonoBehaviour
     public float AgroDist;
     public float DistanceToPlayer;
     public ShipLogicEnum Logic;
+    public ShootLogicEnum ShootLogic;
     public FactionEnum Faction;
     float firedist = 1000;
 
@@ -93,6 +94,14 @@ public class AIship : MonoBehaviour
                     ship.navtarget = playership.transform.position;
                     UseWeaponVsPlayer();
                 }
+                break;
+            default:
+                break;
+        }
+
+        switch (ShootLogic)
+        {
+            case ShootLogicEnum.inRange:
                 break;
             default:
                 break;
