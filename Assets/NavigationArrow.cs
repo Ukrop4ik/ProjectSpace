@@ -11,7 +11,7 @@ public class NavigationArrow : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 
-        GetComponent<Image>().color = Color.red;
+       
 	}
 
     // Update is called once per frame

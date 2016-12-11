@@ -16,6 +16,7 @@ public class SpaceUI : MonoBehaviour {
     public Text navText;
     public GameObject WinPanel;
     public Button lootpanelbutton;
+    public GameObject UImarker;
 
     public List<Ship> navlistships = new List<Ship>();
     public Dictionary<KeyCode, WeaponButton> weaponbuttons = new Dictionary<KeyCode, WeaponButton>();
@@ -98,12 +99,20 @@ public class SpaceUI : MonoBehaviour {
                         if (ContextManagerGamePro.Instance().selectedship)
                         {
                             ObjectSelector(new GameObject[] { selectshippanel }, selectshippanel);
-                           // SelectedShipNameText.text = "Name: " + ContextManagerGamePro.Instance().selectedship.shipname;
-                            SelectedShipTypeText.text = "Type:  Ship";
-                            SelectedDist.text = "Dist: " + Vector3.Distance(ContextManagerGamePro.Instance().selectedship.gameObject.transform.position, playership.gameObject.transform.position).ToString("0.00");
-                        }                      
+                            if (ContextManagerGamePro.Instance().selectedship)
+                            {
+                                SelectedShipTypeText.text = ContextManagerGamePro.Instance().selectedship.shipname;
+                                SelectedDist.text = "Dist: " + Vector3.Distance(ContextManagerGamePro.Instance().selectedship.gameObject.transform.position, playership.gameObject.transform.position).ToString("0.00");
+                            }
+                        }
+                        else
+                        {
+                            ContextManagerGamePro.Instance().SelectedType = Select.selecttype.None;
+                            selectshippanel.SetActive(false);
+                        }                    
                         break;
                     default:
+
                         break;
                 }
 
@@ -192,13 +201,11 @@ public class SpaceUI : MonoBehaviour {
         {
 
             if (weapon == null) continue;
-            Debug.Log(weaponbuttonkeynumber);
             Transform tr = Instantiate(WeaponButtonPrefab).transform;
             tr.localPosition = SpellPanelWeapon.transform.position;
             tr.SetParent(SpellPanelWeapon.transform);
             tr.localScale = new Vector3(1, 1, 1);
             tr.localRotation = Quaternion.Euler(0, 0, 0);
-
             WeaponButton button = tr.gameObject.GetComponent<WeaponButton>();
             switch (weaponbuttonkeynumber)
             {
@@ -262,16 +269,21 @@ public class SpaceUI : MonoBehaviour {
 
     public void RegenShieldButton()
     {
+        if (!ContextManagerGamePro.Instance().playership) return;
         ContextManagerGamePro.Instance().playership.shieldregenbool = !ContextManagerGamePro.Instance().playership.shieldregenbool;
     }
 
-    public void CreateArrow(GameObject player, GameObject ship)
+    public void CreateArrow(GameObject player, GameObject target, ArrowTypeEnum type)
     {
          GameObject _arrow = Instantiate(arrow).gameObject;
         _arrow.GetComponent<NavigationArrow>().player = playership.transform;
-        _arrow.GetComponent<NavigationArrow>().target = ship.transform;
+        _arrow.GetComponent<NavigationArrow>().target = target.transform;
         _arrow.transform.SetParent(this.transform);
         _arrow.transform.localPosition = Vector3.zero;
         _arrow.transform.localScale = Vector3.one;
+
+        if (type == ArrowTypeEnum.Enemy) _arrow.GetComponent<Image>().color = Color.red;
+        if (type == ArrowTypeEnum.Ally) _arrow.GetComponent<Image>().color = Color.blue;
+        if (type == ArrowTypeEnum.Event) _arrow.GetComponent<Image>().color = Color.yellow;
     }
 }

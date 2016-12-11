@@ -8,6 +8,7 @@ using System.Text;
     {
         Stay,
         MoveToPlayer,
-        MoveAndAttack
+        MoveAndAttack,
+        AI
     }
 

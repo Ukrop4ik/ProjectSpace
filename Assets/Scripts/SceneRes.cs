@@ -10,6 +10,9 @@ public class SceneRes : MonoBehaviour {
     public SpaceUI spaceUI;
     public Transform playershiptransform;
     bool win = false;
+    public List<GameObject> pirateships = new List<GameObject>();
+    public List<GameObject> prisonerships = new List<GameObject>();
+    public List<GameObject> guardships = new List<GameObject>();
 
     void Start ()
     {
@@ -71,8 +74,8 @@ public class SceneRes : MonoBehaviour {
 
     }
 
-    public void CreateUiArrow(GameObject ship)
+    public void CreateUiArrow(GameObject target, ArrowTypeEnum type)
     {
-        spaceUI.CreateArrow(playershiptransform.gameObject, ship);
+        spaceUI.CreateArrow(playershiptransform.gameObject, target, type);
     }
 }

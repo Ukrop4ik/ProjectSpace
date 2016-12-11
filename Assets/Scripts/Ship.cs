@@ -125,6 +125,8 @@ public class Ship : MonoBehaviour {
 
     public void DebugUpdate()
     {
+        if (!gameObject.activeInHierarchy) return;
+
         if (gameObject.transform.parent != null) return;
         if (inStorage) return;
 
@@ -242,6 +244,11 @@ public class Ship : MonoBehaviour {
     public void Save()
     {
         
+    }
+
+    public void SetAgentStopping(float value)
+    {
+        agent.stoppingDistance = value;
     }
 
 }

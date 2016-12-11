@@ -18,6 +18,13 @@ public class WeaponButton : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
     {
+        if (ContextManagerGamePro.Instance().selectedship == null)
+        {
+            thisbutton.interactable = false;
+            status = false;
+            return;
+        }
+
         if (ContextManagerGamePro.Instance().SelectedType == Select.selecttype.Ship)
         {
             thisbutton.interactable = true;
@@ -31,22 +38,24 @@ public class WeaponButton : MonoBehaviour {
 
     public void UseButton()
     {
-        if (ContextManagerGamePro.Instance().selectedship == null) return;
 
         status = !status;
 
         if (status)
         {
-            weapon.target = ContextManagerGamePro.Instance().selectedship.transform;
+            if (weapon)
+                weapon.target = ContextManagerGamePro.Instance().selectedship.transform;
         }
         else
         {
-            weapon.target = null;
+            if (weapon)
+                weapon.target = null;
         }
             
     }
     public void SetWeaponToButton(Weapon _weapon)
     {
         weapon = _weapon;
+        GetComponent<Image>().sprite = weapon.transform.parent.gameObject.GetComponent<Item>().itemsprite;
     }
 }
