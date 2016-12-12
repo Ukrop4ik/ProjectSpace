@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 
 public class AIship : MonoBehaviour
 {
@@ -13,9 +13,11 @@ public class AIship : MonoBehaviour
     public ShootLogicEnum ShootLogic;
     public FactionEnum Faction;
     float firedist = 1000;
+    List<FactionEnum> enemysfaction = new List<FactionEnum>();
 
     public void UseWeaponVsPlayer()
     {
+       
         if (isPlayer)
         {
             foreach (Weapon weapon in ship.ComponentController.ShipWeapons)
@@ -59,6 +61,23 @@ public class AIship : MonoBehaviour
 
     void SlowUpdate()
     {
+        switch (Faction)
+        {
+            case FactionEnum.Pirate:
+                enemysfaction.Add(FactionEnum.Guard);
+                enemysfaction.Add(FactionEnum.Player);
+                enemysfaction.Add(FactionEnum.Prisoner);
+                break;
+            case FactionEnum.Guard:
+                enemysfaction.Add(FactionEnum.Pirate);
+                break;
+            case FactionEnum.Prisoner:
+                enemysfaction.Add(FactionEnum.Pirate);
+                break;
+            default:
+                break;
+        }
+
         if (ContextManagerGamePro.Instance().playership != null)
         {
             playership = ContextManagerGamePro.Instance().playership;
@@ -145,5 +164,6 @@ public class AIship : MonoBehaviour
             }          
         }
         ship.SetAgentStopping(firedist - 5);
+
     }
 }

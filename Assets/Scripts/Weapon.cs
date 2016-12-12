@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 
 public class Weapon : MonoBehaviour {
 
+    public bool Autotarget;
     [SerializeField]
     GameObject fire_point;
     [SerializeField]

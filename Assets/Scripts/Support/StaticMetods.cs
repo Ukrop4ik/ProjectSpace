@@ -5,6 +5,12 @@ using System.Diagnostics;
 
 public class StaticMetods : MonoBehaviour {
 
+    [ContextMenu("CreateFactionTestInstance")]
+    public void CreateFactionTestInstance()
+    {
+
+    }
+
     public void DestroyObj(GameObject obj)
     {
         Destroy(obj);
