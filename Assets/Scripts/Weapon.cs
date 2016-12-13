@@ -155,7 +155,7 @@ public class Weapon : MonoBehaviour {
                 }
                 else
                 {
-                    Debug.Log("Target not in line!: " + hit.collider.gameObject);
+                    //Debug.Log("Target not in line!: " + hit.collider.gameObject);
                     test = false;
                 }
                 return test;

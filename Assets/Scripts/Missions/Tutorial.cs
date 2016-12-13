@@ -43,7 +43,7 @@ public class Tutorial : Mission {
         if (IsPlayerInArea("TriggerArea"))
         {
             RadioMessage("Aurora_Station_name", "tutorial_mission_dialog_2", 10, Resources.Load<Sprite>("image/defaultavatar"));
-            Debug.Log("in area");
+           // Debug.Log("in area");
             CreateNavigationArrow("Training", ArrowTypeEnum.Enemy);
             CancelInvoke("PlayerInTriggerArea");
             InvokeRepeating("CheckTraining", 0, 1f);

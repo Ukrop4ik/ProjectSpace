@@ -180,7 +180,7 @@ public class Ship : MonoBehaviour {
             }
             else if (shieldregenbool)
             {
-                Debug.Log("No energy to regen shield!");
+               // Debug.Log("No energy to regen shield!");
             }
 
             if (testDamage) Damage(testDamageValue, testdamagetype);

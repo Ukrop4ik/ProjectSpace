@@ -12,7 +12,7 @@ public class RadioMessage : MonoBehaviour {
     public void Create(string headerID, string radioID,  Sprite sprite)
     {
 
-        Debug.Log(headerID + " " + radioID);
+      //  Debug.Log(headerID + " " + radioID);
 
         header.text = headerID;
         radiotext.text = radioID;

@@ -35,7 +35,6 @@ public class Bullet : MonoBehaviour
 
         if (Physics.Raycast(transform.position, fwd, out hit, 3, NpcMask))
         {
-            Debug.Log("HIT! " + hit.collider.gameObject);
 
             if (hit.collider.gameObject.tag == "Ship")
             {
