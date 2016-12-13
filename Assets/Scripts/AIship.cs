@@ -11,13 +11,12 @@ public class AIship : MonoBehaviour
     public float DistanceToPlayer;
     public ShipLogicEnum Logic;
     public ShootLogicEnum ShootLogic;
-    public FactionEnum Faction;
     float firedist = 1000;
-    List<FactionEnum> enemysfaction = new List<FactionEnum>();
+    public GameObject targetobj;
 
     public void UseWeaponVsPlayer()
     {
-       
+
         if (isPlayer)
         {
             foreach (Weapon weapon in ship.ComponentController.ShipWeapons)
@@ -27,6 +26,18 @@ public class AIship : MonoBehaviour
 
         }
     }
+    public void UseWeaponVsAI(Transform trans)
+    {
+
+
+        foreach (Weapon weapon in ship.ComponentController.ShipWeapons)
+        {
+            weapon.target = trans;
+        }
+
+
+    }
+
     public void UseWeaponVsTarget(Transform target)
     {
         foreach (Weapon weapon in ship.ComponentController.ShipWeapons)
@@ -43,7 +54,7 @@ public class AIship : MonoBehaviour
         InvokeRepeating("SlowUpdate", 0, 0.2f);
         Invoke("Firedist", 2);
 
-        switch (Faction)
+        switch (ship.Faction)
         {
             case FactionEnum.Pirate:
                 sceneres.pirateships.Add(this.gameObject);
@@ -57,25 +68,47 @@ public class AIship : MonoBehaviour
             default:
                 break;
         }
+        
     }
 
     void SlowUpdate()
     {
-        switch (Faction)
+
+        if (Logic == ShipLogicEnum.AI)
         {
-            case FactionEnum.Pirate:
-                enemysfaction.Add(FactionEnum.Guard);
-                enemysfaction.Add(FactionEnum.Player);
-                enemysfaction.Add(FactionEnum.Prisoner);
-                break;
-            case FactionEnum.Guard:
-                enemysfaction.Add(FactionEnum.Pirate);
-                break;
-            case FactionEnum.Prisoner:
-                enemysfaction.Add(FactionEnum.Pirate);
-                break;
-            default:
-                break;
+            if (targetobj != null)
+            {
+                if (!targetobj.activeInHierarchy)
+                {
+                    targetobj = null;
+                }
+                else
+                {
+                    ship.navtarget = targetobj.transform.position;
+                    UseWeaponVsAI(targetobj.transform);
+                }
+
+            }
+
+            else 
+            {
+                foreach (GameObject _ship in sceneres.enemis)
+                {
+                    if (!_ship) continue;
+                    if (_ship.activeInHierarchy)
+                    {
+                        foreach (FactionEnum faction in ship.enemysfaction)
+                        {
+                            if (faction == (FactionEnum)_ship.GetComponent<Ship>().Faction)
+                            {
+
+                                targetobj = _ship;
+                                return;
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         if (ContextManagerGamePro.Instance().playership != null)
@@ -131,7 +164,7 @@ public class AIship : MonoBehaviour
     {
         sceneres.enemis.Remove(this.gameObject);
 
-        switch (Faction)
+        switch (ship.Faction)
         {
             case FactionEnum.Pirate:
                 sceneres.pirateships.Remove(this.gameObject);

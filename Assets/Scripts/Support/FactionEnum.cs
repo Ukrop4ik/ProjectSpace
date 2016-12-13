@@ -7,5 +7,6 @@ public enum FactionEnum  {
     Player,
     Pirate,
     Prisoner,
-    Guard
+    Guard,
+    Empty
 }

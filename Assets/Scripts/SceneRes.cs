@@ -33,6 +33,7 @@ public class SceneRes : MonoBehaviour {
         playershiptransform = shipcontextobj.transform.GetChild(0);
         shipcontextobj.transform.GetChild(0).transform.SetParent(null);
         playershiptransform.position = Vector3.zero;
+        enemis.Add(playershiptransform.gameObject);
     }
     public void WinCondition()
     {

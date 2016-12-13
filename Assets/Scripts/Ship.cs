@@ -45,6 +45,8 @@ public class Ship : MonoBehaviour {
     public int testDamageValue = 10;
     public int testdamagetype = 1;
 
+    public FactionEnum Faction;
+
     public Dictionary<int, float> armor = new Dictionary<int, float>();
 
     public float kinetikarmorvalue = 0;
@@ -53,7 +55,7 @@ public class Ship : MonoBehaviour {
     public Ship playership;
     private bool isPlayer;
     private SceneRes sceneres;
-
+    public List<FactionEnum> enemysfaction = new List<FactionEnum>();
     public string actiongroup;
 
     void Start()
@@ -67,6 +69,23 @@ public class Ship : MonoBehaviour {
         InvokeRepeating("DebugUpdate", 0, 1f);
 
         HP = maxHP;
+
+        switch (Faction)
+        {
+            case FactionEnum.Pirate:
+                enemysfaction.Add(FactionEnum.Guard);
+                enemysfaction.Add(FactionEnum.Player);
+                enemysfaction.Add(FactionEnum.Prisoner);
+                break;
+            case FactionEnum.Guard:
+                enemysfaction.Add(FactionEnum.Pirate);
+                break;
+            case FactionEnum.Prisoner:
+                enemysfaction.Add(FactionEnum.Pirate);
+                break;
+            default:
+                break;
+        }
 
     }
 
