@@ -44,6 +44,7 @@ public class WeaponButton : MonoBehaviour {
         if (status)
         {
             if (weapon)
+                if (ContextManagerGamePro.Instance().selectedship)
                 weapon.target = ContextManagerGamePro.Instance().selectedship.transform;
         }
         else
