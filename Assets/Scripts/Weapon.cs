@@ -24,35 +24,31 @@ public class Weapon : MonoBehaviour {
     public float Reload;
     public float ReloadMod = 1;
     public int energycost = 1;
-    public int firecount = 1;
-    [HideInInspector]
-    public float reload_timer;
+    public int shootcount = 1;
+    public float shootdelay = 0.2f;
     [HideInInspector]
     public bool activate = false;
     public bool isTarget = false;
     public bool isReload = false;
     public bool TargetInLine = false;
     public bool lowenergy = false;
+
+    Queue<ShootElement> shootqueue = new Queue<ShootElement>();
+
     void Start()
     {
-        reload_timer = Reload;
         ship = transform.parent.parent.GetComponent<ComponentSlot>().ship;
         transform.localPosition = Vector3.zero;
-        reloadtime = 0;
         reloadtime = Reload;
     }
     [ContextMenu("Shoot")]
     public void Shoot()
     {
-        if (isReload) return;
         if (lowenergy) return;
 
         ship.energy -= energycost;
-        reloadtime = Reload;
 
         CreateBullet();
-
-
     }
     void Update()
     {
@@ -62,7 +58,21 @@ public class Weapon : MonoBehaviour {
             ship = transform.parent.parent.GetComponent<ComponentSlot>().ship;
         }
 
-        reloadtime -= ReloadTimer(reloadtime, Time.deltaTime, ReloadMod);
+        reloadtime -= Time.deltaTime * ReloadMod;
+
+        if (reloadtime <= 0)
+        {
+            isReload = false;
+            reloadtime = 0;
+        }
+        else if (reloadtime > 0 && shootqueue.Count == 0 && !isReload)
+        {
+            isReload = true;
+            for (int i = 0; i < shootcount; i++)
+            {
+                shootqueue.Enqueue(new ShootElement(shootdelay));
+            }
+        }
 
         if (ship.energy < energycost)
         {
@@ -76,26 +86,41 @@ public class Weapon : MonoBehaviour {
 
         if (target)
         {
-           isTarget = true;
-           TargetInLine = TurretMotion(Vector3.Distance(target.position, transform.position), Range, RangeMod, RotationSpeedMod);
+            isTarget = true;
+            TargetInLine = TurretMotion(Vector3.Distance(target.position, transform.position), Range, RangeMod, RotationSpeedMod);
+
+            if (TargetInLine && !isReload)
+            {
+
+                if (shootqueue.Count > 0)
+                {
+                    var shhot = shootqueue.Peek();
+                    shhot.shoottime -= Time.deltaTime;
+
+                    if (shhot.shoottime <= 0)
+                    {
+                        Shoot();
+                        shootqueue.Dequeue();
+                    }
+                }
+                else
+                {
+                    reloadtime = Reload;
+                }
+            }
+
         }
         else
         {
             isTarget = false;
             ReturnPos();
         }
-            
 
-        if (!activate) reload_timer -= Time.deltaTime;
-
-        if (reload_timer <= 0)
-        {
-            activate = true;
-        }
         if (!isTarget)
         {
             target = null;
         }
+
     }
     void LateUpdate()
     {
@@ -126,7 +151,7 @@ public class Weapon : MonoBehaviour {
                 {
                     
                     test = true;
-                    Shoot();
+
                 }
                 else
                 {
@@ -149,19 +174,7 @@ public class Weapon : MonoBehaviour {
         }
 
     }
-    float ReloadTimer(float timer, float time, float reloadmod)
-    {
-        if (timer <=0)
-        {
-            isReload = false;
-            return timer;
-        }
-        else
-        {
-            isReload = true;
-            return time * reloadmod;
-        }
-    }
+  
     void CreateBullet()
     {
         GameObject _bullet = Instantiate(bullet);
@@ -169,6 +182,16 @@ public class Weapon : MonoBehaviour {
         _bullet.transform.position = fire_point.transform.position;
         _bullet.transform.rotation = fire_point.transform.rotation;
         _bullet.gameObject.GetComponent<Rigidbody>().AddForce(_bullet.transform.forward * 250, ForceMode.Impulse);
+    }
+
+    public class ShootElement
+    {
+        public float shoottime;
+
+        public ShootElement(float time)
+        {
+            this.shoottime = time;
+        }
     }
 
 }
