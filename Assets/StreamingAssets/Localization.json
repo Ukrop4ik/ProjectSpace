@@ -36,10 +36,17 @@
          "English":"EnglishText",
          "Russian":"Гражданская модель генератора защитного поля. Предназначен для защиты корпуса от незначительных повреждений"
       },
+	  
+     // имена	  
 	  "Aurora_Station_name":{
          "English":"\"Aurora\" Station",
          "Russian":"Станция \"Аврора\""
       },
+	  "prisoner_jo_luck":{
+         "English":"EnglishText",
+         "Russian":"Счастливый Джо"
+      },
+	  
 	  "tutorial_pirate_name":{
          "English":"tutorial_pirate_name",
          "Russian":"Одинокий Пират"
@@ -80,6 +87,9 @@
          "English":"EnglishText",
          "Russian":"Завершение диалога, преход в бой"
       },
+	  
+ //Диалоги миссии Tutorial
+		  
 	  "tutorial_mission_dialog_1":{
          "English":"EnglishText",
          "Russian":"Вот вы и в космосе. Направление к сигналу отмечено навигационным маркером. Просто двигайтесь к нему. Отдать приказ на движение можно кликом правой кнопкой мыши."
@@ -99,6 +109,34 @@
 	  	  "tutorial_mission_pirate_dialog_2":{
          "English":"EnglishText",
          "Russian":"Ааааархххх....."
+      },
+	  	 "tutorial_mission_dialog_4":{
+         "English":"EnglishText",
+         "Russian":"Первый пират уничтожен, хорошая работа!\nЛюбой корабль снабжен энергощитами, но накопитель щита выключается автоматически, для экономии заряда аккумулятора. "
+      },
+	  	 "tutorial_mission_dialog_5":{
+         "English":"EnglishText",
+         "Russian":"Для активации накопителя, нажмите клавишу \"R\", либо иконку на панели модулей. Зарядите щит, минимум на 50 единиц. "
+      },
+	  	 "tutorial_mission_dialog_6":{
+         "English":"EnglishText",
+         "Russian":"Внимание!\nСканеры засекли множественные сигналы, они приближаются к нам, похоже это была засада. Простите. "
+      },
+	  	 "tutorial_mission_dialog_7":{
+         "English":"EnglishText",
+         "Russian":"Хэй дружище, похоже ты попал. Эти пираты тут часто пасутся. Ненавижу тварей, давай завалим их вместе! "
+      },
+	     "tutorial_mission_dialog_8":{
+         "English":"EnglishText",
+         "Russian":"А ты не робкий парень, еще сработаемся! "
+      },
+	  	 "tutorial_mission_dialog_9":{
+         "English":"EnglishText",
+         "Russian":"Задача выполнена, вы молодец. Возвращаемся на станцию."
+      },
+	  	 "tutorial_mission_dialog_10":{
+         "English":"EnglishText",
+         "Russian":"Просто держись рядом и всё получится."
       }
 	  
    }

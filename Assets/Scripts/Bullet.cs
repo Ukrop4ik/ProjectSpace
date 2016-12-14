@@ -8,6 +8,7 @@ public class Bullet : MonoBehaviour
     public int Damage;
     public int DamageType;
     public float distancelife;
+    public Ship Aship;
     // Use this for initialization
     void Start()
     {
@@ -41,7 +42,7 @@ public class Bullet : MonoBehaviour
 
 
                 Ship ship = hit.collider.gameObject.GetComponent<Ship>();
-                ship.Damage(Damage, DamageType);
+                ship.Damage(Aship, Damage, DamageType);
             
 
             }

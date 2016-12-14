@@ -13,18 +13,15 @@ public class Ship : MonoBehaviour {
     NavMeshAgent agent;
     public ComponentController ComponentController;
     public Cargo cargo { get; set; }
-    GameObject conteiner;
 
     public bool isPlayerShip = false;
     public bool shieldregenbool = true;
     public bool ismove = false;
     bool inStorage = false;
 
-    public bool testDamage = false;
     public bool dead = false;
 
     public string shipname = "";
-    public int membercount = 3;
 
     public int maxHP = 100;
     public int HP = 0;
@@ -42,9 +39,6 @@ public class Ship : MonoBehaviour {
     public int energy = 0;
     public int enegyregen = 0;
 
-    public int testDamageValue = 10;
-    public int testdamagetype = 1;
-
     public FactionEnum Faction;
 
     public Dictionary<int, float> armor = new Dictionary<int, float>();
@@ -57,6 +51,7 @@ public class Ship : MonoBehaviour {
     private SceneRes sceneres;
     public List<FactionEnum> enemysfaction = new List<FactionEnum>();
     public string actiongroup;
+    public Dictionary<Ship, int> agrolist = new Dictionary<Ship, int>();
 
     void Start()
     {
@@ -202,14 +197,14 @@ public class Ship : MonoBehaviour {
                // Debug.Log("No energy to regen shield!");
             }
 
-            if (testDamage) Damage(testDamageValue, testdamagetype);
-
         }
 
     }
 
-    public void Damage(int value, int damagetype)
+    public void Damage(Ship ship, int value, int damagetype)
     {
+
+        AddToAgroList(ship, value);
 
         if (damagetype <= 3)
         {
@@ -240,6 +235,28 @@ public class Ship : MonoBehaviour {
         {
             energy -= value;
         }
+
+    }
+
+    void AddToAgroList(Ship ship, int value)
+    {
+        if (agrolist.Count == 0)
+        {
+            agrolist.Add(ship, value);
+            return;
+        }
+
+        if (!agrolist.ContainsKey(ship))
+        {
+            agrolist.Add(ship, value);
+            Debug.Log(ship + " deal damage " + value);
+        }
+        else
+        {
+            agrolist[ship] += value;
+            Debug.Log("in dict " + agrolist[ship] + "");
+        }
+
     }
 
     public float BrakingDistance(float speed, float brakeAcc)
@@ -269,5 +286,4 @@ public class Ship : MonoBehaviour {
     {
         agent.stoppingDistance = value;
     }
-
 }

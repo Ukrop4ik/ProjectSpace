@@ -26,6 +26,8 @@ public class Weapon : MonoBehaviour {
     public int energycost = 1;
     public int shootcount = 1;
     public float shootdelay = 0.2f;
+    private float _accuracy = 0;
+    public float accuracy = 100;
     [HideInInspector]
     public bool activate = false;
     public bool isTarget = false;
@@ -52,6 +54,7 @@ public class Weapon : MonoBehaviour {
     }
     void Update()
     {
+        _accuracy = Mathf.Max(0, _accuracy - Time.deltaTime);
 
         if (!ship)
         {
@@ -181,7 +184,17 @@ public class Weapon : MonoBehaviour {
 
         _bullet.transform.position = fire_point.transform.position;
         _bullet.transform.rotation = fire_point.transform.rotation;
+
+        _bullet.GetComponent<Bullet>().Damage = damage;
+        _bullet.GetComponent<Bullet>().DamageType = damagetype;
+        _bullet.GetComponent<Bullet>().Aship = ship;
+
+
+        _bullet.transform.Rotate(new Vector3(0, Random.Range(-_accuracy, _accuracy), 0));
+        _accuracy = Mathf.Min(5, _accuracy + Time.deltaTime * accuracy);
+
         _bullet.gameObject.GetComponent<Rigidbody>().AddForce(_bullet.transform.forward * 250, ForceMode.Impulse);
+
     }
 
     public class ShootElement

@@ -9,6 +9,8 @@ using System.Text;
         Stay,
         MoveToPlayer,
         MoveAndAttack,
-        AI
+        AI,
+        MissionAi,
+        ChaosAi
     }
 

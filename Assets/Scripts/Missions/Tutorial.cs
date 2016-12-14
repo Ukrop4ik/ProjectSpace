@@ -16,6 +16,7 @@ public class Tutorial : Mission {
     void StartMission()
     {
         SetCondition(WinConditionEnum.Custom);
+
         RadioMessage("Aurora_Station_name", "tutorial_mission_dialog_1", 15f, Resources.Load<Sprite>("image/defaultavatar"));
         InvokeRepeating("UpdateMission", 0, 1f);
         InvokeRepeating("PlayerInTriggerArea", 0, 1f);
@@ -73,32 +74,69 @@ public class Tutorial : Mission {
             CancelInvoke("CheckPirateKill");
             CancelInvoke("TurnOffRegenShield");
             InvokeRepeating("CheckShild", 0, 1f);
+            RadioMessage("Aurora_Station_name", "tutorial_mission_dialog_4", 10, Resources.Load<Sprite>("image/defaultavatar"));
+            RadioMessage("Aurora_Station_name", "tutorial_mission_dialog_5", 10, Resources.Load<Sprite>("image/defaultavatar"));
         }
     }
 
     void CheckShild()
     {
+
         if (GetPlayerShild() > 50)
         {
             Debug.Log("Shild regen task end");
             CancelInvoke("CheckShild");
             ShowShip("Raptor");
             CreateNavigationArrow("Raptor", ArrowTypeEnum.Enemy);
-            ShipCommand("Raptor", ShipLogicEnum.MoveAndAttack);
-            ShowShip("Prisoner");
-            ShipCommand("Prisoner", ShipLogicEnum.MoveToPlayer);
-            CreateNavigationArrow("Prisoner", ArrowTypeEnum.Ally);
+            ShipCommand("Raptor", ShipLogicEnum.Stay);
+            RadioMessage("Aurora_Station_name", "tutorial_mission_dialog_6", 10, Resources.Load<Sprite>("image/defaultavatar"));
+            Invoke("ShowPrisoner", 10);
+            InvokeRepeating("CheckRaptor", 0, 1f);
         }
     }
 
     void TurnOffRegenShield()
     {
         GetPlayerShip().shieldregenbool = false;
+        GetPlayerShip().shield = 0;
     }
 
     void AlonePirateSay()
     {
         RadioMessage("tutorial_pirate_name", "tutorial_mission_pirate_dialog_1", 3, Resources.Load<Sprite>("image/defaultavatar"));
     }
+    void StartAiPrissoner()
+    {
+        ShipCommand("Prisoner", ShipLogicEnum.ChaosAi);
+    }
 
+    void EnemyStartAttack()
+    {
+        ShipCommand("Raptor", ShipLogicEnum.ChaosAi);
+    }
+    void ShowPrisoner()
+    {
+        ShowShip("Prisoner");
+        ShipCommand("Prisoner", ShipLogicEnum.MoveToPlayer);
+        CreateNavigationArrow("Prisoner", ArrowTypeEnum.Ally);
+        RadioMessage("prisoner_jo_luck", "tutorial_mission_dialog_7", 7, Resources.Load<Sprite>("image/defaultavatar"));
+        RadioMessage("prisoner_jo_luck", "tutorial_mission_dialog_10", 7, Resources.Load<Sprite>("image/defaultavatar"));
+
+        Invoke("StartAiPrissoner", 10);
+        Invoke("EnemyStartAttack", 10);
+    }
+    void CheckRaptor()
+    {
+        if (GetShips("Raptor").Count < 1)
+        {
+            RadioMessage("prisoner_jo_luck", "tutorial_mission_dialog_8", 7, Resources.Load<Sprite>("image/defaultavatar"));
+            RadioMessage("Aurora_Station_name", "tutorial_mission_dialog_9", 7, Resources.Load<Sprite>("image/defaultavatar"));
+            Invoke("End", 14);
+            CancelInvoke("CheckRaptor");
+        }
+    }
+    void End()
+    {
+        Win();
+    }
 }

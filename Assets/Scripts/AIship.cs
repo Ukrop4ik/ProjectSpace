@@ -74,7 +74,7 @@ public class AIship : MonoBehaviour
     void SlowUpdate()
     {
 
-        if (Logic == ShipLogicEnum.AI)
+        if (Logic == ShipLogicEnum.ChaosAi)
         {
             if (targetobj != null)
             {
@@ -90,22 +90,30 @@ public class AIship : MonoBehaviour
 
             }
 
-            else 
+            else
             {
-                foreach (GameObject _ship in sceneres.enemis)
-                {
-                    if (!_ship) continue;
-                    if (_ship.activeInHierarchy)
-                    {
-                        foreach (FactionEnum faction in ship.enemysfaction)
-                        {
-                            if (faction == (FactionEnum)_ship.GetComponent<Ship>().Faction)
-                            {
+                List<GameObject> ships = new List<GameObject>();
 
-                                targetobj = _ship;
-                                return;
-                            }
+                foreach (GameObject obj in sceneres.enemis)
+                {
+                    if (!obj) continue;
+
+                    foreach (FactionEnum faction in ship.enemysfaction)
+                    {
+                        if (faction == (FactionEnum)obj.GetComponent<Ship>().Faction)
+                        {
+
+                            ships.Add(obj);
                         }
+                    }
+                }
+                if (ships.Count > 0)
+                {
+                    foreach (GameObject _ship in ships)
+                    {
+                        int index = Random.Range((int)0, ships.Count);
+                        targetobj = ships[index];
+                        return;
                     }
                 }
             }
