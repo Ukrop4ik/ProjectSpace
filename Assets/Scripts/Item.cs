@@ -225,7 +225,7 @@ public class Item : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     public void TakeFromStack(Item item, GameObject slot)
     {
         Debug.Log(item.ItemId + " " + slot);
-        GameObject g = Instantiate(Resources.Load(item.DataPath + item.ItemId) as GameObject);
+        GameObject g = Instantiate(Resources.Load("items/" + item.ItemId) as GameObject);
         g.name = item.ItemId;
         Item i = g.GetComponent<Item>();
         i.stackvalue = item.stackvalue;

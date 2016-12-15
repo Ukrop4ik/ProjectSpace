@@ -25,7 +25,7 @@ public class SaveManager : MonoBehaviour {
         {
             for (int i = 0; i < inventory.transform.childCount; i++)
             {
-                items.Add(new ItemObj(inventory.transform.GetChild(i).GetComponent<Item>().ItemId));
+                items.Add(new ItemObj(inventory.transform.GetChild(i).GetComponent<Item>().ItemId, inventory.transform.GetChild(i).GetComponent<Item>().stackvalue));
             }
         }
         Dictionary<string, int> ammos = new Dictionary<string, int>();
@@ -48,11 +48,13 @@ public class SaveManager : MonoBehaviour {
 
                 if (slot.SlotType == ComponentSlot.slotType.Weapon)
                 {
-                    itemsinship.Add(new ItemInSlot(slot.weapon.Id, slot.slotnumber, slot.weapon.gameObject.GetComponent<ShipComponent>().DataPath));
+                    if (slot.weapon)
+                    itemsinship.Add(new ItemInSlot(slot.weapon.Id, slot.slotnumber));
                 }
                 else
                 {
-                    itemsinship.Add(new ItemInSlot(slot.component.component_name, slot.slotnumber, slot.component.DataPath));
+                    if (slot.component)
+                        itemsinship.Add(new ItemInSlot(slot.component.component_name, slot.slotnumber));
                 }
 
             }
@@ -98,6 +100,19 @@ public class SaveManager : MonoBehaviour {
         profile.isTutorialPart1 = (bool)data["isTutorialPart1"];
         profile.isTutorialPart2 = (bool)data["isTutorialPart2"];
         profile.isTutorialPart3 = (bool)data["isTutorialPart3"];
+
+        StationUI UI = GameObject.Find("StationUI").GetComponent<StationUI>();
+        Transform stationinventory = UI.stationinventory.transform.GetChild(0).transform.GetChild(0);
+
+        for (int i = 0; i < data["Items"].Count; i++)
+        {
+            GameObject item = Instantiate(Resources.Load("items/" + data["Items"][i]["itemID"].ToString()) as GameObject);
+            item.GetComponent<Item>().stackvalue = (int)data["Items"][i]["value"];
+            item.transform.SetParent(stationinventory);
+            item.transform.localScale = Vector3.one;
+        }
+
+
         CreateShipFromFile(data);
     }
 
@@ -123,8 +138,7 @@ public class SaveManager : MonoBehaviour {
 
             for (int i = 0; i < data["PlayerShip"]["Items"].Count; i++)
             {
-                itemsIds.Add(new ItemInSlot(data["PlayerShip"]["Items"][i]["Id"].ToString(), (int)data["PlayerShip"]["Items"][i]["slotnumber"], data["PlayerShip"]["Items"][i]["DataPath"].ToString()));
-                Debug.Log(data["PlayerShip"]["Items"][i]["Id"].ToString());
+                itemsIds.Add(new ItemInSlot("items/" + data["PlayerShip"]["Items"][i]["Id"].ToString(), (int)data["PlayerShip"]["Items"][i]["slotnumber"]));
             }
 
             foreach (ComponentSlot slot in Slots)
@@ -134,7 +148,7 @@ public class SaveManager : MonoBehaviour {
                     if (slot.slotnumber == item.slotnumber)
                     {
                         slot.ship = shipscript;
-                        GameObject _item = Instantiate(Resources.Load(item.DataPath + item.Id) as GameObject);
+                        GameObject _item = Instantiate(Resources.Load(item.Id) as GameObject);
                         _item.transform.SetParent(slot.transform);
                         _item.transform.SetSiblingIndex(0);
                         _item.GetComponent<Item>().EqipItem(slot);
@@ -145,6 +159,16 @@ public class SaveManager : MonoBehaviour {
             StationUI UI = GameObject.Find("StationUI").GetComponent<StationUI>();
             UI.ship = shipscript;
             ship.transform.SetParent(UI.PlayerActualShip.transform);
+
+            Transform shipinventory = UI.shipinventory.transform.GetChild(0).transform.GetChild(0);
+
+            for (int i = 0; i < data["PlayerShip"]["ItemsInCargo"].Count; i++)
+            {
+                GameObject item = Instantiate(Resources.Load("items/" + data["PlayerShip"]["ItemsInCargo"][i].ToString()) as GameObject);
+                item.transform.SetParent(shipinventory);
+                item.transform.localScale = Vector3.one;
+            }
+
         }
     }
 
@@ -166,8 +190,8 @@ public class SaveManager : MonoBehaviour {
     {
         List<ItemInSlot> itemsinship = new List<ItemInSlot>();
         List<string> cargoitems = new List<string>();
-        itemsinship.Add(new ItemInSlot("SmallKinetikTurretMK1", 3, "ShipComponent/"));
-        itemsinship.Add(new ItemInSlot("SmallKinetikTurretMK1", 4, "ShipComponent/"));
+        itemsinship.Add(new ItemInSlot("SmallKinetikTurretMK1", 3));
+        itemsinship.Add(new ItemInSlot("SmallKinetikTurretMK1", 4));
         return new PlayerShipObj("starttership", itemsinship, cargoitems);
     }
 
@@ -216,13 +240,15 @@ public class SaveManager : MonoBehaviour {
     private class ItemObj
     {
         public string itemID;
+        public int value;
 
         public ItemObj()
         {
         }
-        public ItemObj(string id)
+        public ItemObj(string id, int value)
         {
             this.itemID = id;
+            this.value = value;
         }
     }
     #endregion
@@ -252,13 +278,11 @@ public class SaveManager : MonoBehaviour {
     {
         public string Id;
         public int slotnumber;
-        public string DataPath;
 
-        public ItemInSlot(string id, int number, string path)
+        public ItemInSlot(string id, int number)
         {
             this.Id = id;
             this.slotnumber = number;
-            this.DataPath = path;
         }
     }
     #endregion

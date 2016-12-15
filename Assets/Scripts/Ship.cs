@@ -249,12 +249,12 @@ public class Ship : MonoBehaviour {
         if (!agrolist.ContainsKey(ship))
         {
             agrolist.Add(ship, value);
-            Debug.Log(ship + " deal damage " + value);
+
         }
         else
         {
             agrolist[ship] += value;
-            Debug.Log("in dict " + agrolist[ship] + "");
+
         }
 
     }

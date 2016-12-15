@@ -9,7 +9,7 @@ public class InventoryPanel : MonoBehaviour, IDropHandler
     public GameObject contentpanel;
     public InventoryTypeEnum Type;
     public bool isCanDropped = true;
-    public bool stack = false;
+    public bool stack = true;
     void Start()
     {
 
@@ -91,6 +91,7 @@ public class InventoryPanel : MonoBehaviour, IDropHandler
 
     public void OnEnable()
     {
+        if (!stack) return;
         CreateStack();
     }
 }

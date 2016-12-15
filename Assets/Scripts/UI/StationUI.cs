@@ -12,7 +12,7 @@ public class StationUI : MonoBehaviour {
     GameObject WeaponSlotPanel;
     GameObject EngineerSlotPanel;
     public GameObject PlayerActualShip;
-    ShipInventory shipinventory;
+    public ShipInventory shipinventory;
     public GameObject stationinventory;
     public Ship ship;
     bool CargoOpen;
@@ -59,7 +59,7 @@ public class StationUI : MonoBehaviour {
 
                 if (slot.component != null)
                 {
-                    GameObject itemclone = Instantiate(Resources.Load("ShipComponent/" + slot.component.transform.parent.gameObject.GetComponent<Item>().ItemId)) as GameObject;
+                    GameObject itemclone = Instantiate(Resources.Load("items/" + slot.component.transform.parent.gameObject.GetComponent<Item>().ItemId)) as GameObject;
                     itemclone.name = slot.component.gameObject.name;
                     itemclone.GetComponent<Item>().isClone = true;
                     itemclone.GetComponent<Item>().itemoriginal = slot.component.transform.parent.gameObject;
@@ -82,7 +82,7 @@ public class StationUI : MonoBehaviour {
 
                 if (slot.weapon != null)
                 {
-                    GameObject itemclone = Instantiate(Resources.Load("ShipComponent/" + slot.weapon.transform.parent.gameObject.GetComponent<Item>().ItemId)) as GameObject;
+                    GameObject itemclone = Instantiate(Resources.Load("items/" + slot.weapon.transform.parent.gameObject.GetComponent<Item>().ItemId)) as GameObject;
                     itemclone.name = slot.weapon.gameObject.name;
                     itemclone.GetComponent<Item>().isClone = true;
                     itemclone.GetComponent<Item>().itemoriginal = slot.weapon.transform.parent.gameObject;

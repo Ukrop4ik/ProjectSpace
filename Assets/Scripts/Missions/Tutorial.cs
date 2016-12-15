@@ -70,7 +70,7 @@ public class Tutorial : Mission {
     {
         if (GetShips("Trigger").Count < 1)
         {
-            RadioMessage("tutorial_pirate_name", "tutorial_mission_pirate_dialog_2", 3, Resources.Load<Sprite>("image/defaultavatar"));
+            RadioMessage("tutorial_pirate_name", "tutorial_mission_pirate_dialog_2", 3, Resources.Load<Sprite>("Art/Avatar/tutorialPirate400x400"));
             CancelInvoke("CheckPirateKill");
             CancelInvoke("TurnOffRegenShield");
             InvokeRepeating("CheckShild", 0, 1f);
@@ -103,7 +103,7 @@ public class Tutorial : Mission {
 
     void AlonePirateSay()
     {
-        RadioMessage("tutorial_pirate_name", "tutorial_mission_pirate_dialog_1", 3, Resources.Load<Sprite>("image/defaultavatar"));
+        RadioMessage("tutorial_pirate_name", "tutorial_mission_pirate_dialog_1", 3, Resources.Load<Sprite>("Art/Avatar/tutorialPirate400x400"));
     }
     void StartAiPrissoner()
     {
@@ -112,15 +112,15 @@ public class Tutorial : Mission {
 
     void EnemyStartAttack()
     {
-        ShipCommand("Raptor", ShipLogicEnum.ChaosAi);
+        ShipCommand("Raptor", ShipLogicEnum.ChaosAi); 
     }
     void ShowPrisoner()
     {
         ShowShip("Prisoner");
         ShipCommand("Prisoner", ShipLogicEnum.MoveToPlayer);
         CreateNavigationArrow("Prisoner", ArrowTypeEnum.Ally);
-        RadioMessage("prisoner_jo_luck", "tutorial_mission_dialog_7", 7, Resources.Load<Sprite>("image/defaultavatar"));
-        RadioMessage("prisoner_jo_luck", "tutorial_mission_dialog_10", 7, Resources.Load<Sprite>("image/defaultavatar"));
+        RadioMessage("prisoner_jo_luck", "tutorial_mission_dialog_7", 7, Resources.Load<Sprite>("Art/Avatar/PrisonerJoeLuck400x400"));
+        RadioMessage("prisoner_jo_luck", "tutorial_mission_dialog_10", 7, Resources.Load<Sprite>("Art/Avatar/PrisonerJoeLuck400x400"));
 
         Invoke("StartAiPrissoner", 10);
         Invoke("EnemyStartAttack", 10);
@@ -129,7 +129,7 @@ public class Tutorial : Mission {
     {
         if (GetShips("Raptor").Count < 1)
         {
-            RadioMessage("prisoner_jo_luck", "tutorial_mission_dialog_8", 7, Resources.Load<Sprite>("image/defaultavatar"));
+            RadioMessage("prisoner_jo_luck", "tutorial_mission_dialog_8", 7, Resources.Load<Sprite>("Art/Avatar/PrisonerJoeLuck400x400"));
             RadioMessage("Aurora_Station_name", "tutorial_mission_dialog_9", 7, Resources.Load<Sprite>("image/defaultavatar"));
             Invoke("End", 14);
             CancelInvoke("CheckRaptor");

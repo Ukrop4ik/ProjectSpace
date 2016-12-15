@@ -15,7 +15,10 @@ public class StaticMetods : MonoBehaviour {
     {
         Destroy(obj);
     }
-
+    public void DesableObjects(GameObject obj)
+    {
+        obj.SetActive(false);
+    }
     [ContextMenu("OpenProfileFolder")]
     public void OpenProfileFolder()
     {
