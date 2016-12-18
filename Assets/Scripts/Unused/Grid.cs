@@ -75,6 +75,7 @@ public class Grid : MonoBehaviour {
     [ContextMenu("CreateMission")]
     public void CreateMission()
     {
+        int danger = 2;
 
     }
 }
