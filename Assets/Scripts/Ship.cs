@@ -21,6 +21,8 @@ public class Ship : MonoBehaviour {
 
     public bool dead = false;
 
+    public bool isAiShip = false;
+
     public string shipname = "";
 
     public int maxHP = 100;
@@ -55,6 +57,12 @@ public class Ship : MonoBehaviour {
 
     void Start()
     {
+
+        if (GetComponent<AIship>())
+        {
+            isAiShip = true;
+        }
+
         agent = GetComponent<NavMeshAgent>();
         cargo = GetComponent<Cargo>();
 
@@ -84,7 +92,7 @@ public class Ship : MonoBehaviour {
 
     }
 
-    
+
 
     void Update()
     {
@@ -101,6 +109,7 @@ public class Ship : MonoBehaviour {
             inStorage = false;
             agent.enabled = true;
         }
+    
 
         if (shield < 0) shield = 0;
         if (energy < 0) energy = 0;
@@ -285,5 +294,9 @@ public class Ship : MonoBehaviour {
     public void SetAgentStopping(float value)
     {
         agent.stoppingDistance = value;
+    }
+    public void EnableAgent()
+    {
+        agent.enabled = true;
     }
 }

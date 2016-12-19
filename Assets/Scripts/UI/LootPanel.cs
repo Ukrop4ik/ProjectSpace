@@ -45,9 +45,9 @@ public class LootPanel : MonoBehaviour
     {
         sceneres = GameObject.Find("Scene").GetComponent<SceneRes>();
         if (sceneres.dropitems.Count > 0)
-            foreach (Item item in sceneres.dropitems)
+            foreach (GameObject item in sceneres.dropitems)
             {
-                GameObject i = Instantiate(Resources.Load("items/" + item.ItemId)) as GameObject;
+                GameObject i = Instantiate(Resources.Load("items/" + item.GetComponent<Item>().ItemId)) as GameObject;
                 i.transform.SetParent(lootlistpanel.transform);
                 i.transform.localScale = Vector3.one;
             }

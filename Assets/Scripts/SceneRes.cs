@@ -4,9 +4,11 @@ using System.Collections.Generic;
 
 public class SceneRes : MonoBehaviour {
 
+    public bool generete = false;
+
     public List<GameObject> enemis = new List<GameObject>();
     SceneBuilder scene;
-    public List<Item> dropitems = new List<Item>();
+    public List<GameObject> dropitems = new List<GameObject>();
     public SpaceUI spaceUI;
     public Transform playershiptransform;
     bool win = false;
@@ -16,10 +18,22 @@ public class SceneRes : MonoBehaviour {
 
     void Start ()
     {
+
+
         scene = gameObject.GetComponent<SceneBuilder>();
         LoadBattleUI();
         InvokeRepeating("WinCondition", 0, 1f);
         InvokeRepeating("Defeat", 0, 1f);
+
+
+        if (generete)
+        {
+            foreach (string id in ContextManagerGamePro.Instance().loadedmission.dropitems)
+            {
+                Debug.Log(id);
+                dropitems.Add(Instantiate((Resources.Load("items/" + id)) as GameObject));
+            }
+        }
     }
     void LoadBattleUI()
     {
