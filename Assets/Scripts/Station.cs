@@ -5,15 +5,8 @@ public class Station : MonoBehaviour {
 
 	void Start ()
     {
-        if (ContextManagerGamePro.Instance().PreviousScene != "MainMenu")
-        {
-            Debug.Log("Auto Save");
-            Invoke("AutoSave", 1f);
-        }
-        else
-        {
-            ContextManagerGamePro.Instance().StaticMetods.LoadProfileData();
-        }
+
+        Invoke("Load", 0.5f);
 	}
 	
 	void Update () {
@@ -22,6 +15,18 @@ public class Station : MonoBehaviour {
 
     void AutoSave()
     {
-        ContextManagerGamePro.Instance().StaticMetods.SaveGame();
+       
+    }
+    void Load()
+    {
+        ContextManagerGamePro.Instance().StaticMetods.LoadProfileData();
+
+        StationUI ui = GameObject.Find("StationUI").GetComponent<StationUI>();
+        if (ui.PlayerActualShip.transform.childCount > 0)
+        {
+            return;
+        }
+        ContextManagerGamePro.Instance().StaticMetods.LoadShipData();
+
     }
 }

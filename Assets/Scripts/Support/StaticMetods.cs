@@ -43,6 +43,11 @@ public class StaticMetods : MonoBehaviour {
     {
         SaveManager.LoadProfile();
     }
+    [ContextMenu("LoadShipData")]
+    public void LoadShipData()
+    {
+        SaveManager.CreateShipFromFile();
+    }
     public string GetShipId(Ship ship)
     {
         return ship.itemID;

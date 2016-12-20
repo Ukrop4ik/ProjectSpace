@@ -23,7 +23,6 @@ public class StationUI : MonoBehaviour {
         profile = ContextManagerGamePro.Instance().Profile;
         CargoOpen = false;
         stationinventory = gameObject.transform.Find("StationInventory").gameObject;
-        shipinventory = gameObject.transform.Find("ShipInventory").gameObject.GetComponent<ShipInventory>();
         WeaponSlotPanel = gameObject.transform.Find("ShipEqipPanel/WeaponSlotPanel").gameObject;
         EngineerSlotPanel = gameObject.transform.Find("ShipEqipPanel/EngineerSlotPanel").gameObject;
         PlayerActualShip = gameObject.transform.Find("PlayerActualShip").gameObject;
@@ -94,21 +93,6 @@ public class StationUI : MonoBehaviour {
             }
         }      
     }
-    public void PressCargoButton()
-    {       
-        if (!CargoOpen)
-        {
-            shipinventory.gameObject.SetActive(true);
-            stationinventory.gameObject.SetActive(true);
-            shipinventory.Open();
-        }
-        else
-        {
-            shipinventory.gameObject.SetActive(false);
-            shipinventory.Close();
-        }
-        CargoOpen = !CargoOpen;
-    }
     public void AddShip()
     {
         GameObject shipcontextobj = GameObject.Find("GameContext").transform.GetChild(0).gameObject;
@@ -123,14 +107,6 @@ public class StationUI : MonoBehaviour {
             ship = shipcontextobj.transform.GetChild(0).gameObject.GetComponent<Ship>();
             ship.gameObject.transform.SetParent(PlayerActualShip.transform);
             ContextManagerGamePro.Instance().playership = ship;
-        }
-        else
-        {
-            //Debug.Log("Default Ship Create");
-            //GameObject newship = Instantiate(ContextManagerGamePro.Instance().Profile.defaultship);
-            //ship = newship.GetComponent<Ship>();
-            //newship.transform.SetParent(PlayerActualShip.transform);
-            //ContextManagerGamePro.Instance().playership = ship;
         }
 
     }

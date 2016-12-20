@@ -7,7 +7,6 @@ public class LootPanel : MonoBehaviour
 
 
     public GameObject lootlistpanel;
-    public CargoContainer conteiner;
     public SceneRes sceneres;
 
     void Start()

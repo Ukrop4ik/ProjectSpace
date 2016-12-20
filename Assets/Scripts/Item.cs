@@ -135,8 +135,7 @@ public class Item : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     {
         if (ContextManagerGamePro.Instance().playership.cargo.curVolume < ContextManagerGamePro.Instance().playership.cargo.Volume)
         {
-            ContextManagerGamePro.Instance().playership.cargo.itemsincargo.Add(this);
-            transform.SetParent(ContextManagerGamePro.Instance().playership.cargo.cargoobj.transform);
+            transform.SetParent(GameObject.Find("GameContext").transform.GetChild(1).GetChild(0));
             transform.position = Vector3.zero;
         }
         else

@@ -38,7 +38,6 @@ public class SaveManager : MonoBehaviour {
 
         //заполнение данных корабля
         List<ItemInSlot> itemsinship = new List<ItemInSlot>();
-        List<string> itemsincargo = new List<string>();
 
         if (ContextManagerGamePro.Instance().playership != null)
         {
@@ -58,12 +57,7 @@ public class SaveManager : MonoBehaviour {
                 }
 
             }
-            foreach (Item item in ship.cargo.itemsincargo)
-            {
-                if (!item) continue;
-                itemsincargo.Add(item.ItemId);
-            }
-            shiptosave = new PlayerShipObj(ship.itemID, itemsinship, itemsincargo);
+            shiptosave = new PlayerShipObj(ship.itemID, itemsinship);
         }
         else
         {
@@ -81,8 +75,7 @@ public class SaveManager : MonoBehaviour {
         {
             Profile profile = ContextManagerGamePro.Instance().Profile;
             JsonData data = DataLoad(profile);
-
-            CreateShipFromFile(data);
+            CreateShipFromFile();
         }
 
         Debug.Log("Profile Save - " + "Name: " + obj.ProfileName + " path: " + Application.persistentDataPath + "/" + name + ".json");
@@ -111,9 +104,6 @@ public class SaveManager : MonoBehaviour {
             item.transform.SetParent(stationinventory);
             item.transform.localScale = Vector3.one;
         }
-
-
-        CreateShipFromFile(data);
     }
 
     private static JsonData DataLoad(Profile profile)
@@ -122,8 +112,10 @@ public class SaveManager : MonoBehaviour {
         return JsonMapper.ToObject(jsonstring);
     }
 
-    private static void CreateShipFromFile(JsonData data)
+    public static void CreateShipFromFile()
     {
+        JsonData data = DataLoad(ContextManagerGamePro.Instance().Profile);
+
         //загрузка текущего корабля
         if (data["PlayerShip"]["ShipId"].ToString() != "emptyID")
         {
@@ -160,15 +152,6 @@ public class SaveManager : MonoBehaviour {
             UI.ship = shipscript;
             ship.transform.SetParent(UI.PlayerActualShip.transform);
 
-            Transform shipinventory = UI.shipinventory.transform.GetChild(0).transform.GetChild(0);
-
-            for (int i = 0; i < data["PlayerShip"]["ItemsInCargo"].Count; i++)
-            {
-                GameObject item = Instantiate(Resources.Load("items/" + data["PlayerShip"]["ItemsInCargo"][i].ToString()) as GameObject);
-                item.transform.SetParent(shipinventory);
-                item.transform.localScale = Vector3.one;
-            }
-
         }
     }
 
@@ -189,10 +172,9 @@ public class SaveManager : MonoBehaviour {
     private static PlayerShipObj DefaultShip()
     {
         List<ItemInSlot> itemsinship = new List<ItemInSlot>();
-        List<string> cargoitems = new List<string>();
         itemsinship.Add(new ItemInSlot("SmallKinetikTurretMK1", 3));
         itemsinship.Add(new ItemInSlot("SmallKinetikTurretMK1", 4));
-        return new PlayerShipObj("starttership", itemsinship, cargoitems);
+        return new PlayerShipObj("starttership", itemsinship);
     }
 
     //конструкторы данных профиля
@@ -259,18 +241,17 @@ public class SaveManager : MonoBehaviour {
     {
         public string ShipId;
         public List<ItemInSlot> Items;
-        public List<string> ItemsInCargo;
 
         public PlayerShipObj()
         {
 
         }
 
-        public PlayerShipObj(string Id, List<ItemInSlot> itemsID, List<string> itemsincargoID)
+        public PlayerShipObj(string Id, List<ItemInSlot> itemsID)
         {
             this.ShipId = Id;
             this.Items = itemsID;
-            this.ItemsInCargo = itemsincargoID;
+
         }
     }
 

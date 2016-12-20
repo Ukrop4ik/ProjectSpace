@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 public class ContextManagerGamePro : MonoBehaviour {
 
+    public Transform cargo;
     public string PreviousScene;
     public Profile Profile;
     public Map Map { get; set; }

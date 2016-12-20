@@ -52,9 +52,9 @@ public class InventoryPanel : MonoBehaviour, IDropHandler
         {
             items.Add(contentpanel.transform.GetChild(i).gameObject.GetComponent<Item>());
         }
-
         foreach (Item i in items)
         {
+            if (!i) continue;
             if (!i.isStackable || i.stackvalue == i.stackmax) result.Add(i);
             Item value;
             if (bucket.TryGetValue(i.ItemId, out value))
@@ -84,6 +84,7 @@ public class InventoryPanel : MonoBehaviour, IDropHandler
 
         foreach (Item i in items)
         {
+            if (!i) continue;
             if (i.stackvalue == 0) Destroy(i.gameObject);
         }
 

@@ -24,6 +24,7 @@ public class mission_kill_pirates : Mission {
         if (GetShips("enemy").Count < 1)
         {
             MissionRes.Win();
+            CancelInvoke("CheckPirateKill");
         }
     }
 }
