@@ -24,12 +24,7 @@ public class Item : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
 
     public ItemSpaceEnum space;
     Text counttext;
-    public enum ItemType
-    {
-        ShipComponent,
-        Ammo
-    }
-    public ItemType type;
+    public ItemType ItemType;
     public SlotTypeEnum SlotType;
     public string itemclass;
 

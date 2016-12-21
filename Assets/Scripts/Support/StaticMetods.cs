@@ -19,6 +19,10 @@ public class StaticMetods : MonoBehaviour {
     {
         obj.SetActive(false);
     }
+    public void EnableObject(GameObject obj)
+    {
+        obj.SetActive(true);
+    }
     [ContextMenu("OpenProfileFolder")]
     public void OpenProfileFolder()
     {

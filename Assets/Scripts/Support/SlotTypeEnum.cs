@@ -9,6 +9,7 @@ using System.Text;
     Engineer,
     Scince,
     Crew,
-    Weapon
+    Weapon,
+    None
 }
 

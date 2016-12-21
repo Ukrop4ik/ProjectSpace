@@ -33,6 +33,59 @@ public class StationUI : MonoBehaviour {
         day.text = profile.Day.ToString();
         crd.text = profile.credits.ToString();
     }
+
+    public void OpenCraftPanel()
+    {
+        GameObject obj = transform.Find("StationInventory").gameObject;
+        GameObject objcraft = transform.Find("Craft").gameObject;
+
+        if (obj.activeInHierarchy && objcraft.activeInHierarchy)
+        {
+
+            obj.SetActive(false);
+            objcraft.SetActive(false);
+            return;
+        }
+        else if (obj.activeInHierarchy)
+        {
+            objcraft.SetActive(true);
+            obj.SetActive(true);
+            return;
+        }
+        else
+        {
+            objcraft.SetActive(true);
+            obj.SetActive(true);
+            return;
+        }
+        
+    }
+    public void OpenShipPanel()
+    {
+        GameObject obj = transform.Find("StationInventory").gameObject;
+        GameObject obj2 = transform.Find("ShipEqipPanel").gameObject;
+
+        if (obj.activeInHierarchy && obj2.activeInHierarchy)
+        {
+
+            obj.SetActive(false);
+            obj2.SetActive(false);
+            return;
+        }
+        else if (obj.activeInHierarchy)
+        {
+            obj2.SetActive(true);
+            obj.SetActive(true);
+            return;
+        }
+        else
+        {
+            obj2.SetActive(true);
+            obj.SetActive(true);
+            return;
+        }
+    }
+
     [ContextMenu("CreateSlot")]
     public void CreateSlotFromShip()
     {
