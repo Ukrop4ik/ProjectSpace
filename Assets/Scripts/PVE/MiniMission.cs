@@ -19,6 +19,10 @@ public class MiniMission : MonoBehaviour {
     public int fameconditions;
     public int dayconditions;
 
+    public bool randomitem = false;
+    public int randomitemcountMax = 1;
+    public int itemrar = 10;
+
     public List<string> dropitems = new List<string>();
 
     public void LoadMission()
@@ -29,6 +33,17 @@ public class MiniMission : MonoBehaviour {
         GameObject shipcontextobj = GameObject.Find("GameContext").transform.GetChild(0).gameObject;
         Debug.Log(shipcontextobj.name);
         PlayerActualShip.transform.GetChild(0).transform.SetParent(shipcontextobj.transform);
+
+        if (randomitem)
+        {
+            dropitems.AddRange(ContextManagerGamePro.Instance().StaticMetods.GetItemFromList(itemrar, randomitemcountMax));
+        }
+
         SceneManager.LoadScene(ID);
+    }
+
+    public void RandomItem()
+    {
+
     }
 }

@@ -1,0 +1,25 @@
+{  
+   "items":[  
+      {  
+         "ID":"craft_metal_hull_component",
+         "Rare":5
+      },
+	        {  
+         "ID":"craft_nano_hull_component",
+         "Rare":49
+      },
+	        {  
+         "ID":"craft_plastic_hull_component",
+         "Rare":19
+      },
+	        {  
+         "ID":"ShieldGeneratorSmall",
+         "Rare":19
+      },
+	  	        {  
+         "ID":"SmallRapidTurret",
+         "Rare":15
+      }
+	  
+   ]
+}

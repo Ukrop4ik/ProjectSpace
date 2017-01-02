@@ -11,6 +11,7 @@ public class Item : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     public string ItemInfo;
     public int ItemCost;
     public string DataPath;
+    public int Rare;
 
     public GameObject itemoriginal;
     public string ItemId;
@@ -130,7 +131,7 @@ public class Item : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHand
     {
         if (ContextManagerGamePro.Instance().playership.cargo.curVolume < ContextManagerGamePro.Instance().playership.cargo.Volume)
         {
-            transform.SetParent(GameObject.Find("GameContext").transform.GetChild(1).GetChild(0));
+            transform.SetParent(GameObject.Find("GameContext").transform.GetChild(1));
             transform.position = Vector3.zero;
         }
         else
