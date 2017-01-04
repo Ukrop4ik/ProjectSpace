@@ -10,10 +10,14 @@ public class Mission : MonoBehaviour {
     public static Ship playership;
     static List<RadioData> radiolist = new List<RadioData>();
     static Queue<RadioData> radioQueue = new Queue<RadioData>();
+    public GameObject ObjectivePrefab;
+    public static GameObject OPrefab;
+    static Dictionary<string, ObjectiveData> ObjectiveDataList = new Dictionary<string, ObjectiveData>();
 
     void Start()
     {
         Invoke("Init", 1f);
+        OPrefab = ObjectivePrefab;
     }
 
     void Update()
@@ -93,6 +97,43 @@ public class Mission : MonoBehaviour {
             }
         }
     }
+
+    #region "Objectives"
+    public static void CreateObjective(string id, int value = 0)
+    {
+        GameObject obj = Instantiate(OPrefab);
+        obj.transform.SetParent(GameObject.Find("ObjectivesPanel").transform);
+        obj.transform.localScale = Vector3.one;
+
+        Objectiv script = obj.GetComponent<Objectiv>();
+        script.CreateText(id);
+        obj.GetComponent<Localization>().Id = id;
+        obj.GetComponent<Localization>().CreateText(id);
+        script.CreateCounter(value);
+
+        ObjectiveData data = new ObjectiveData(id, value, obj, script);
+        ObjectiveDataList.Add(id, data);
+
+    }
+    public static void SetObjectiveCounter(string id, int value)
+    {
+        ObjectiveData data;
+        ObjectiveDataList.TryGetValue(id, out data);
+        data.objectiv.UpdateCounter(data.countermax - value);
+    }
+    public static void ObjectiveComplite(string id)
+    {
+        ObjectiveData data;
+        ObjectiveDataList.TryGetValue(id, out data);
+        data.objectiv.End();
+    }
+    public static void ObjectiveFail(string id)
+    {
+        ObjectiveData data;
+        ObjectiveDataList.TryGetValue(id, out data);
+        data.objectiv.Cancel();
+    }
+    #endregion
 
     public static void CreateNavigationArrowToObj(string objectname, ArrowTypeEnum type)
     {
@@ -232,6 +273,22 @@ public class Mission : MonoBehaviour {
             this.radioID = radioID;
             this.timetoshow = timetoshow;
             this.sprite = sprite;
+        }
+    }
+
+    class ObjectiveData
+    {
+        public string ID;
+        public int countermax;
+        public GameObject obj;
+        public Objectiv objectiv;
+
+        public ObjectiveData(string id, int maxcounter, GameObject objobjective, Objectiv script)
+        {
+            ID = id;
+            countermax = maxcounter;
+            obj = objobjective;
+            objectiv = script;
         }
     }
 

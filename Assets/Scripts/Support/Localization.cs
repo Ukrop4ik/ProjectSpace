@@ -7,6 +7,7 @@ public class Localization : MonoBehaviour
 {
     public bool isRuntime;
     public bool isReverse;
+    public bool manual;
 
     string langType;
     public string Id;
@@ -33,12 +34,27 @@ public class Localization : MonoBehaviour
             case "English":
                 if (isReverse)
                 {
+                    try
+                    {
+                        textfield.text = ContextManagerGamePro.Instance().ResourceManager.LocalizationData["Localization"][textfield.text][langType].ToString();
+                    }
+                    catch
+                    {
+                        textfield.text = Id;
+                    }
 
-                    textfield.text = ContextManagerGamePro.Instance().ResourceManager.LocalizationData["Localization"][textfield.text][langType].ToString();
                 }
                 else
                 {
-                    textfield.text = ContextManagerGamePro.Instance().ResourceManager.LocalizationData["Localization"][Id][langType].ToString();
+                    try
+                    {
+                        textfield.text = ContextManagerGamePro.Instance().ResourceManager.LocalizationData["Localization"][Id][langType].ToString();
+                    }
+                    catch
+                    {
+                        textfield.text = Id;
+                    }
+
                 }
 
                 break;
@@ -46,11 +62,25 @@ public class Localization : MonoBehaviour
             case "Russian":
                 if (isReverse)
                 {
-                    textfield.text = ContextManagerGamePro.Instance().ResourceManager.LocalizationData["Localization"][textfield.text][langType].ToString();
+                    try
+                    {
+                        textfield.text = ContextManagerGamePro.Instance().ResourceManager.LocalizationData["Localization"][textfield.text][langType].ToString();
+                    }
+                    catch
+                    {
+                        textfield.text = Id;
+                    }
                 }
                 else
                 {
-                    textfield.text = ContextManagerGamePro.Instance().ResourceManager.LocalizationData["Localization"][Id][langType].ToString();
+                    try
+                    {
+                        textfield.text = ContextManagerGamePro.Instance().ResourceManager.LocalizationData["Localization"][Id][langType].ToString();
+                    }
+                    catch
+                    {
+                        textfield.text = Id;
+                    }
                 }
                 break;
 
@@ -63,13 +93,20 @@ public class Localization : MonoBehaviour
     {
         Text textfield = GetComponent<Text>();
         langType = PlayerPrefs.GetString("Lang");
-        textfield.text = ContextManagerGamePro.Instance().ResourceManager.LocalizationData["Localization"][ID][langType].ToString();
+        try
+        {
+            textfield.text = ContextManagerGamePro.Instance().ResourceManager.LocalizationData["Localization"][ID][langType].ToString();
+        }
+        catch
+        {
+            textfield.text = Id;
+        }
     } 
 
     // This function is called when the object becomes enabled and active
     public void OnEnable()
     {
-        if (!isRuntime) return;
+        if (!isRuntime || manual) return;
         if (!ContextManagerGamePro.Instance().loca.Contains(this))
         {
             ContextManagerGamePro.Instance().loca.Add(this);
@@ -81,6 +118,7 @@ public class Localization : MonoBehaviour
     // This function is called when the MonoBehaviour will be destroyed
     public void OnDestroy()
     {
-        ContextManagerGamePro.Instance().loca.Remove(this);
+        if (ContextManagerGamePro.Instance().loca.Contains(this))
+            ContextManagerGamePro.Instance().loca.Remove(this);
     }
 }
