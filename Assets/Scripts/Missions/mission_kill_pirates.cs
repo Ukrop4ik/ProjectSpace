@@ -36,7 +36,7 @@ public class mission_kill_pirates : Mission {
 
     void CreateMainObjective()
     {
-        CreateObjective("Aurora_Station_name", GetShips("enemy").Count);
+        CreateObjective("space_killship_obj", GetShips("enemy").Count);
         InvokeRepeating("CheckMainObj", 0, 1);
     }
     void CheckMainObj()

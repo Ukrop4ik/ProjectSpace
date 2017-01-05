@@ -26,7 +26,7 @@ public class Tutorial : Mission {
         HideShip("Trigger");
         HideShip("Raptor");
         HideShip("Prisoner");
-
+        Invoke("CreateObj1", 3);
     }
 
     void UpdateMission()
@@ -49,7 +49,14 @@ public class Tutorial : Mission {
             CancelInvoke("PlayerInTriggerArea");
             InvokeRepeating("CheckTraining", 0, 1f);
             DestroyArea("TriggerArea");
+            ObjectiveComplite("space_tutorial_obj_1");
+            CreateObjective("space_tutorial_obj_2");
         } 
+    }
+
+    void CreateObj1()
+    {
+        CreateObjective("space_tutorial_obj_1");
     }
 
     void CheckTraining()
@@ -63,6 +70,8 @@ public class Tutorial : Mission {
             CancelInvoke("CheckTraining");
             ShipCommand("Trigger", ShipLogicEnum.MoveAndAttack);
             InvokeRepeating("CheckPirateKill", 0, 1f);
+            ObjectiveComplite("space_tutorial_obj_2");
+            CreateObjective("space_tutorial_obj_3");
         }
     }
 
@@ -70,6 +79,8 @@ public class Tutorial : Mission {
     {
         if (GetShips("Trigger").Count < 1)
         {
+            CreateObjective("space_tutorial_obj_4");
+            ObjectiveComplite("space_tutorial_obj_3");
             RadioMessage("tutorial_pirate_name", "tutorial_mission_pirate_dialog_2", 3, Resources.Load<Sprite>("Art/Avatar/tutorialPirate400x400"));
             CancelInvoke("CheckPirateKill");
             CancelInvoke("TurnOffRegenShield");
@@ -84,7 +95,7 @@ public class Tutorial : Mission {
 
         if (GetPlayerShild() > 50)
         {
-            Debug.Log("Shild regen task end");
+            ObjectiveComplite("space_tutorial_obj_4");
             CancelInvoke("CheckShild");
             ShowShip("Raptor");
             CreateNavigationArrow("Raptor", ArrowTypeEnum.Enemy);
@@ -92,6 +103,7 @@ public class Tutorial : Mission {
             RadioMessage("Aurora_Station_name", "tutorial_mission_dialog_6", 10, Resources.Load<Sprite>("image/defaultavatar"));
             Invoke("ShowPrisoner", 10);
             InvokeRepeating("CheckRaptor", 0, 1f);
+            CreateObjective("space_tutorial_obj_5", GetShips("Raptor").Count);
         }
     }
 
@@ -127,8 +139,10 @@ public class Tutorial : Mission {
     }
     void CheckRaptor()
     {
+        SetObjectiveCounter("space_tutorial_obj_5", GetShips("Raptor").Count);
         if (GetShips("Raptor").Count < 1)
         {
+            ObjectiveComplite("space_tutorial_obj_5");
             RadioMessage("prisoner_jo_luck", "tutorial_mission_dialog_8", 7, Resources.Load<Sprite>("Art/Avatar/PrisonerJoeLuck400x400"));
             RadioMessage("Aurora_Station_name", "tutorial_mission_dialog_9", 7, Resources.Load<Sprite>("image/defaultavatar"));
             Invoke("End", 14);

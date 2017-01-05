@@ -36,7 +36,32 @@
          "English":"EnglishText",
          "Russian":"Гражданская модель генератора защитного поля. Предназначен для защиты корпуса от незначительных повреждений"
       },
-	  
+	 //задачи	 
+	  "space_tutorial_obj_1":{
+         "English":"EnglishText",
+         "Russian":"Лететь к маркеру"
+      },
+	  "space_tutorial_obj_2":{
+         "English":"EnglishText",
+         "Russian":"Уничтожить обломки"
+      },
+	  "space_tutorial_obj_3":{
+         "English":"EnglishText",
+         "Russian":"Разобраться с пиратом"
+      },
+	  "space_tutorial_obj_4":{
+         "English":"EnglishText",
+         "Russian":"Восстановить щит"
+      },
+	  "space_tutorial_obj_5":{
+         "English":"EnglishText",
+         "Russian":"Уничтожить пиратов"
+      },
+	  "space_killship_obj":{
+         "English":"EnglishText",
+         "Russian":"Уничтожить корабли"
+      },
+	 
      // имена	  
 	  "Aurora_Station_name":{
          "English":"\"Aurora\" Station",
