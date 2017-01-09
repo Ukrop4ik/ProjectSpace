@@ -8,12 +8,16 @@ public class Weapon : MonoBehaviour {
     GameObject fire_point;
     [SerializeField]
     GameObject bullet;
+    public AmmoType ammotype;
+    [SerializeField]
+    GameObject rocket;
     public Transform target;
     public Transform LookPoint;
     public string Id;
     public Ship ship;
     public string weaponname = "";
     float dist;
+    public float rocketflytime;
     public int damagetype = 1;
     public int damage = 0;
     public float reloadtime;
@@ -180,21 +184,35 @@ public class Weapon : MonoBehaviour {
   
     void CreateBullet()
     {
-        GameObject _bullet = Instantiate(bullet);
+        if (ammotype == AmmoType.Bullet)
+        {
+            GameObject _bullet = Instantiate(bullet);
 
-        _bullet.transform.position = fire_point.transform.position;
-        _bullet.transform.rotation = fire_point.transform.rotation;
+            _bullet.transform.position = fire_point.transform.position;
+            _bullet.transform.rotation = fire_point.transform.rotation;
 
-        _bullet.GetComponent<Bullet>().Damage = damage;
-        _bullet.GetComponent<Bullet>().DamageType = damagetype;
-        _bullet.GetComponent<Bullet>().Aship = ship;
+            _bullet.GetComponent<Bullet>().Damage = damage;
+            _bullet.GetComponent<Bullet>().DamageType = damagetype;
+            _bullet.GetComponent<Bullet>().Aship = ship;
 
 
-        _bullet.transform.Rotate(new Vector3(0, Random.Range(-_accuracy, _accuracy), 0));
-        _accuracy = Mathf.Min(5, _accuracy + Time.deltaTime * accuracy);
+            _bullet.transform.Rotate(new Vector3(0, Random.Range(-_accuracy, _accuracy), 0));
+            _accuracy = Mathf.Min(5, _accuracy + Time.deltaTime * accuracy);
 
-        _bullet.gameObject.GetComponent<Rigidbody>().AddForce(_bullet.transform.forward * 250, ForceMode.Impulse);
-
+            _bullet.gameObject.GetComponent<Rigidbody>().AddForce(_bullet.transform.forward * 250, ForceMode.Impulse);
+        }
+        if (ammotype == AmmoType.Rocket)
+        {
+            GameObject _rocket = Instantiate(rocket);
+            _rocket.transform.position = fire_point.transform.position;
+            _rocket.transform.rotation = fire_point.transform.rotation;
+            Rocket r = _rocket.GetComponent<Rocket>();
+            r.lifetime = rocketflytime;
+            r.Damage = damage;
+            r.DamageType = damagetype;
+            r.Aship = ship;
+            r.targetship = target.gameObject.GetComponent<Ship>();
+        }
     }
 
     public class ShootElement

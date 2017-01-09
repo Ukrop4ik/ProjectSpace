@@ -19,7 +19,11 @@
 	  	        {  
          "ID":"SmallRapidTurret",
          "Rare":15
-      }
+      },
 	  
+	  	  	    {  
+         "ID":"SmallRocketLauncher",
+         "Rare":17
+      }
    ]
 }

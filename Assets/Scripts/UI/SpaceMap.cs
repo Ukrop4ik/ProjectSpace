@@ -16,7 +16,7 @@ public class SpaceMap : MonoBehaviour {
             for (int b = 0; b < ySize; i++)
             {
                 GameObject obj = Instantiate(gridelement);
-                obj.transform.SetParent(this.transform.GetChild(0));
+                //obj.transform.SetParent(this.transform.GetChild(0));
             }
         }
     }

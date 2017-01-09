@@ -9,6 +9,7 @@ public class Bullet : MonoBehaviour
     public int DamageType;
     public float distancelife;
     public Ship Aship;
+
     // Use this for initialization
     void Start()
     {
@@ -18,6 +19,7 @@ public class Bullet : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
 
         var dl = Vector3.forward * (Time.deltaTime * 1000);
         distancelife -= dl.magnitude;

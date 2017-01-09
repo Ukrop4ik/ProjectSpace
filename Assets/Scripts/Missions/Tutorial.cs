@@ -33,10 +33,10 @@ public class Tutorial : Mission {
     {
     }
 
-    void Win()
+    void _Win()
     {
         CancelInvoke();
-        MissionRes.Win();
+        Win();
     }
 
     void PlayerInTriggerArea()
@@ -151,6 +151,6 @@ public class Tutorial : Mission {
     }
     void End()
     {
-        Win();
+        _Win();
     }
 }

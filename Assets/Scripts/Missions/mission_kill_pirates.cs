@@ -26,10 +26,10 @@ public class mission_kill_pirates : Mission {
 
         if (GetShips("enemy").Count < 1)
         {
-            Invoke("Win", 3);
+            Invoke("_Win", 3);
             CancelInvoke("CheckPirateKill");
             CancelInvoke("CheckMainObj");
-            ObjectiveComplite("Aurora_Station_name");
+            ObjectiveComplite("space_killship_obj");
 
         }
     }
@@ -41,10 +41,10 @@ public class mission_kill_pirates : Mission {
     }
     void CheckMainObj()
     {
-        SetObjectiveCounter("Aurora_Station_name", GetShips("enemy").Count);
+        SetObjectiveCounter("space_killship_obj", GetShips("enemy").Count);
     }
-    void Win()
+    void _Win()
     {
-        MissionRes.Win();
+        Mission.Win();
     }
 }

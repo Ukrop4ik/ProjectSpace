@@ -70,6 +70,13 @@ public class Mission : MonoBehaviour {
     {
         MissionBuilder.condition = condition;
     }
+    public static void Win()
+    {
+        ObjectiveDataList.Clear();
+        MissionRes.win = true;
+        UI.WinPanel.SetActive(true);
+        UI.WinPanel.GetComponent<LootPanel>().Drop();
+    }
     public  bool IsPlayerInArea(string areaname)
     {
         if (!playership) return false; 

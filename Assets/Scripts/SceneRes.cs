@@ -11,7 +11,7 @@ public class SceneRes : MonoBehaviour {
     public List<GameObject> dropitems = new List<GameObject>();
     public SpaceUI spaceUI;
     public Transform playershiptransform;
-    bool win = false;
+    public bool win = false;
     public List<GameObject> pirateships = new List<GameObject>();
     public List<GameObject> prisonerships = new List<GameObject>();
     public List<GameObject> guardships = new List<GameObject>();
@@ -70,18 +70,12 @@ public class SceneRes : MonoBehaviour {
         ContextManagerGamePro.Instance().PreviousScene = scene.SceneName;
         SceneManager.LoadScene("Station");
     }
-    public void Win()
-    {
-        win = true;
-        Debug.Log("Win");
-        spaceUI.WinPanel.SetActive(true);
-        spaceUI.WinPanel.GetComponent<LootPanel>().Drop();
-    }
+
     void KillAllCondition()
     {
         if (enemis.Count == 0)
         {
-            Win();
+ 
         }
     }
     void CustomCondition()
