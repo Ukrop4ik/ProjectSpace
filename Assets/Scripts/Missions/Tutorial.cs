@@ -35,6 +35,7 @@ public class Tutorial : Mission {
 
     void _Win()
     {
+        ContextManagerGamePro.Instance().StaticMetods.SetProfileTutorial1(false);
         CancelInvoke();
         Win();
     }

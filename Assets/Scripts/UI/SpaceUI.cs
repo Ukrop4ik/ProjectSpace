@@ -10,6 +10,7 @@ public class SpaceUI : MonoBehaviour {
     public GameObject bar;
     public Camera minimapcamera;
     public GameObject selectshippanel;
+    public GameObject selection;
     public GameObject contentNavPAnel;
     public GameObject WeaponButtonPrefab;
     public GameObject SpellPanelWeapon;
@@ -17,6 +18,7 @@ public class SpaceUI : MonoBehaviour {
     public GameObject WinPanel;
     public Button lootpanelbutton;
     public GameObject UImarker;
+    public GameObject LockTargetImg;
 
     public List<Ship> navlistships = new List<Ship>();
     public Dictionary<KeyCode, WeaponButton> weaponbuttons = new Dictionary<KeyCode, WeaponButton>();
@@ -60,6 +62,8 @@ public class SpaceUI : MonoBehaviour {
     {
         if (ready)
         {
+
+
             if (playership == null)
             {
                 ready = false;
@@ -76,6 +80,30 @@ public class SpaceUI : MonoBehaviour {
                             kvp.Value.UseButton();
                         }
                     }
+                }
+
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                RaycastHit hit;
+
+                if (Physics.Raycast(ray, out hit, 1000))
+                {
+                    if (Input.GetMouseButtonDown(1))
+                    {
+                        if (hit.collider.tag == "Select")
+                        {
+                            foreach (KeyValuePair<KeyCode, WeaponButton> kvp in weaponbuttons)
+                            {
+                                if (hit.collider.gameObject.GetComponent<Select>().ship.Faction == FactionEnum.Pirate)
+                                {
+                                    Selection(hit.collider.gameObject.GetComponent<Select>());
+                                    kvp.Value.UseButtonRm();
+                                }
+                                   
+                            }
+                        }
+
+                    }
+
                 }
 
                 foreach (Ship ship in ContextManagerGamePro.Instance().shiplist)
@@ -101,6 +129,16 @@ public class SpaceUI : MonoBehaviour {
                             ObjectSelector(new GameObject[] { selectshippanel }, selectshippanel);
                             if (ContextManagerGamePro.Instance().selectedship)
                             {
+                                selection.SetActive(true);
+                                if (ContextManagerGamePro.Instance().selectedship.Faction == FactionEnum.Pirate)
+                                {
+                                    selection.GetComponent<Image>().color = Color.red;
+                                }
+                                else
+                                {
+                                    selection.GetComponent<Image>().color = Color.green;
+                                }
+                                selection.transform.position = Camera.main.WorldToScreenPoint(ContextManagerGamePro.Instance().selectedship.gameObject.transform.position);
                                 SelectedShipTypeText.text = ContextManagerGamePro.Instance().selectedship.shipname;
                                 SelectedDist.text = "Dist: " + Vector3.Distance(ContextManagerGamePro.Instance().selectedship.gameObject.transform.position, playership.gameObject.transform.position).ToString("0.00");
                             }
@@ -109,6 +147,7 @@ public class SpaceUI : MonoBehaviour {
                         {
                             ContextManagerGamePro.Instance().SelectedType = Select.selecttype.None;
                             selectshippanel.SetActive(false);
+                            selection.SetActive(false);
                         }                    
                         break;
                     default:
@@ -285,5 +324,18 @@ public class SpaceUI : MonoBehaviour {
         if (type == ArrowTypeEnum.Enemy) _arrow.GetComponent<Image>().color = Color.red;
         if (type == ArrowTypeEnum.Ally) _arrow.GetComponent<Image>().color = Color.blue;
         if (type == ArrowTypeEnum.Event) _arrow.GetComponent<Image>().color = Color.yellow;
+    }
+
+    public void Selection(Select select)
+    {
+        switch (select.SelectType)
+        {
+            case Select.selecttype.Ship:
+                ContextManagerGamePro.Instance().selectedship = select.ship;
+                ContextManagerGamePro.Instance().SelectedType = Select.selecttype.Ship;
+                break;
+            default:
+                break;
+        }
     }
 }

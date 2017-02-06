@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-public class Mission : MonoBehaviour {
+public class Mission : MonoBehaviour
+{
 
     static RadioMessage RadioMessageObj;
     public static SpaceUI UI;
@@ -22,7 +23,7 @@ public class Mission : MonoBehaviour {
 
     void Update()
     {
-        
+
     }
 
     void Step()
@@ -59,7 +60,7 @@ public class Mission : MonoBehaviour {
         playership = MissionRes.playershiptransform.gameObject.GetComponent<Ship>();
         RadioMessageObj = UI.RadioMessage;
 
-        InvokeRepeating("Step",0, 1f);
+        InvokeRepeating("Step", 0, 1f);
     }
 
     public static void RadioMessage(string headerID, string radioID, float timetoshow, Sprite sprite)
@@ -77,9 +78,9 @@ public class Mission : MonoBehaviour {
         UI.WinPanel.SetActive(true);
         UI.WinPanel.GetComponent<LootPanel>().Drop();
     }
-    public  bool IsPlayerInArea(string areaname)
+    public bool IsPlayerInArea(string areaname)
     {
-        if (!playership) return false; 
+        if (!playership) return false;
         GameObject areaobj = GameObject.Find(areaname);
         if (areaobj == null)
         {
@@ -263,6 +264,11 @@ public class Mission : MonoBehaviour {
         }
     }
 
+    public void OnDestroy()
+    {
+       
+    }
+
     class RadioData
     {
         public string headerID;
@@ -298,6 +304,8 @@ public class Mission : MonoBehaviour {
             objectiv = script;
         }
     }
+
+
 
 
 }
