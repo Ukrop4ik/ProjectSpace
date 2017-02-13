@@ -73,6 +73,7 @@ public class Mission : MonoBehaviour
     }
     public static void Win()
     {
+
         ObjectiveDataList.Clear();
         MissionRes.win = true;
         UI.WinPanel.SetActive(true);

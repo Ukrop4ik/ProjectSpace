@@ -36,7 +36,7 @@ public class LootPanel : MonoBehaviour
         ContextManagerGamePro.Instance().PreviousScene = scene.SceneName;
         ContextManagerGamePro.Instance().Profile.fame += scene.SceneFame;
         ContextManagerGamePro.Instance().playership.HP = ContextManagerGamePro.Instance().playership.maxHP;
-        ContextManagerGamePro.Instance().playership.shield = ContextManagerGamePro.Instance().playership.maxshield;
+        ContextManagerGamePro.Instance().playership.shield = 0;
         SceneManager.LoadScene("Station");
 
         Debug.Log("MISSION END ...... LOAD STATION!");

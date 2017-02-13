@@ -152,6 +152,7 @@ public class Tutorial : Mission {
     }
     void End()
     {
+        ContextManagerGamePro.Instance().StaticMetods.SetProfileTutorial1(false);
         _Win();
     }
 }

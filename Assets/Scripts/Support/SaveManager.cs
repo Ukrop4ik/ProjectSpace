@@ -90,7 +90,7 @@ public class SaveManager : MonoBehaviour {
         profile.Day = (int)data["Day"];
         profile.credits = (int)data["ProfileStats"][0];
         profile.fame = (int)data["ProfileStats"][1];
-        profile.isTutorialPart1 = (bool)data["isTutorialPart1"];
+        if (ContextManagerGamePro.Instance().Profile.isTutorialPart1 == true) profile.isTutorialPart1 = (bool)data["isTutorialPart1"];
         profile.isTutorialPart2 = (bool)data["isTutorialPart2"];
         profile.isTutorialPart3 = (bool)data["isTutorialPart3"];
 
