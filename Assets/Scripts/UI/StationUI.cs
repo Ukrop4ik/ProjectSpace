@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class StationUI : MonoBehaviour {
 
+    public GameObject escape;
     public Text day;
     public Text crd;
     public GameObject panelslot;
@@ -32,6 +33,12 @@ public class StationUI : MonoBehaviour {
     {
         day.text = profile.Day.ToString();
         crd.text = profile.credits.ToString();
+
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            escape.SetActive(true);
+        }
     }
 
     public void OpenCraftPanel()

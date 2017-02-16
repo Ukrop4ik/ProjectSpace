@@ -38,6 +38,7 @@ public class SpaceUI : MonoBehaviour {
     public Text SelectedShipNameText;
     public Text SelectedDist;
 
+    public GameObject escape;
 
     public Text targetvectortext;
     public Text playervectortext;
@@ -62,7 +63,10 @@ public class SpaceUI : MonoBehaviour {
     {
         if (ready)
         {
-
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                escape.SetActive(true);
+            }
 
             if (playership == null)
             {
