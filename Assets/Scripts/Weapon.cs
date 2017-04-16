@@ -131,7 +131,7 @@ public class Weapon : MonoBehaviour {
     }
     void LateUpdate()
     {
-        transform.rotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y, 0);
+        //transform.rotation = Quaternion.Euler(0, transform.rotation.eulerAngles.y, 0);
     }
     bool TurretMotion(float dist, float range, float rangemod, float rotationmod)
     {               
